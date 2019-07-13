@@ -19,10 +19,10 @@ module.exports={
         env:{
             NODE_ENV:'"prep"'
         },
-        index:path.resolve(__dirname,'../questionpc/index.html'),
-        assetsRoot:path.resolve(__dirname,'../questionpc'),
+        index:path.resolve(__dirname,'../appoint/index.html'),
+        assetsRoot:path.resolve(__dirname,'../appoint'),
         assetsSubDirectory:'static',
-        assetsPublicPath:'/questionpc/',
+        assetsPublicPath:'/appoint/',
         productionSourceMap: false, //是否打开打包映射文件
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
@@ -32,10 +32,10 @@ module.exports={
         env:{
             NODE_ENV:'"prod"'
         },
-        index:path.resolve(__dirname,'../questionpc/index.html'),
-        assetsRoot:path.resolve(__dirname,'../questionpc'),
+        index:path.resolve(__dirname,'../appoint/index.html'),
+        assetsRoot:path.resolve(__dirname,'../appoint'),
         assetsSubDirectory:'static',
-        assetsPublicPath:'/questionpc/',
+        assetsPublicPath:'/appoint/',
         productionSourceMap: false, //是否打开打包映射文件
         productionGzip: false,
         productionGzipExtensions: ['js', 'css'],
