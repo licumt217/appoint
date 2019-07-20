@@ -3,7 +3,7 @@
     <div class="login-wrap">
         <transition name="slideT">
             <div class="mainContent" >
-                <div class="ms-title">心理测评管理系统</div>
+                <div class="ms-title">预约管理系统</div>
 
                 <div class="ms-login">
 
@@ -131,6 +131,12 @@
 
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
+
+                        this.$Message.success("登录成功")
+                        this.$store.commit('isLogin', true)
+                        this.goAfterLogin()
+
+                        return;
 
                         this.http.post('login/index', this.formItem).then((data) => {
 

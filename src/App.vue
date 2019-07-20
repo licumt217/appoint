@@ -10,23 +10,47 @@
                     <!--</div>-->
                     <div class="layout-nav" style="float: right">
 
-                        <template v-if="role==='0'">
-                            <MenuItem name="measure">
+                        <template v-if="role!=='0'">
+
+                            <MenuItem name="divisionManager">
                                 <Icon type="ios-navigate"></Icon>
-                                量表管理
+                                分部管理员管理
                             </MenuItem>
-                            <MenuItem name="paper">
+
+                            <MenuItem name="caseManager">
                                 <Icon type="ios-navigate"></Icon>
-                                问卷管理
+                                案例管理员管理
                             </MenuItem>
-                            <MenuItem name="statistics">
+
+                            <MenuItem name="therapist">
                                 <Icon type="ios-navigate"></Icon>
-                                数据导出
+                                咨询师管理
                             </MenuItem>
+
+                            <MenuItem name="therapistLevel">
+                                <Icon type="ios-navigate"></Icon>
+                                咨询师等级管理
+                            </MenuItem>
+
+                            <MenuItem name="therapistRevenue">
+                                <Icon type="ios-navigate"></Icon>
+                                咨询师收益查看
+                            </MenuItem>
+
                             <Submenu name="7">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
-                                    用户管理
+                                    投诉管理
+                                </template>
+                                <MenuItem name="userComplain">用户投诉管理</MenuItem>
+                                <MenuItem name="therapistComplain">咨询师投诉管理</MenuItem>
+                            </Submenu>
+
+
+                            <Submenu name="7">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    分部管理员管理
                                 </template>
                                 <MenuItem name="userGroupList">用户组管理</MenuItem>
                                 <MenuItem name="userList">用户管理</MenuItem>
@@ -36,20 +60,20 @@
                             </Submenu>
                         </template>
 
-                        <template v-if="role==='1'">
-                            <MenuItem name="statistics">
-                                <Icon type="ios-navigate"></Icon>
-                                数据导出
-                            </MenuItem>
-                            <Submenu name="7">
-                                <template slot="title">
-                                    <Icon type="ios-stats"/>
-                                    用户管理
-                                </template>
-                                <MenuItem name="userList">用户管理</MenuItem>
-                                <MenuItem name="passModify">修改密码</MenuItem>
-                                <MenuItem name="logout" >退出登录</MenuItem>
-                            </Submenu>
+                        <template v-if="role!=='1'">
+<!--                            <MenuItem name="statistics">-->
+<!--                                <Icon type="ios-navigate"></Icon>-->
+<!--                                数据导出-->
+<!--                            </MenuItem>-->
+<!--                            <Submenu name="7">-->
+<!--                                <template slot="title">-->
+<!--                                    <Icon type="ios-stats"/>-->
+<!--                                    用户管理-->
+<!--                                </template>-->
+<!--                                <MenuItem name="userList">用户管理</MenuItem>-->
+<!--                                <MenuItem name="passModify">修改密码</MenuItem>-->
+<!--                                <MenuItem name="logout" >退出登录</MenuItem>-->
+<!--                            </Submenu>-->
                         </template>
 
 
@@ -164,32 +188,32 @@
                         this.$refs.pass.show();
                         break;
 
-                    case 'detail':
-                        this.$router.push('/user/detail')
+                    case 'therapistComplain':
+                        this.$router.push('/complain/therapistList')
                         break;
 
-                    case 'administratorList':
-                        this.$router.push('/user/administratorList')
+                    case 'userComplain':
+                        this.$router.push('/complain/userList')
                         break;
 
-                    case 'userList':
-                        this.$router.push('/user/list')
+                    case 'therapistRevenue':
+                        this.$router.push('/therapist/revenueList')
                         break;
 
-                    case 'userGroupList':
-                        this.$router.push('/userGroup/list')
+                    case 'therapistLevel':
+                        this.$router.push('/therapist/levelList')
                         break;
 
-                    case 'statistics':
-                        this.$router.push('/statistics/list')
+                    case 'therapist':
+                        this.$router.push('/therapist/list')
                         break;
 
-                    case 'paper':
-                        this.$router.push('/paper/list')
+                    case 'caseManager':
+                        this.$router.push('/caseManager/list')
                         break;
 
-                    case 'measure':
-                        this.$router.push('/measure/list')
+                    case 'divisionManager':
+                        this.$router.push('/divisionManager/list')
                         break;
 
                 }
