@@ -18,6 +18,7 @@ class Model{
                 therapistPhone:"18511456987",
                 complainDate:"2019/07/22",
                 complainContent:"言语辱骂",
+                report:'',
                 state:'0'
             })
 
@@ -29,6 +30,7 @@ class Model{
                 therapistPhone:"18511456987",
                 complainDate:"2019/07/22",
                 complainContent:"言语辱骂",
+                report:'',
                 state:'1'
             })
 
@@ -40,6 +42,7 @@ class Model{
                 therapistPhone:"18511456987",
                 complainDate:"2019/07/22",
                 complainContent:"言语辱骂",
+                report:'',
                 state:'2'
             })
 

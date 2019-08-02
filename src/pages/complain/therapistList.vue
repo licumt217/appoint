@@ -48,6 +48,25 @@
             <Page :total="count" :page-size="pageSize" :current="currentPage" @on-change="pageChange"/>
         </div>
 
+
+<!--        调查报告窗口-->
+        <Modal
+                v-model="isShowReportModal"
+                title="调查报告"
+                width="600"
+                :mask-closable="false"
+        >
+            <Row  style="border-bottom: 1px solid gainsboro;margin:7px 0;">
+                <Input type="textarea" :rows="7" v-model="curComplain.report" placeholder="请输入调查报告内容">
+                </Input>
+            </Row>
+            <table></table>
+            <div slot="footer">
+                <Button type="text" size="large" @click="isShowReportModal=false">取消</Button>
+                <Button type="primary" size="large" @click="saveReport">确定</Button>
+            </div>
+        </Modal>
+
     </div>
 
 
@@ -62,6 +81,7 @@
         },
         data() {
             return {
+                isShowReportModal:false,
                 formInline: {},
                 ruleInline: {},
                 columns: [
@@ -140,10 +160,40 @@
                                                 this.addBlackList(params)
                                             }
                                         }
-                                    },'添加黑名单')
+                                    },'添加黑名单'),
+                                    h('Button',{
+                                        props:{
+                                            type:'primary',
+                                            size:'small'
+                                        },
+                                        style:{
+                                            marginRight:'5px'
+                                        },
+                                        on:{
+                                            click:()=>{
+                                                this.showReportModal(params)
+                                            }
+                                        }
+                                    },'调查报告')
                                 ])
                             }else{
-                                return ""
+                                return h('div', [
+
+                                    h('Button',{
+                                        props:{
+                                            type:'primary',
+                                            size:'small'
+                                        },
+                                        style:{
+                                            marginRight:'5px'
+                                        },
+                                        on:{
+                                            click:()=>{
+                                                this.showReportModal(params)
+                                            }
+                                        }
+                                    },'调查报告')
+                                ])
                             }
 
 
@@ -156,6 +206,7 @@
                 pageSize:Util.pageSize,
                 currentPage:1,
                 dataList: [],
+                curComplain:{},
             }
         },
         mounted() {
@@ -192,6 +243,23 @@
 
                     this.dataList = data.data;
                 })
+            },
+            saveReport(){
+
+                TherapistComplain.update(this.curComplain)
+
+                this.$Message.success("操作成功")
+
+                this.isShowReportModal=false;
+
+                this.getList(1)
+            },
+            /**
+             * 调查报告
+             * */
+            showReportModal(params){
+                this.curComplain=params.row;
+                this.isShowReportModal=true;
             },
             /**
              * 驳回
@@ -254,7 +322,7 @@
                     path:'/therapist/operate',
                     query:{
                         opType:'edit',
-                        formItem:params.row,
+                        formItem:JSON.stringify(params.row)
                     }
                 })
             },

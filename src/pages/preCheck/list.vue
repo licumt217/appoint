@@ -5,10 +5,7 @@
 
         <Row style="padding:5px;">
             <Col span="22">
-                <HeaderName name="咨询师等级管理"></HeaderName>
-            </Col>
-            <Col span="2" >
-                <Button type="success" @click="add">新增</Button>
+                <HeaderName name="预检表管理"></HeaderName>
             </Col>
         </Row>
 
@@ -24,7 +21,7 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
-    import {Level} from '../../assets/models/Level'
+    import {PreCheck} from '../../assets/models/PreCheck'
     export default {
         components:{
         },
@@ -39,13 +36,28 @@
                             return (this.currentPage-1)*Util.pageSize+(params._index+1);
                         }
                     },
+
                     {
-                        title: '名称',
-                        key: 'name'
+                        title: '姓名',
+                        key: 'userId'
+                    },
+
+                    {
+                        title: '手机号',
+                        key: 'userPhone'
+                    },
+
+
+                    {
+                        title: '答题时间',
+                        key: 'answerDate'
                     },
                     {
-                        title: '分成比例（%）',
-                        key: 'divideRatio'
+                        title: '状态',
+                        key: 'state',
+                        render: (h, params) => {
+                            return h('div', {}, params.row.state === '0' ? '未答题' : '已答题')
+                        }
                     },
                     {
                         title: '操作',
@@ -62,24 +74,10 @@
                                     },
                                     on:{
                                         click:()=>{
-                                            this.edit(params)
+                                            this.detail(params)
                                         }
                                     }
-                                },'编辑'),
-                                h('Button',{
-                                    props:{
-                                        type:'error',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.delete(params)
-                                        }
-                                    }
-                                },'删除')
+                                },'查看详情')
                             ])
                         }
                     }
@@ -103,7 +101,7 @@
             },
             getList(currentPage) {
 
-                let data= Level.getList();
+                let data= PreCheck.getList();
 
                 if(data){
                     this.count=data.length;
@@ -113,30 +111,32 @@
                     this.dataList = data;
                 }
 
-                return;
 
-                this.http.post('user/list', {
-                    currentPage:currentPage,
-                    pageSize:this.pageSize,
-                }).then(data => {
 
-                    this.count=data.count;
-                    this.totalPages=data.totalPages;
-                    this.currentPage=data.currentPage;
-
-                    this.dataList = data.data;
-                })
+                // return;
+                //
+                // this.http.post('user/list', {
+                //     currentPage:currentPage,
+                //     pageSize:this.pageSize,
+                // }).then(data => {
+                //
+                //     this.count=data.count;
+                //     this.totalPages=data.totalPages;
+                //     this.currentPage=data.currentPage;
+                //
+                //     this.dataList = data.data;
+                // })
             },
             add() {
-                console.log(33)
-                this.$router.push('/therapist/levelOperate')
+                this.$router.push('/caseManager/operate')
             },
-            edit(params){
+            detail(params){
+
                 this.$router.push({
-                    path:'/therapist/levelOperate',
+                    path:'/preCheck/operate',
                     query:{
                         opType:'edit',
-                        formItem:JSON.stringify(params.row)
+                        formItem:JSON.stringify(params.row),
                     }
                 })
             },
@@ -147,7 +147,7 @@
                     content: '',
                     onOk: () => {
 
-                        Level.delete(params.row.id)
+                        CaseManager.delete(params.row.id)
                         this.$Message.success("删除成功")
                         this.getList()
                         return;

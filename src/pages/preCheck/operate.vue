@@ -8,32 +8,20 @@
                 <div class="ms-login" style="overflow: initial">
 
                     <Tabs style="overflow: initial">
-                        <Tab-pane label="分部管理员操作" name="account" icon="android-person">
+                        <Tab-pane label="预检表详情" name="account" icon="android-person">
+                            <Form :label-width="80" class="demo-ruleForm">
 
-                            <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="80" class="demo-ruleForm">
-
-                                <Form-item prop="name" label="姓名">
-                                    <Input  :maxlength="50" placeholder="请输入姓名" v-model="formItem.name"></Input>
+                                <Form-item label="用户姓名">
+                                    {{formItem.userId}}
                                 </Form-item>
 
-                                <Form-item prop="phone" label="手机号">
-                                    <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
+                                <Form-item label="用户手机号">
+                                    {{formItem.userPhone}}
                                 </Form-item>
 
-                                <FormItem label="性别" prop="sex">
-                                    <RadioGroup v-model="formItem.sex">
-                                        <Radio label="male" >男</Radio>
-                                        <Radio label="female" >女</Radio>
-                                    </RadioGroup>
-                                </FormItem>
-
-                                <Form-item prop="email" label="电子邮箱">
-                                    <Input  :maxlength="30" placeholder="请输入电子邮箱" v-model="formItem.email"></Input>
+                                <Form-item label="答题时间">
+                                    {{formItem.answerDate}}
                                 </Form-item>
-
-                                <FormItem label="出生日期" prop="birthday" >
-                                    <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="bottom"></DatePicker>
-                                </FormItem>
 
                             </Form>
 
@@ -69,19 +57,6 @@
                     name: [
                         {required: true, message: "姓名不能为空", trigger: "blur"}
                     ],
-                    phone: [
-                        {required: true, message: "手机号不能为空", trigger: "blur"},
-                        {type: 'string', min: 11, message: '手机号长度不能少于11位', trigger: 'blur'}
-                    ],
-                    sex: [
-                        {required: true, message: "性别不能为空", trigger: "change"}
-                    ],
-                    birthday: [
-                        {required: true, type:"date",message: "出生日期不能为空", trigger: "change"}
-                    ],
-                    email: [
-                        {required: true, message: "电子邮箱不能为空", trigger: "blur"}
-                    ],
                 },
             }
         },
@@ -92,7 +67,6 @@
         },
         mounted() {
             if(this.isEdit){
-
                 this.formItem=JSON.parse(this.$route.query.formItem);
 
             }

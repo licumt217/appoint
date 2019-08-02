@@ -149,7 +149,7 @@
                     path:'/therapist/operate',
                     query:{
                         opType:'edit',
-                        formItem:params.row,
+                        formItem:JSON.stringify(params.row)
                     }
                 })
             },

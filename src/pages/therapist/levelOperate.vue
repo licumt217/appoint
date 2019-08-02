@@ -68,7 +68,7 @@
         mounted() {
             if(this.isEdit){
 
-                this.formItem=this.$route.query.formItem;
+                this.formItem=JSON.parse(this.$route.query.formItem);
 
             }
         },

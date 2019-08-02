@@ -47,6 +47,11 @@
                                 伦理公告
                             </MenuItem>
 
+                            <MenuItem name="preCheck">
+                                <Icon type="ios-navigate"></Icon>
+                                预检表
+                            </MenuItem>
+
                             <Submenu name="complain">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
@@ -229,6 +234,12 @@
                     case 'ethicsNotice':
                         this.$router.push('/ethicsNotice/list')
                         break;
+                    case 'preCheck':
+                        this.$router.push('/preCheck/list')
+                        break;
+
+
+
 
 
 

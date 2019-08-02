@@ -38,6 +38,9 @@ const blackList_list = r => require.ensure([], () => r(require('../pages/blackLi
 const ethicsNotice_list = r => require.ensure([], () => r(require('../pages/ethicsNotice/list')), 'ethicsNotice_list')
 const ethicsNotice_operate = r => require.ensure([], () => r(require('../pages/ethicsNotice/operate')), 'ethicsNotice_operate')
 
+const preCheck_list = r => require.ensure([], () => r(require('../pages/preCheck/list')), 'preCheck_list')
+const preCheck_operate = r => require.ensure([], () => r(require('../pages/preCheck/operate')), 'preCheck_operate')
+
 
 
 
@@ -131,6 +134,16 @@ const router=new VueRouter({
         {
             path:'/ethicsNotice/operate',
             component:ethicsNotice_operate
+        },
+
+        //preCheck
+        {
+            path:'/preCheck/list',
+            component:preCheck_list
+        },
+        {
+            path:'/preCheck/operate',
+            component:preCheck_operate
         }
 
 
