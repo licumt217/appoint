@@ -14,9 +14,6 @@ const user_register = r => require.ensure([], () => r(require('../pages/user/reg
 const user_detail = r => require.ensure([], () => r(require('../pages/user/detail')), 'user_detail')
 const user_list = r => require.ensure([], () => r(require('../pages/user/list')), 'user_list')
 const user_operate = r => require.ensure([], () => r(require('../pages/user/operate')), 'user_operate')
-const user_administratorList = r => require.ensure([], () => r(require('../pages/user/administratorList')), 'user_administratorList')
-const user_administratorOperate = r => require.ensure([], () => r(require('../pages/user/administratorOperate')), 'user_administratorOperate')
-
 
 const divisionManager_list = r => require.ensure([], () => r(require('../pages/divisionManager/list')), 'divisionManager_list_list')
 const divisionManager_operate = r => require.ensure([], () => r(require('../pages/divisionManager/operate')), 'divisionManager_operate')
@@ -37,6 +34,9 @@ const complain_userList = r => require.ensure([], () => r(require('../pages/comp
 const complain_therapistList = r => require.ensure([], () => r(require('../pages/complain/therapistList')), 'complain_therapistList')
 
 const blackList_list = r => require.ensure([], () => r(require('../pages/blackList/list')), 'blackList_list')
+
+const ethicsNotice_list = r => require.ensure([], () => r(require('../pages/ethicsNotice/list')), 'ethicsNotice_list')
+const ethicsNotice_operate = r => require.ensure([], () => r(require('../pages/ethicsNotice/operate')), 'ethicsNotice_operate')
 
 
 
@@ -67,12 +67,6 @@ const router=new VueRouter({
         },{
             path:'/user/operate',
             component:user_operate
-        },{
-            path:'/user/administratorList',
-            component:user_administratorList
-        },{
-            path:'/user/administratorOperate',
-            component:user_administratorOperate
         },
 
 
@@ -127,6 +121,16 @@ const router=new VueRouter({
         {
             path:'/blackList/list',
             component:blackList_list
+        },
+
+        //ethicsNotice
+        {
+            path:'/ethicsNotice/list',
+            component:ethicsNotice_list
+        },
+        {
+            path:'/ethicsNotice/operate',
+            component:ethicsNotice_operate
         }
 
 

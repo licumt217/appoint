@@ -42,6 +42,11 @@
                                 黑名单管理
                             </MenuItem>
 
+                            <MenuItem name="ethicsNotice">
+                                <Icon type="ios-navigate"></Icon>
+                                伦理公告
+                            </MenuItem>
+
                             <Submenu name="complain">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
@@ -221,6 +226,11 @@
                     case 'blackList':
                         this.$router.push('/blackList/list')
                         break;
+                    case 'ethicsNotice':
+                        this.$router.push('/ethicsNotice/list')
+                        break;
+
+
 
                 }
 

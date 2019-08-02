@@ -2,14 +2,17 @@
 
 
     <div>
+
         <Row style="padding:5px;">
             <Col span="22">
-                <HeaderName name="区域管理员管理"></HeaderName>
+                <HeaderName name="伦理公告列表"></HeaderName>
             </Col>
             <Col span="2" >
                 <Button type="success" @click="add">新增</Button>
             </Col>
         </Row>
+
+
         <Table stripe :columns="columns" :data="dataList"></Table>
         <div style="text-align: center;margin-top: 1em;">
             <Page :total="count" :page-size="pageSize" :current="currentPage" @on-change="pageChange"/>
@@ -22,9 +25,14 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
+    import {EthicsNotice} from '../../assets/models/EthicsNotice'
     export default {
+        components:{
+        },
         data() {
             return {
+                formInline: {},
+                ruleInline: {},
                 columns: [
                     {
                         type:'index',
@@ -34,35 +42,30 @@
                             return (this.currentPage-1)*Util.pageSize+(params._index+1);
                         }
                     },
+
                     {
-                        title: '手机号',
-                        key: 'phone'
+                        title: '咨询师姓名',
+                        key: 'therapistId'
                     },
                     {
-                        title: '性别',
-                        key: 'sex',
-                        render: (h, params) => {
-                                    return h('div', {}, params.row.sex === 'male' ? '男' : '女')
-                                }
+                        title: '添加时间',
+                        key: 'addDate'
                     },
+
                     {
-                        title: '电子邮箱',
-                        key: 'email'
-                    },
-                    {
-                        title: '出生日期',
-                        key: 'birthday'
-                    },
-                    {
-                        title: '用户组',
-                        key: 'userGroupName',
-                        render: (h, params) => {
-                            return h('div', {
-                                domProps:{
-                                    innerHTML:params.row.userGroupName
-                                }
-                            })
+                        title: '显示方式',
+                        key: 'showManner',
+                        render:(h,params)=>{
+                            return h('div',params.row.showManner==='0'?'不显示':params.row.showManner==='1'?'永久显示':'一段时间显示')
                         }
+                    },
+                    {
+                        title: '截止时间',
+                        key: 'endDate'
+                    },
+                    {
+                        title: '公告内容',
+                        key: 'content'
                     },
                     {
                         title: '操作',
@@ -106,18 +109,33 @@
                 totalPages:0,
                 pageSize:Util.pageSize,
                 currentPage:1,
-                dataList: []
+                dataList: [],
             }
         },
         mounted() {
             this.getList(1)
+
         },
         methods: {
+
             pageChange(page){
               this.getList(page)
             },
             getList(currentPage) {
-                this.http.post('user/listMange', {
+
+                let data= EthicsNotice.getList();
+
+                if(data){
+                    this.count=data.length;
+                    this.totalPages=data.length/10;
+                    this.currentPage=1;
+
+                    this.dataList = data;
+                }
+
+                return;
+
+                this.http.post('user/list', {
                     currentPage:currentPage,
                     pageSize:this.pageSize,
                 }).then(data => {
@@ -126,32 +144,21 @@
                     this.totalPages=data.totalPages;
                     this.currentPage=data.currentPage;
 
-                    data=data.data;
-
-                    for(let i=0;i<data.length;i++){
-                        let temp=[]
-                        if(data[i].userGroup.length>0){
-                            for(let j=0;j<data[i].userGroup.length;j++){
-                                temp.push(data[i].userGroup[j].name)
-                            }
-
-                        }
-
-                        data[i].userGroupName=temp.join('<br/>')
-                    }
-
-                    this.dataList = data;
+                    this.dataList = data.data;
                 })
             },
+
+
+
             add() {
-              this.$router.push('/user/administratorOperate')
+                this.$router.push('/ethicsNotice/operate')
             },
             edit(params){
-                sessionStorage.curCommonAdmin=JSON.stringify(params.row)
                 this.$router.push({
-                    path:'/user/administratorOperate',
+                    path:'/ethicsNotice/operate',
                     query:{
                         opType:'edit',
+                        formItem:params.row,
                     }
                 })
             },
@@ -161,6 +168,11 @@
                     title: '您确认删除吗？',
                     content: '',
                     onOk: () => {
+
+                        EthicsNotice.delete(params.row.id)
+                        this.$Message.success("删除成功")
+                        this.getList()
+                        return;
 
                         this.http.post('user/delete',{
                             id:params.row.id
