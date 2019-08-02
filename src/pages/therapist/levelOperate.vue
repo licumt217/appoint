@@ -10,26 +10,15 @@
                     <Tabs style="overflow: initial">
                         <Tab-pane label="咨询师等级操作" name="account" icon="android-person">
 
-                            <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="80" class="demo-ruleForm">
+                            <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="120" class="demo-ruleForm">
 
-                                <Form-item prop="phone" label="手机号">
-                                    <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
+                                <Form-item prop="name" label="名称">
+                                    <Input  :maxlength="50" placeholder="请输入名称" v-model="formItem.name"></Input>
                                 </Form-item>
 
-                                <FormItem label="性别" prop="sex">
-                                    <RadioGroup v-model="formItem.sex">
-                                        <Radio label="male" >男</Radio>
-                                        <Radio label="female" >女</Radio>
-                                    </RadioGroup>
-                                </FormItem>
-
-                                <Form-item prop="email" label="电子邮箱">
-                                    <Input  :maxlength="30" placeholder="请输入电子邮箱" v-model="formItem.email"></Input>
+                                <Form-item prop="divideRatio" label="分成比例（%）">
+                                    <Input  :maxlength="30" placeholder="请输入分成比例" v-model="formItem.divideRatio"></Input>
                                 </Form-item>
-
-                                <FormItem label="出生日期" prop="birthday" >
-                                    <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="bottom"></DatePicker>
-                                </FormItem>
 
                             </Form>
 
@@ -37,7 +26,7 @@
                     </Tabs>
 
                     <div class="login-btn">
-                        <Button type="primary" @click="levelOperate">确定</Button>
+                        <Button type="primary" @click="operate">确定</Button>
                     </div>
                     <div class="signup-btn">
                         <a href="javascript:" @click="back">返回</a>
@@ -53,6 +42,7 @@
 <script>
     const md5=require('md5')
     import {Util} from '../../assets/js/Util'
+    import {Level} from '../../assets/models/Level'
     export default {
         data() {
             return {
@@ -61,19 +51,12 @@
                 formItem: {
                 },
                 rules: {
-                    phone: [
-                        {required: true, message: "手机号不能为空", trigger: "blur"},
-                        {type: 'string', min: 11, message: '手机号长度不能少于11位', trigger: 'blur'}
+                    name: [
+                        {required: true, message: "名称不能为空", trigger: "blur"}
                     ],
-                    sex: [
-                        {required: true, message: "性别不能为空", trigger: "change"}
-                    ],
-                    birthday: [
-                        {required: true, type:"date",message: "出生日期不能为空", trigger: "change"}
-                    ],
-                    email: [
-                        {required: true, message: "电子邮箱不能为空", trigger: "blur"}
-                    ],
+                    divideRatio: [
+                        {required: true, message: "分成比例不能为空", trigger: "blur"}
+                    ]
                 },
             }
         },
@@ -104,17 +87,17 @@
                             url='user/update'
                         }
 
-                        if(!Util.isValidPhone(this.formItem.phone)){
-                            this.$Message.warning("请输入合法的手机号！")
-                            return;
-                        }
 
-                        if(!Util.isValidEmail(this.formItem.email)){
-                            this.$Message.warning("请输入合法的电子邮箱！")
-                            return;
+                        if(this.isEdit){
+                            Level.update(this.formItem)
+                            this.$Message.success("修改成功！")
+                        }else{
+                            Level.add(this.formItem)
+                            this.$Message.success("新增成功！")
                         }
+                        this.$router.push('/therapist/levelList')
 
-                        // this.formItem.birthday=this.formItem.bi
+                        return;
 
                         this.http.post(url, this.formItem).then((data) => {
 
@@ -123,7 +106,7 @@
                             }else{
                                 this.$Message.success("新增成功！")
                             }
-                            this.$router.push('/divisionManager/list')
+                            this.$router.push('/therapist/levelList')
 
 
 
@@ -155,7 +138,7 @@
     .mainContent {
         position: absolute;
         left: 50%;
-        margin-left: -190px;
+        margin-left: -240px;
     }
 
     .ms-title {
@@ -170,7 +153,7 @@
     }
 
     .ms-login {
-        width: 380px;
+        width: 480px;
         overflow: hidden;
         padding: 40px;
         border-radius: 5px;

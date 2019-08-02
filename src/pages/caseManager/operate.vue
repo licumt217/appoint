@@ -53,6 +53,7 @@
 <script>
     const md5=require('md5')
     import {Util} from '../../assets/js/Util'
+    import {CaseManager} from '../../assets/models/CaseManager'
     export default {
         data() {
             return {
@@ -114,7 +115,17 @@
                             return;
                         }
 
-                        // this.formItem.birthday=this.formItem.bi
+                        if(this.isEdit){
+                            CaseManager.update(this.formItem)
+                            this.$Message.success("修改成功！")
+                        }else{
+                            CaseManager.add(this.formItem)
+                            this.$Message.success("新增成功！")
+                        }
+                        this.$router.push('/caseManager/list')
+
+                        return;
+
 
                         this.http.post(url, this.formItem).then((data) => {
 

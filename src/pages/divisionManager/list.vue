@@ -24,6 +24,7 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
+    import {DivisionManager} from '../../assets/models/DivisionManager'
     export default {
         components:{
         },
@@ -113,36 +114,17 @@
             },
             getList(currentPage) {
 
-                let data={
-                    count:23,
-                    totalPages:2,
-                    currentPage:1,
-                    data:[{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
+                let data= DivisionManager.getList();
 
-                    }]
+                if(data){
+                    this.count=data.length;
+                    this.totalPages=data.length/10;
+                    this.currentPage=1;
+
+                    this.dataList = data;
                 }
-
-                this.count=data.count;
-                this.totalPages=data.totalPages;
-                this.currentPage=data.currentPage;
-
-                this.dataList = data.data;
 
                 return;
 
@@ -177,6 +159,12 @@
                     title: '您确认删除吗？',
                     content: '',
                     onOk: () => {
+
+                        DivisionManager.delete(params.row.id)
+                        this.$Message.success("删除成功")
+                        this.getList()
+                        return;
+
 
                         this.http.post('user/delete',{
                             id:params.row.id

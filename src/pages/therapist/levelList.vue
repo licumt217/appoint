@@ -24,6 +24,7 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
+    import {Level} from '../../assets/models/Level'
     export default {
         components:{
         },
@@ -39,27 +40,12 @@
                         }
                     },
                     {
-                        title: '手机号',
-                        key: 'phone'
+                        title: '名称',
+                        key: 'name'
                     },
                     {
-                        title: '性别',
-                        key: 'sex',
-                        render: (h, params) => {
-                                    return h('div', {}, params.row.sex === 'male' ? '男' : '女')
-                                }
-                    },
-                    {
-                        title: '电子邮箱',
-                        key: 'email'
-                    },
-                    {
-                        title: '出生日期',
-                        key: 'birthday'
-                    },
-                    {
-                        title: '伦理公告状态',
-                        key: 'ethicsNoticeStatus'
+                        title: '分成比例（%）',
+                        key: 'divideRatio'
                     },
                     {
                         title: '操作',
@@ -93,21 +79,7 @@
                                             this.delete(params)
                                         }
                                     }
-                                },'删除'),
-                                h('Button',{
-                                    props:{
-                                        type:'error',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.setEthicsNotice(params)
-                                        }
-                                    }
-                                },'设置伦理公告')
+                                },'删除')
                             ])
                         }
                     }
@@ -131,36 +103,15 @@
             },
             getList(currentPage) {
 
-                let data={
-                    count:23,
-                    totalPages:2,
-                    currentPage:1,
-                    data:[{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
+                let data= Level.getList();
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
+                if(data){
+                    this.count=data.length;
+                    this.totalPages=data.length/10;
+                    this.currentPage=1;
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
-
-                    }]
+                    this.dataList = data;
                 }
-
-                this.count=data.count;
-                this.totalPages=data.totalPages;
-                this.currentPage=data.currentPage;
-
-                this.dataList = data.data;
 
                 return;
 
@@ -195,6 +146,11 @@
                     title: '您确认删除吗？',
                     content: '',
                     onOk: () => {
+
+                        Level.delete(params.row.id)
+                        this.$Message.success("删除成功")
+                        this.getList()
+                        return;
 
                         this.http.post('user/delete',{
                             id:params.row.id

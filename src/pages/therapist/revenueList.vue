@@ -4,9 +4,38 @@
     <div>
 
         <Row style="padding:5px;">
-            <Col span="22">
-                <HeaderName name="咨询师收益"></HeaderName>
+            <Col span="24">
+                <HeaderName border name="咨询师收益"></HeaderName>
             </Col>
+        </Row>
+        <Row style="padding:5px">
+            <Col span="24">
+                <Form ref="formInline" :model="formInline" :rules="ruleInline" inline >
+
+                    <FormItem prop="name" label="姓名" :label-width="50">
+                        <Input type="text" v-model="formInline.name" placeholder="姓名">
+                        </Input>
+                    </FormItem>
+
+                    <FormItem label="收益时间" :label-width="60">
+                        <Row>
+                            <Col span="11">
+                                <DatePicker type="date" placeholder="" v-model="formInline.startDate"></DatePicker>
+                            </Col>
+                            <Col span="2" style="text-align: center">-</Col>
+                            <Col span="11">
+                                <DatePicker type="date" placeholder="" v-model="formInline.endDate"></DatePicker>
+                            </Col>
+                        </Row>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" icon="ios-search" @click="getList(1)">查询</Button>
+                    </FormItem>
+
+                </Form>
+
+            </Col>
+
         </Row>
 
         <Table stripe :columns="columns" :data="dataList"></Table>
@@ -21,11 +50,14 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
+    import {TherapistRevenue} from "../../assets/models/TherapistRevenue";
     export default {
         components:{
         },
         data() {
             return {
+                formInline: {},
+                ruleInline: {},
                 columns: [
                     {
                         type:'index',
@@ -36,78 +68,17 @@
                         }
                     },
                     {
-                        title: '手机号',
-                        key: 'phone'
+                        title: '姓名',
+                        key: 'name'
                     },
                     {
-                        title: '性别',
-                        key: 'sex',
-                        render: (h, params) => {
-                                    return h('div', {}, params.row.sex === 'male' ? '男' : '女')
-                                }
+                        title: '收益时间',
+                        key: 'date'
                     },
                     {
-                        title: '电子邮箱',
-                        key: 'email'
+                        title: '收益',
+                        key: 'revenue'
                     },
-                    {
-                        title: '出生日期',
-                        key: 'birthday'
-                    },
-                    {
-                        title: '伦理公告状态',
-                        key: 'ethicsNoticeStatus'
-                    },
-                    {
-                        title: '操作',
-                        key: 'action',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button',{
-                                    props:{
-                                        type:'primary',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.edit(params)
-                                        }
-                                    }
-                                },'编辑'),
-                                h('Button',{
-                                    props:{
-                                        type:'error',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.delete(params)
-                                        }
-                                    }
-                                },'删除'),
-                                h('Button',{
-                                    props:{
-                                        type:'error',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.setEthicsNotice(params)
-                                        }
-                                    }
-                                },'设置伦理公告')
-                            ])
-                        }
-                    }
 
                 ],
                 count:0,
@@ -128,36 +99,16 @@
             },
             getList(currentPage) {
 
-                let data={
-                    count:23,
-                    totalPages:2,
-                    currentPage:1,
-                    data:[{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
+                let data= TherapistRevenue.getList();
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
+                if(data){
+                    this.count=data.length;
+                    this.totalPages=data.length/10;
+                    this.currentPage=1;
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
-
-                    }]
+                    this.dataList = data;
                 }
 
-                this.count=data.count;
-                this.totalPages=data.totalPages;
-                this.currentPage=data.currentPage;
-
-                this.dataList = data.data;
 
                 return;
 

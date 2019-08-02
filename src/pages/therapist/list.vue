@@ -24,6 +24,7 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
+    import {Therapist} from "../../assets/models/Therapist";
     export default {
         components:{
         },
@@ -37,6 +38,10 @@
                         indexMethod:(params)=>{
                             return (this.currentPage-1)*Util.pageSize+(params._index+1);
                         }
+                    },
+                    {
+                        title: '姓名',
+                        key: 'name'
                     },
                     {
                         title: '手机号',
@@ -58,12 +63,29 @@
                         key: 'birthday'
                     },
                     {
+                        title: '流派',
+                        key: 'school'
+                    },
+                    {
+                        title: '资历',
+                        key: 'qualification'
+                    },
+                    {
+                        title: '线上线下',
+                        key: 'manaer'
+                    },
+                    {
+                        title: '等级',
+                        key: 'level'
+                    },
+                    {
                         title: '伦理公告状态',
                         key: 'ethicsNoticeStatus'
                     },
                     {
                         title: '操作',
                         key: 'action',
+                        width:300,
                         render: (h, params) => {
                             return h('div', [
                                 h('Button',{
@@ -96,7 +118,7 @@
                                 },'删除'),
                                 h('Button',{
                                     props:{
-                                        type:'error',
+                                        type:'success',
                                         size:'small'
                                     },
                                     style:{
@@ -131,36 +153,15 @@
             },
             getList(currentPage) {
 
-                let data={
-                    count:23,
-                    totalPages:2,
-                    currentPage:1,
-                    data:[{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
+                let data= Therapist.getList();
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
+                if(data){
+                    this.count=data.length;
+                    this.totalPages=data.length/10;
+                    this.currentPage=1;
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
-
-                    }]
+                    this.dataList = data;
                 }
-
-                this.count=data.count;
-                this.totalPages=data.totalPages;
-                this.currentPage=data.currentPage;
-
-                this.dataList = data.data;
 
                 return;
 
@@ -195,6 +196,10 @@
                     title: '您确认删除吗？',
                     content: '',
                     onOk: () => {
+                        Therapist.delete(params.row.id)
+                        this.$Message.success("删除成功")
+                        this.getList()
+                        return;
 
                         this.http.post('user/delete',{
                             id:params.row.id
