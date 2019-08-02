@@ -5,7 +5,7 @@
 
         <Row style="padding:5px;">
             <Col span="24">
-                <HeaderName border name="用户投诉咨询师列表"></HeaderName>
+                <HeaderName border name="用户黑名单列表"></HeaderName>
             </Col>
         </Row>
         <Row style="padding:5px">
@@ -17,12 +17,7 @@
                         </Input>
                     </FormItem>
 
-                    <FormItem prop="therapistName" label="咨询师姓名" :label-width="80">
-                        <Input type="text" v-model="formInline.therapistName" placeholder="咨询师姓名">
-                        </Input>
-                    </FormItem>
-
-                    <FormItem label="投诉时间" :label-width="60">
+                    <FormItem label="添加黑名单时间" :label-width="120">
                         <Row>
                             <Col span="11">
                                 <DatePicker type="date" placeholder="" v-model="formInline.startDate"></DatePicker>
@@ -55,7 +50,7 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
-    import {UserComplain} from '../../assets/models/UserComplain'
+    import {BlackList} from '../../assets/models/BlackList'
     export default {
         components:{
         },
@@ -72,6 +67,7 @@
                             return (this.currentPage-1)*Util.pageSize+(params._index+1);
                         }
                     },
+
                     {
                         title: '用户姓名',
                         key: 'userName'
@@ -80,22 +76,44 @@
                         title: '用户手机号',
                         key: 'userPhone'
                     },
+
                     {
-                        title: '咨询师姓名',
-                        key: 'therapistName'
+                        title: '添加黑名单时间',
+                        key: 'addDate'
                     },
                     {
-                        title: '咨询师手机号',
-                        key: 'therapistPhone'
+                        title: '移除黑名单时间',
+                        key: 'removeDate'
                     },
                     {
-                        title: '投诉时间',
-                        key: 'complainDate'
-                    },
-                    {
-                        title: '投诉内容',
-                        key: 'complainContent'
-                    },
+                        title: '操作',
+                        key: 'action',
+                        render: (h, params) => {
+
+                            if(params.row.state==='0'){
+                                return h('div', [
+                                    h('Button',{
+                                        props:{
+                                            type:'primary',
+                                            size:'small'
+                                        },
+                                        style:{
+                                            marginRight:'5px'
+                                        },
+                                        on:{
+                                            click:()=>{
+                                                this.remove(params)
+                                            }
+                                        }
+                                    },'移除黑名单')
+                                ])
+                            }else{
+                                return h('div', '已移除')
+                            }
+
+
+                        }
+                    }
 
                 ],
                 count:0,
@@ -116,7 +134,7 @@
             },
             getList(currentPage) {
 
-                let data= UserComplain.getList();
+                let data= BlackList.getList();
 
                 if(data){
                     this.count=data.length;
@@ -140,6 +158,55 @@
                     this.dataList = data.data;
                 })
             },
+            /**
+             * 移除黑名单
+             * */
+            remove(params){
+                this.$Modal.confirm({
+                    title: '您确认将此用户移除黑名单吗？',
+                    content: '',
+                    onOk: () => {
+
+                        params.row.state='1'
+                        params.row.removeDate=new Date()
+
+                        BlackList.update(params.row)
+
+                        this.$Message.success("操作成功")
+
+                        this.getList(1)
+
+                    },
+                    onCancel: () => {
+                    }
+                });
+            },
+            /**
+             * 添加黑名单
+             * @param params
+             */
+            addBlackList(params){
+                this.$Modal.confirm({
+                    title: '您确认添加此用户到黑名单吗？',
+                    content: '',
+                    onOk: () => {
+
+                        params.row.state='2'
+
+                        TherapistComplain.update(params.row)
+
+                        //TODO 添加黑名单
+
+                        this.$Message.success("操作成功")
+
+                        this.getList(1)
+
+                    },
+                    onCancel: () => {
+                    }
+                });
+            },
+
             add() {
                 console.log(33)
                 this.$router.push('/therapist/operate')

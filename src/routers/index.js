@@ -36,6 +36,8 @@ const therapist_revenueList = r => require.ensure([], () => r(require('../pages/
 const complain_userList = r => require.ensure([], () => r(require('../pages/complain/userList')), 'complain_userList')
 const complain_therapistList = r => require.ensure([], () => r(require('../pages/complain/therapistList')), 'complain_therapistList')
 
+const blackList_list = r => require.ensure([], () => r(require('../pages/blackList/list')), 'blackList_list')
+
 
 
 
@@ -119,6 +121,12 @@ const router=new VueRouter({
         },{
             path:'/complain/therapistList',
             component:complain_therapistList
+        },
+
+        //blackList
+        {
+            path:'/blackList/list',
+            component:blackList_list
         }
 
 

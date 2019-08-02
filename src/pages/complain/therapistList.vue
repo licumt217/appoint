@@ -4,12 +4,43 @@
     <div>
 
         <Row style="padding:5px;">
-            <Col span="22">
-                <HeaderName name="咨询师管理"></HeaderName>
+            <Col span="24">
+                <HeaderName border name="咨询师投诉用户列表"></HeaderName>
             </Col>
-            <Col span="2" >
-                <Button type="success" @click="add">新增</Button>
+        </Row>
+        <Row style="padding:5px">
+            <Col span="24">
+                <Form ref="formInline" :model="formInline" :rules="ruleInline" inline >
+
+                    <FormItem prop="therapistName" label="咨询师姓名" :label-width="80">
+                        <Input type="text" v-model="formInline.therapistName" placeholder="咨询师姓名">
+                        </Input>
+                    </FormItem>
+
+                    <FormItem prop="userName" label="用户姓名" :label-width="80">
+                        <Input type="text" v-model="formInline.userName" placeholder="用户姓名">
+                        </Input>
+                    </FormItem>
+
+                    <FormItem label="投诉时间" :label-width="60">
+                        <Row>
+                            <Col span="11">
+                                <DatePicker type="date" placeholder="" v-model="formInline.startDate"></DatePicker>
+                            </Col>
+                            <Col span="2" style="text-align: center">-</Col>
+                            <Col span="11">
+                                <DatePicker type="date" placeholder="" v-model="formInline.endDate"></DatePicker>
+                            </Col>
+                        </Row>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" icon="ios-search" @click="getList(1)">查询</Button>
+                    </FormItem>
+
+                </Form>
+
             </Col>
+
         </Row>
 
         <Table stripe :columns="columns" :data="dataList"></Table>
@@ -24,11 +55,15 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
+    import {TherapistComplain} from '../../assets/models/TherapistComplain'
+    import {BlackList} from '../../assets/models/BlackList'
     export default {
         components:{
         },
         data() {
             return {
+                formInline: {},
+                ruleInline: {},
                 columns: [
                     {
                         type:'index',
@@ -39,76 +74,79 @@
                         }
                     },
                     {
-                        title: '手机号',
-                        key: 'phone'
+                        title: '咨询师姓名',
+                        key: 'therapistName'
                     },
                     {
-                        title: '性别',
-                        key: 'sex',
+                        title: '咨询师手机号',
+                        key: 'therapistPhone'
+                    },
+
+                    {
+                        title: '用户姓名',
+                        key: 'userName'
+                    },
+                    {
+                        title: '用户手机号',
+                        key: 'userPhone'
+                    },
+
+                    {
+                        title: '投诉时间',
+                        key: 'complainDate'
+                    },
+                    {
+                        title: '投诉内容',
+                        key: 'complainContent'
+                    },
+                    {
+                        title: '状态',
+                        key: 'state',
                         render: (h, params) => {
-                                    return h('div', {}, params.row.sex === 'male' ? '男' : '女')
-                                }
-                    },
-                    {
-                        title: '电子邮箱',
-                        key: 'email'
-                    },
-                    {
-                        title: '出生日期',
-                        key: 'birthday'
-                    },
-                    {
-                        title: '伦理公告状态',
-                        key: 'ethicsNoticeStatus'
+                            return h('div', {}, params.row.state === '0' ? '未处理' : params.row.state === '1' ? '已驳回' :'已添加黑名单')
+                        }
                     },
                     {
                         title: '操作',
                         key: 'action',
                         render: (h, params) => {
-                            return h('div', [
-                                h('Button',{
-                                    props:{
-                                        type:'primary',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.edit(params)
+
+                            if(params.row.state==='0'){
+                                return h('div', [
+                                    h('Button',{
+                                        props:{
+                                            type:'primary',
+                                            size:'small'
+                                        },
+                                        style:{
+                                            marginRight:'5px'
+                                        },
+                                        on:{
+                                            click:()=>{
+                                                this.reject(params)
+                                            }
                                         }
-                                    }
-                                },'编辑'),
-                                h('Button',{
-                                    props:{
-                                        type:'error',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.delete(params)
+                                    },'驳回'),
+                                    h('Button',{
+                                        props:{
+                                            type:'error',
+                                            size:'small'
+                                        },
+                                        style:{
+                                            marginRight:'5px'
+                                        },
+                                        on:{
+                                            click:()=>{
+                                                this.addBlackList(params)
+                                            }
                                         }
-                                    }
-                                },'删除'),
-                                h('Button',{
-                                    props:{
-                                        type:'error',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.setEthicsNotice(params)
-                                        }
-                                    }
-                                },'设置伦理公告')
-                            ])
+                                    },'添加黑名单')
+                                ])
+                            }else{
+                                return ""
+                            }
+
+
                         }
                     }
 
@@ -131,36 +169,15 @@
             },
             getList(currentPage) {
 
-                let data={
-                    count:23,
-                    totalPages:2,
-                    currentPage:1,
-                    data:[{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
+                let data= TherapistComplain.getList();
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
+                if(data){
+                    this.count=data.length;
+                    this.totalPages=data.length/10;
+                    this.currentPage=1;
 
-                    },{
-                        phone:'18601965856',
-                        sex:'male',
-                        email:'liqiangcumt@126.com',
-                        birthday:'1988/02/17'
-
-                    }]
+                    this.dataList = data;
                 }
-
-                this.count=data.count;
-                this.totalPages=data.totalPages;
-                this.currentPage=data.currentPage;
-
-                this.dataList = data.data;
 
                 return;
 
@@ -176,6 +193,58 @@
                     this.dataList = data.data;
                 })
             },
+            /**
+             * 驳回
+             * @param params
+             */
+            reject(params){
+                this.$Modal.confirm({
+                    title: '您确认驳回此投诉吗？',
+                    content: '',
+                    onOk: () => {
+
+                        params.row.state='1'
+
+                        TherapistComplain.update(params.row)
+
+                        this.$Message.success("驳回成功")
+
+                        this.getList(1)
+
+                    },
+                    onCancel: () => {
+                    }
+                });
+            },
+            /**
+             * 添加黑名单
+             * @param params
+             */
+            addBlackList(params){
+                this.$Modal.confirm({
+                    title: '您确认添加此用户到黑名单吗？',
+                    content: '',
+                    onOk: () => {
+
+                        params.row.state='2'
+
+                        TherapistComplain.update(params.row)
+
+                        BlackList.add({
+                            userName:params.row.userName,
+                            userPhone:params.row.userPhone
+                        })
+
+                        this.$Message.success("操作成功")
+
+                        this.getList(1)
+
+                    },
+                    onCancel: () => {
+                    }
+                });
+            },
+
             add() {
                 console.log(33)
                 this.$router.push('/therapist/operate')

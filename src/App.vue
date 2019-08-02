@@ -37,24 +37,27 @@
                                 咨询师收益查看
                             </MenuItem>
 
-                            <Submenu name="7">
+                            <MenuItem name="blackList">
+                                <Icon type="ios-navigate"></Icon>
+                                黑名单管理
+                            </MenuItem>
+
+                            <Submenu name="complain">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
                                     投诉管理
                                 </template>
-                                <MenuItem name="userComplain">用户投诉管理</MenuItem>
-                                <MenuItem name="therapistComplain">咨询师投诉管理</MenuItem>
+                                <MenuItem name="userComplain">用户投诉咨询师管理</MenuItem>
+                                <MenuItem name="therapistComplain">咨询师投诉用户管理</MenuItem>
                             </Submenu>
 
 
-                            <Submenu name="7">
+                            <Submenu name="setting">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
-                                    分部管理员管理
+                                    设置
                                 </template>
-                                <MenuItem name="userGroupList">用户组管理</MenuItem>
                                 <MenuItem name="userList">用户管理</MenuItem>
-                                <MenuItem name="administratorList">区域管理员管理</MenuItem>
                                 <MenuItem name="passModify">修改密码</MenuItem>
                                 <MenuItem name="logout" >退出登录</MenuItem>
                             </Submenu>
@@ -214,6 +217,9 @@
 
                     case 'divisionManager':
                         this.$router.push('/divisionManager/list')
+                        break;
+                    case 'blackList':
+                        this.$router.push('/blackList/list')
                         break;
 
                 }

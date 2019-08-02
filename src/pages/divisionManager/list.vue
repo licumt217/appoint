@@ -39,10 +39,17 @@
                             return (this.currentPage-1)*Util.pageSize+(params._index+1);
                         }
                     },
+
+                    {
+                        title: '姓名',
+                        key: 'name'
+                    },
+
                     {
                         title: '手机号',
                         key: 'phone'
                     },
+
                     {
                         title: '性别',
                         key: 'sex',

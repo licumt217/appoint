@@ -16,7 +16,10 @@ class Model{
     }
 
     static add(obj){
-
+        if(!obj.name){
+            alert("姓名不能为空！");
+            return;
+        }
         if(!obj.phone){
             alert("手机号不能为空！");
             return;

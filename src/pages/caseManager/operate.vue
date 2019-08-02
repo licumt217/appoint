@@ -12,6 +12,10 @@
 
                             <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="80" class="demo-ruleForm">
 
+                                <Form-item prop="name" label="姓名">
+                                    <Input  :maxlength="50" placeholder="请输入姓名" v-model="formItem.name"></Input>
+                                </Form-item>
+
                                 <Form-item prop="phone" label="手机号">
                                     <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
                                 </Form-item>
@@ -62,6 +66,9 @@
                 formItem: {
                 },
                 rules: {
+                    name: [
+                        {required: true, message: "姓名不能为空", trigger: "blur"}
+                    ],
                     phone: [
                         {required: true, message: "手机号不能为空", trigger: "blur"},
                         {type: 'string', min: 11, message: '手机号长度不能少于11位', trigger: 'blur'}
