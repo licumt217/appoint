@@ -41,6 +41,9 @@ const ethicsNotice_operate = r => require.ensure([], () => r(require('../pages/e
 const preCheck_list = r => require.ensure([], () => r(require('../pages/preCheck/list')), 'preCheck_list')
 const preCheck_operate = r => require.ensure([], () => r(require('../pages/preCheck/operate')), 'preCheck_operate')
 
+const room_list = r => require.ensure([], () => r(require('../pages/room/list')), 'room_list')
+const room_operate = r => require.ensure([], () => r(require('../pages/room/operate')), 'room_operate')
+
 
 
 
@@ -144,6 +147,16 @@ const router=new VueRouter({
         {
             path:'/preCheck/operate',
             component:preCheck_operate
+        },
+
+        //room
+        {
+            path:'/room/list',
+            component:room_list
+        },
+        {
+            path:'/room/operate',
+            component:room_operate
         }
 
 

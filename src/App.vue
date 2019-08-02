@@ -52,6 +52,11 @@
                                 预检表
                             </MenuItem>
 
+                            <MenuItem name="room">
+                                <Icon type="ios-navigate"></Icon>
+                                房间
+                            </MenuItem>
+
                             <Submenu name="complain">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
@@ -236,6 +241,9 @@
                         break;
                     case 'preCheck':
                         this.$router.push('/preCheck/list')
+                        break;
+                    case 'room':
+                        this.$router.push('/room/list')
                         break;
 
 
