@@ -83,7 +83,21 @@
                                             this.delete(params)
                                         }
                                     }
-                                },'删除')
+                                },'删除'),
+                                h('Button',{
+                                    props:{
+                                        type:'success',
+                                        size:'small'
+                                    },
+                                    style:{
+                                        marginRight:'5px'
+                                    },
+                                    on:{
+                                        click:()=>{
+                                            this.detail(params)
+                                        }
+                                    }
+                                },'详情')
                             ])
                         }
                     }
@@ -141,6 +155,14 @@
                     path:'/room/operate',
                     query:{
                         opType:'edit',
+                        formItem:JSON.stringify(params.row)
+                    }
+                })
+            },
+            detail(params){
+                this.$router.push({
+                    path:'/room/detail',
+                    query:{
                         formItem:JSON.stringify(params.row)
                     }
                 })
