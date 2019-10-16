@@ -47,9 +47,9 @@
                                     </Select>
                                 </FormItem>
 
-                                <FormItem label="线上线下" prop="manaer">
-                                    <Select v-model="formItem.manaer">
-                                        <Option v-for="item in manaerList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                                <FormItem label="线上线下" prop="manner">
+                                    <Select v-model="formItem.manner">
+                                        <Option v-for="item in mannerList" :value="item.id" :key="item.id">{{ item.name }}</Option>
                                     </Select>
                                 </FormItem>
 
@@ -100,7 +100,7 @@
                     id:2,
                     name:'新资历'
                 }],
-                manaerList:[{
+                mannerList:[{
                     id:1,
                     name:'线上'
                 },{
@@ -135,7 +135,7 @@
                     qualification: [
                         {required: true, message: "资历不能为空", trigger: "change",type:"number"}
                     ],
-                    manaer: [
+                    manner: [
                         {required: true, message: "线上线下不能为空", trigger: "change",type:"number"}
                     ],
                     level: [

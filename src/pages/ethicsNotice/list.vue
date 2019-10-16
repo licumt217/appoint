@@ -49,7 +49,14 @@
                     },
                     {
                         title: '添加时间',
-                        key: 'addDate'
+                        key: 'addDate',
+                        render: (h, params) => {
+
+                            let date=new Date(params.row.addDate);
+
+                            return h('div', {}, date.Format("yyyy/MM/dd"))
+
+                        }
                     },
 
                     {
@@ -61,7 +68,18 @@
                     },
                     {
                         title: '截止时间',
-                        key: 'endDate'
+                        key: 'endDate',
+                        render: (h, params) => {
+
+                            if(!params.row.endDate){
+                                return ''
+                            }
+
+                            let date=new Date(params.row.endDate);
+
+                            return h('div', {}, date.Format("yyyy/MM/dd"))
+
+                        }
                     },
                     {
                         title: '公告内容',

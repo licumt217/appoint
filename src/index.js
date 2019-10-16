@@ -5,6 +5,7 @@ import router from './routers'
 import iView from 'iview';
 import axios from './http/axios'
 import myCommponents from './components'
+import "./assets/js/datePrototype"
 
 import 'iview/dist/styles/iview.css';
 

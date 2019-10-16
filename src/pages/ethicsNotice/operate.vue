@@ -24,9 +24,7 @@
 
                                 <Form-item prop="showManner" label="显示方式">
                                     <Select v-model="formItem.showManner">
-                                        <Option value="0" >不显示</Option>
-                                        <Option value="1" >永久显示</Option>
-                                        <Option value="2" >一段时间显示</Option>
+                                        <Option :value="key" v-for="(value,key) in NOTICE_SHOW_TYPE">{{value}}</Option>
                                     </Select>
                                 </Form-item>
 
@@ -55,12 +53,14 @@
 
 <script>
     const md5=require('md5')
+    import {NOTICE_SHOW_TYPE} from "../../assets/js/constants/constant"
     import {Util} from '../../assets/js/Util'
     import {EthicsNotice} from '../../assets/models/EthicsNotice'
     import {Therapist} from '../../assets/models/Therapist'
     export default {
         data() {
             return {
+                NOTICE_SHOW_TYPE:NOTICE_SHOW_TYPE,
                 therapistList:[],
                 isEdit:this.$route.query.opType==='edit',
                 userId:this.$route.query.userId,
@@ -98,7 +98,7 @@
                 this.therapistList=Therapist.getList()
             },
             back(){
-                this.$router.push('/divisionManager/list')
+                this.$router.push('/ethicsNotice/list')
             },
             operate() {
 

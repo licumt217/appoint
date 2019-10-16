@@ -83,7 +83,18 @@
                     },
                     {
                         title: '移除黑名单时间',
-                        key: 'removeDate'
+                        key: 'removeDate',
+                        render: (h, params) => {
+
+                            if(params.row.removeDate){
+                                let date=new Date(params.row.removeDate);
+
+                                return h('div', {}, date.Format("yyyy/MM/dd"))
+                            }else{
+                                return ''
+                            }
+
+                        }
                     },
                     {
                         title: '操作',

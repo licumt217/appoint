@@ -25,6 +25,7 @@
 <script>
     import {Util} from '../../assets/js/Util'
     import {DivisionManager} from '../../assets/models/DivisionManager'
+    import {SEX,SCHOOL_TYPE,QUALIFICATION_TYPE,MANNER_TYPE} from "../../assets/js/constants/constant"
     export default {
         components:{
         },
@@ -54,7 +55,7 @@
                         title: '性别',
                         key: 'sex',
                         render: (h, params) => {
-                                    return h('div', {}, params.row.sex === 'male' ? '男' : '女')
+                                    return h('div', {}, SEX[params.row.sex])
                                 }
                     },
                     {
@@ -63,7 +64,14 @@
                     },
                     {
                         title: '出生日期',
-                        key: 'birthday'
+                        key: 'birthday',
+                        render: (h, params) => {
+
+                            let date=new Date(params.row.birthday);
+
+                            return h('div', {}, date.Format("yyyy/MM/dd"))
+
+                        }
                     },
                     {
                         title: '操作',

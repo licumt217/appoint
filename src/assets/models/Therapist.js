@@ -49,7 +49,7 @@ class Model{
             alert("资历不能为空！");
             return;
         }
-        if(!obj.manaer){
+        if(!obj.manner){
             alert("线上线下不能为空！");
             return;
         }

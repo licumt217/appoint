@@ -131,7 +131,7 @@
                 console.log(to.path)
 
                 if (!this.isLogin && to.path !== '/user/register') {
-                    this.$router.push('/user/login')
+                    // this.$router.push('/user/login')
                 }
                 //
                 //

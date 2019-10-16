@@ -25,6 +25,7 @@
 <script>
     import {Util} from '../../assets/js/Util'
     import {Therapist} from "../../assets/models/Therapist";
+    import {SEX,SCHOOL_TYPE,QUALIFICATION_TYPE,MANNER_TYPE} from "../../assets/js/constants/constant"
     export default {
         components:{
         },
@@ -51,7 +52,7 @@
                         title: '性别',
                         key: 'sex',
                         render: (h, params) => {
-                                    return h('div', {}, params.row.sex === 'male' ? '男' : '女')
+                                    return h('div', {}, SEX[params.row.sex])
                                 }
                     },
                     {
@@ -60,19 +61,35 @@
                     },
                     {
                         title: '出生日期',
-                        key: 'birthday'
+                        key: 'birthday',
+                        render: (h, params) => {
+
+                            let date=new Date(params.row.birthday);
+
+                            return h('div', {}, date.Format("yyyy/MM/dd"))
+
+                        }
                     },
                     {
                         title: '流派',
-                        key: 'school'
+                        key: 'school',
+                        render: (h, params) => {
+                            return h('div', {}, SCHOOL_TYPE[params.row.school])
+                        }
                     },
                     {
                         title: '资历',
-                        key: 'qualification'
+                        key: 'qualification',
+                        render: (h, params) => {
+                            return h('div', {}, QUALIFICATION_TYPE[params.row.qualification])
+                        }
                     },
                     {
                         title: '线上线下',
-                        key: 'manaer'
+                        key: 'manner',
+                        render: (h, params) => {
+                            return h('div', {}, MANNER_TYPE[params.row.manner])
+                        }
                     },
                     {
                         title: '等级',

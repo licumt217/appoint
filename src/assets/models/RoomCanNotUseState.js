@@ -54,7 +54,7 @@ class Model{
             return;
         }
 
-        if(!obj.month){
+        if(!obj.month && obj.month!==0){
             alert("月份不能为空！");
             return;
         }
