@@ -7,7 +7,7 @@ const state={
     //防止页面刷新状态丢失
     isLogin:sessionStorage.getItem("isLogin")==='true'?true:false,
     userId:sessionStorage.getItem("userId")||'',
-    question_role:sessionStorage.getItem("question_role")||'',
+    appoint_role:sessionStorage.getItem("appoint_role")||'',
     activeMenuName:sessionStorage.getItem("activeMenuName")||'1-1',
     username:sessionStorage.getItem("username")||'',
     userInfo:sessionStorage.getItem("userInfo")?JSON.parse(sessionStorage.getItem("userInfo")):{},
@@ -38,9 +38,9 @@ const mutations={
         sessionStorage.setItem("userId",value)
         state.userId=value
     },
-    question_role:(state,value)=>{
-        sessionStorage.setItem("question_role",value)
-        state.question_role=value
+    appoint_role:(state,value)=>{
+        sessionStorage.setItem("appoint_role",value)
+        state.appoint_role=value
     },
     username:(state,value)=>{
         sessionStorage.setItem("username",value)
@@ -67,14 +67,14 @@ const mutations={
             state[key]=undefined;
         }
 
-        let keyArray=['isLogin','userId','activeMenuName','username','userInfo','menuList','question_role']
+        let keyArray=['isLogin','userId','activeMenuName','username','userInfo','menuList','appoint_role']
 
         keyArray.forEach((key)=>{
             sessionStorage.removeItem(key)
         })
 
-        sessionStorage.removeItem("question_token")
-        sessionStorage.removeItem("question_userId")
+        sessionStorage.removeItem("appoint_token")
+        sessionStorage.removeItem("appoint_userId")
     }
 }
 

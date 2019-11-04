@@ -10,7 +10,7 @@
                     <!--</div>-->
                     <div class="layout-nav" style="float: right">
 
-                        <template v-if="role===0">
+                        <template v-if="role===3">
 
                             <MenuItem name="divisionManager">
                                 <Icon type="ios-navigate"></Icon>
@@ -146,7 +146,7 @@
         },
         computed: {
             role(){
-              return   this.$store.state.question_role;
+              return   Number(this.$store.state.appoint_role);
             },
 
             menuList(){

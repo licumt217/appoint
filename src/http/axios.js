@@ -15,36 +15,29 @@ if(location.href.includes('localhost')){
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
-debugger
         config.url = baseURL + config.url
         config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-        config.headers.question_token = sessionStorage.getItem("question_token")||'';
-        config.headers.question_userId = sessionStorage.getItem("question_userId")||'';
+        config.headers.question_token = sessionStorage.getItem("appoint_token")||'';
+        config.headers.appoint_userId = sessionStorage.getItem("appoint_userId")||'';
 
         return config;
     },
     err => {
-        debugger
         return Promise.reject(err);
     });
 // http response 拦截器
 axios.interceptors.response.use(
     response => {
-debugger
         if(response.data.isSuccess==="2"){
-            debugger
             return Promise.reject(response.data.errorMsg);
         }else if(response.data.isSuccess==="1"){
-            debugger
             return Promise.reject(response.data.errorMsg);
         }else if(response.data.isSuccess==="0"){
-            debugger
             return Promise.resolve(response.data.data);
         }
 
     },
     error => {
-debugger
 
         let errorMsg="请求异常"
         if(error.message && error.message==='Network Error'){

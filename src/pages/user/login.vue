@@ -121,8 +121,8 @@
                 this.$router.push('/user/register')
             },
             goAfterLogin(){
-                if(sessionStorage.question_role==='0'){
-                    this.$router.push('/measure/list')
+                if(Number(sessionStorage.appoint_role)===3){
+                    this.$router.push('/caseManager/list')
                 }else{
                     this.$router.push('/user/list')
                 }
@@ -134,19 +134,19 @@
 
                         this.http.post('/appoint_wx/user/login', this.formItem).then((data) => {
 
-                            let userId=data.data[0].id;
-                            let role=data.data[0].role;
+                            let userId=data.id;
+                            let role=data.role;
 
-                            if(role===3){
+                            if(role===0){
                                 this.$Message.warning("无权限！！！")
                             }else{
-                                sessionStorage.question_token=data.token;
-                                sessionStorage.question_userId=userId
-                                sessionStorage.question_role=role
+                                sessionStorage.appoint_token=data.token;
+                                sessionStorage.appoint_userId=userId
+                                sessionStorage.appoint_role=role
 
                                 this.$store.commit("userId",userId)
 
-                                this.$store.commit("question_role",role)
+                                this.$store.commit("appoint_role",role)
 
                                 this.$store.commit('isLogin', true)
 
