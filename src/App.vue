@@ -10,7 +10,7 @@
                     <!--</div>-->
                     <div class="layout-nav" style="float: right">
 
-                        <template v-if="role!=='0'">
+                        <template v-if="role===0">
 
                             <MenuItem name="divisionManager">
                                 <Icon type="ios-navigate"></Icon>
@@ -130,8 +130,8 @@
             $route (to, from) {
                 console.log(to.path)
 
-                if (!this.isLogin && to.path !== '/user/register') {
-                    // this.$router.push('/user/login')
+                if (!this.isLogin) {
+                    this.$router.push('/user/login')
                 }
                 //
                 //

@@ -8,7 +8,8 @@ var envConfig = require('../config')
 var opn = require('opn')
 var webpackDevMiddleware=require('webpack-dev-middleware');
 var hotMiddleware = require('webpack-hot-middleware');
-
+let proxyMiddleware = require('http-proxy-middleware')
+let proxyTable = envConfig.local.proxyTable
 var app = express()
 var port = process.env.PORT || envConfig.local.port
 var webpackConfig = process.env.NODE_ENV === 'testing'
@@ -39,6 +40,9 @@ compiler.plugin('compilation', function (compilation) {
         cb()
     })
 })
+
+addProxy()
+
 app.use(webpackDevMiddleware(compiler,{
     publicPath: webpackConfig.output.publicPath,
     stats: {
@@ -60,6 +64,19 @@ app.use(express.static('promotion'));
 //     console.log('2323')
 //     next()
 // })
+
+/**
+ *  proxy api requests
+ */
+function addProxy(){
+    Object.keys(proxyTable).forEach(function (context) {
+        let options = proxyTable[context]
+        if (typeof options === 'string') {
+            options = { target: options }
+        }
+        app.use(proxyMiddleware(context, options))
+    })
+}
 
 module.exports = app.listen(port, function (err) {
     if (err) {

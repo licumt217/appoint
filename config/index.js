@@ -8,10 +8,18 @@ module.exports={
         env: {
             NODE_ENV: '"local"'
         },
-        port: 9080,
+        port: 8007,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
-        proxyTable: {},
+        proxyTable: {
+            '/appoint_wx': {
+                target: 'http://www.zhuancaiqian.com',//后端接口地址
+                changeOrigin: true,//是否允许跨越
+                // pathRewrite: {
+                //     '/appoint_wx/': '',//重写,
+                // }
+            }
+        },
         cssSourceMap: true,
         sourceMap: true
     },

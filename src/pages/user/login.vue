@@ -132,18 +132,12 @@
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
 
-                        this.$Message.success("登录成功")
-                        this.$store.commit('isLogin', true)
-                        this.goAfterLogin()
-
-                        return;
-
-                        this.http.post('login/index', this.formItem).then((data) => {
+                        this.http.post('/appoint_wx/user/login', this.formItem).then((data) => {
 
                             let userId=data.data[0].id;
                             let role=data.data[0].role;
 
-                            if(role==='2'){
+                            if(role===3){
                                 this.$Message.warning("无权限！！！")
                             }else{
                                 sessionStorage.question_token=data.token;
