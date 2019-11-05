@@ -14,7 +14,7 @@
 
         <Table stripe :columns="columns" :data="dataList"></Table>
         <div style="text-align: center;margin-top: 1em;">
-            <Page :total="count" :page-size="pageSize" :current="currentPage" @on-change="pageChange"/>
+            <Page :total="total" :page-size="pageSize" :current="currentPage" @on-change="pageChange"/>
         </div>
 
     </div>
@@ -25,12 +25,17 @@
 <script>
     import {Util} from '../../assets/js/Util'
     import {Therapist} from "../../assets/models/Therapist";
-    import {SEX,SCHOOL_TYPE,QUALIFICATION_TYPE,MANNER_TYPE} from "../../assets/js/constants/constant"
+    import {SEX} from "../../assets/js/constants/constant"
+    import Role from '../../assets/js/Role'
     export default {
         components:{
         },
         data() {
             return {
+                schoolTypeObj:{},
+                qualificationTypeObj:{},
+                mannerTypeObj:{},
+                levelTypeObj:{},
                 columns: [
                     {
                         type:'index',
@@ -42,22 +47,26 @@
                     },
                     {
                         title: '姓名',
-                        key: 'name'
+                        key: 'name',
+                        width:100
                     },
                     {
                         title: '手机号',
-                        key: 'phone'
+                        key: 'phone',
+                        width:140,
                     },
                     {
                         title: '性别',
                         key: 'gender',
+                        width:60,
                         render: (h, params) => {
                                     return h('div', {}, SEX[params.row.gender])
                                 }
                     },
                     {
                         title: '电子邮箱',
-                        key: 'email'
+                        key: 'email',
+                        width:160,
                     },
                     {
                         title: '出生日期',
@@ -74,26 +83,29 @@
                         title: '流派',
                         key: 'school',
                         render: (h, params) => {
-                            return h('div', {}, SCHOOL_TYPE[params.row.school])
+                            return h('div', {}, this.schoolTypeObj[params.row.schoolTypeId].name)
                         }
                     },
                     {
                         title: '资历',
                         key: 'qualification',
                         render: (h, params) => {
-                            return h('div', {}, QUALIFICATION_TYPE[params.row.qualification])
+                            return h('div', {}, this.qualificationTypeObj[params.row.qualificationTypeId].name)
                         }
                     },
                     {
                         title: '线上线下',
                         key: 'manner',
                         render: (h, params) => {
-                            return h('div', {}, MANNER_TYPE[params.row.manner])
+                            return h('div', {}, this.mannerTypeObj[params.row.mannerTypeId].name)
                         }
                     },
                     {
                         title: '等级',
-                        key: 'level'
+                        key: 'level',
+                        render: (h, params) => {
+                            return h('div', {}, this.levelTypeObj[params.row.levelTypeId].name)
+                        }
                     },
                     {
                         title: '伦理公告状态',
@@ -152,7 +164,7 @@
                     }
 
                 ],
-                count:0,
+                total:0,
                 totalPages:0,
                 pageSize:Util.pageSize,
                 currentPage:1,
@@ -160,6 +172,10 @@
             }
         },
         mounted() {
+            this.getSchoolTypeList()
+            this.getMannerTypeList()
+            this.getQualificationTypeList()
+            this.getLevelTypeList()
             this.getList(1)
 
         },
@@ -168,34 +184,68 @@
             pageChange(page){
               this.getList(page)
             },
-            getList(currentPage) {
+            getSchoolTypeList(){
+                this.http.post('appoint_wx/schooltype/list', {}).then((data) => {
 
-                let data= Therapist.getList();
+                    this.schoolTypeObj=Util.array2Object(data)
 
-                if(data){
-                    this.count=data.length;
-                    this.totalPages=data.length/10;
-                    this.currentPage=1;
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
+            getLevelTypeList(){
+                this.http.post('appoint_wx/leveltype/list', {}).then((data) => {
 
-                    this.dataList = data;
-                }
+                    this.levelTypeObj=Util.array2Object(data)
 
-                return;
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
 
-                this.http.post('user/list', {
-                    currentPage:currentPage,
-                    pageSize:this.pageSize,
-                }).then(data => {
+            getQualificationTypeList(){
+                this.http.post('appoint_wx/qualificationtype/list', {}).then((data) => {
 
-                    this.count=data.count;
-                    this.totalPages=data.totalPages;
+                    this.qualificationTypeObj=Util.array2Object(data)
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
+
+            getMannerTypeList(){
+                this.http.post('appoint_wx/mannertype/list', {}).then((data) => {
+
+                    this.mannerTypeObj=Util.array2Object(data)
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
+            getList(page) {
+
+
+
+                page=page||1;
+
+                let pageSize=Util.pageSize
+
+                this.http.post('appoint_wx/user/list', {
+                    role:Role.therapist,
+                    page,
+                    pageSize
+
+                }).then((data) => {
+                    this.total=data.count;
                     this.currentPage=data.currentPage;
 
                     this.dataList = data.data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
                 })
             },
             add() {
-                console.log(33)
                 this.$router.push('/therapist/operate')
             },
             edit(params){
@@ -213,16 +263,12 @@
                     title: '您确认删除吗？',
                     content: '',
                     onOk: () => {
-                        Therapist.delete(params.row.id)
-                        this.$Message.success("删除成功")
-                        this.getList()
-                        return;
 
-                        this.http.post('user/delete',{
-                            id:params.row.id
+                        this.http.post('appoint_wx/user/delete',{
+                            id:params.row.therapist_id
                         }).then(()=>{
                             this.$Message.success("删除成功")
-                            this.getList()
+                            this.getList(1)
                         }).catch(error=>{
                             this.$Message.error(error)
                         })

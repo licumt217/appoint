@@ -20,8 +20,8 @@
                                     <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
                                 </Form-item>
 
-                                <FormItem label="性别" prop="sex">
-                                    <RadioGroup v-model="formItem.sex">
+                                <FormItem label="性别" prop="gender">
+                                    <RadioGroup v-model="formItem.gender">
                                         <Radio label="male" >男</Radio>
                                         <Radio label="female" >女</Radio>
                                     </RadioGroup>
@@ -35,27 +35,27 @@
                                     <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="bottom"></DatePicker>
                                 </FormItem>
 
-                                <FormItem label="流派" prop="school">
-                                    <Select v-model="formItem.school">
-                                        <Option v-for="item in schoolList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                                <FormItem label="流派" prop="schoolTypeId">
+                                    <Select v-model="formItem.schoolTypeId">
+                                        <Option v-for="item in schoolTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
                                     </Select>
                                 </FormItem>
 
-                                <FormItem label="资历" prop="qualification">
-                                    <Select v-model="formItem.qualification">
-                                        <Option v-for="item in qualificationList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                                <FormItem label="资历" prop="qualificationTypeId">
+                                    <Select v-model="formItem.qualificationTypeId">
+                                        <Option v-for="item in qualificationTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
                                     </Select>
                                 </FormItem>
 
-                                <FormItem label="线上线下" prop="manner">
-                                    <Select v-model="formItem.manner">
-                                        <Option v-for="item in mannerList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                                <FormItem label="咨询方式" prop="mannerTypeId">
+                                    <Select v-model="formItem.mannerTypeId">
+                                        <Option v-for="item in mannerTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
                                     </Select>
                                 </FormItem>
 
-                                <FormItem label="等级" prop="level">
-                                    <Select v-model="formItem.level">
-                                        <Option v-for="item in levelList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                                <FormItem label="等级" prop="levelTypeId">
+                                    <Select v-model="formItem.levelTypeId">
+                                        <Option v-for="item in levelTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
                                     </Select>
                                 </FormItem>
 
@@ -81,33 +81,16 @@
 <script>
     const md5=require('md5')
     import {Util} from '../../assets/js/Util'
-    import {Therapist} from '../../assets/models/Therapist'
+    import DateUtil from '../../assets/js/DateUtil'
     import {Level} from '../../assets/models/Level'
+    import Role from '../../assets/js/Role'
     export default {
         data() {
             return {
-                schoolList:[{
-                    id:1,
-                    name:'古典流派'
-                },{
-                    id:2,
-                    name:'现代流派'
-                }],
-                qualificationList:[{
-                    id:1,
-                    name:'老资历'
-                },{
-                    id:2,
-                    name:'新资历'
-                }],
-                mannerList:[{
-                    id:1,
-                    name:'线上'
-                },{
-                    id:2,
-                    name:'线下'
-                }],
-                levelList:[],
+                schoolTypeList:[],
+                qualificationTypeList:[],
+                mannerTypeList:[],
+                levelTypeList:[],
                 isEdit:this.$route.query.opType==='edit',
                 userId:this.$route.query.userId,
                 formItem: {
@@ -120,7 +103,7 @@
                         {required: true, message: "手机号不能为空", trigger: "blur"},
                         {type: 'string', min: 11, message: '手机号长度不能少于11位', trigger: 'blur'}
                     ],
-                    sex: [
+                    gender: [
                         {required: true, message: "性别不能为空", trigger: "change"}
                     ],
                     birthday: [
@@ -129,17 +112,17 @@
                     email: [
                         {required: true, message: "电子邮箱不能为空", trigger: "blur"}
                     ],
-                    school: [
+                    schoolTypeId: [
                         {required: true, message: "流派不能为空", trigger: "change",type:"number"}
                     ],
-                    qualification: [
+                    qualificationTypeId: [
                         {required: true, message: "资历不能为空", trigger: "change",type:"number"}
                     ],
-                    manner: [
+                    mannerTypeId: [
                         {required: true, message: "线上线下不能为空", trigger: "change",type:"number"}
                     ],
-                    level: [
-                        {required: true, message: "等级不能为空", trigger: "change"}
+                    levelTypeId: [
+                        {required: true, message: "等级不能为空", trigger: "change",type:"number"}
                     ],
                 },
             }
@@ -150,18 +133,60 @@
             },
         },
         mounted() {
-            this.getLevelList();
+
+            this.getSchoolTypeList()
+            this.getMannerTypeList()
+            this.getQualificationTypeList()
+            this.getLevelTypeList()
 
             if(this.isEdit){
 
                 this.formItem=JSON.parse(this.$route.query.formItem);
+                this.formItem.id=this.formItem.therapist_id;
 
             }
         },
         methods: {
-            getLevelList(){
-                this.levelList=Level.getList()
+            getSchoolTypeList(){
+                this.http.post('appoint_wx/schooltype/list', {}).then((data) => {
+
+                    this.schoolTypeList = data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
             },
+            getLevelTypeList(){
+                this.http.post('appoint_wx/leveltype/list', {}).then((data) => {
+
+                    this.levelTypeList = data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
+
+            getQualificationTypeList(){
+                this.http.post('appoint_wx/qualificationtype/list', {}).then((data) => {
+
+                    this.qualificationTypeList = data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
+
+            getMannerTypeList(){
+                this.http.post('appoint_wx/mannertype/list', {}).then((data) => {
+
+                    this.mannerTypeList = data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
+
+
             back(){
                 this.$router.push('/therapist/list')
             },
@@ -171,9 +196,9 @@
                     if (valid) {
 
 
-                        let url='user/add';
+                        let url='appoint_wx/user/add';
                         if(this.isEdit){
-                            url='user/update'
+                            url='appoint_wx/user/update'
                         }
 
                         if(!Util.isValidPhone(this.formItem.phone)){
@@ -186,27 +211,13 @@
                             return;
                         }
 
-                        if(this.isEdit){
-                            Therapist.update(this.formItem)
-                            this.$Message.success("修改成功！")
-                        }else{
-                            Therapist.add(this.formItem)
-                            this.$Message.success("新增成功！")
-                        }
-                        this.$router.push('/therapist/list')
+                        this.formItem.birthday=DateUtil.format(this.formItem.birthday)
 
-                        return;
-
+                        this.formItem.role=Role.therapist
                         this.http.post(url, this.formItem).then((data) => {
 
-                            if(this.isEdit){
-                                this.$Message.success("修改成功！")
-                            }else{
-                                this.$Message.success("新增成功！")
-                            }
+                            this.$Message.success("操作成功！")
                             this.$router.push('/therapist/list')
-
-
 
                         }).catch(err => {
                             this.$Message.error(err)

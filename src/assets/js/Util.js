@@ -158,6 +158,21 @@ class Util{
         });
     }
 
+    /**
+     * 数组转对象
+     * @param array
+     * @param key
+     */
+    static array2Object(array,key='id'){
+        let obj={}
+
+        array.forEach(item=>{
+            obj[item[key]]=item;
+        })
+
+        return obj;
+    }
+
 
 
 

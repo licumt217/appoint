@@ -24,9 +24,6 @@ const caseManager_operate = r => require.ensure([], () => r(require('../pages/ca
 const therapist_list = r => require.ensure([], () => r(require('../pages/therapist/list')), 'therapist_list')
 const therapist_operate = r => require.ensure([], () => r(require('../pages/therapist/operate')), 'therapist_operate')
 
-const therapist_levelList = r => require.ensure([], () => r(require('../pages/therapist/levelList')), 'therapistLevel_list')
-const therapist_levelOperate = r => require.ensure([], () => r(require('../pages/therapist/levelOperate')), 'therapistLevel_operate')
-
 const therapist_revenueList = r => require.ensure([], () => r(require('../pages/therapist/revenueList')), 'therapistRevenue_list')
 
 
@@ -49,6 +46,7 @@ const room_detail = r => require.ensure([], () => r(require('../pages/room/detai
 const schoolType_list = r => require.ensure([], () => r(require('../pages/schoolType/list')), 'schoolType_list')
 const qualificationType_list = r => require.ensure([], () => r(require('../pages/qualificationType/list')), 'qualificationType_list')
 const mannerType_list = r => require.ensure([], () => r(require('../pages/mannerType/list')), 'mannerType_list')
+const levelType_list = r => require.ensure([], () => r(require('../pages/levelType/list')), 'levelType_list')
 
 
 
@@ -107,13 +105,6 @@ const router=new VueRouter({
         },{
             path:'/therapist/operate',
             component:therapist_operate
-        },
-        {
-            path:'/therapist/levelList',
-            component:therapist_levelList
-        },{
-            path:'/therapist/levelOperate',
-            component:therapist_levelOperate
         },
         {
             path:'/therapist/revenueList',
@@ -181,6 +172,9 @@ const router=new VueRouter({
         },{
             path:'/mannerType/list',
             component:mannerType_list
+        },{
+            path:'/levelType/list',
+            component:levelType_list
         },
 
 
