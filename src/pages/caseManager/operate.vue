@@ -59,8 +59,8 @@
 <script>
     const md5 = require('md5')
     import {Util} from '../../assets/js/Util'
+    import Role from '../../assets/js/Role'
     import DateUtil from '../../assets/js/DateUtil'
-    import {CaseManager} from '../../assets/models/CaseManager'
 
     export default {
         data() {
@@ -125,21 +125,11 @@
                             this.$Message.warning("请输入合法的电子邮箱！")
                             return;
                         }
-
-                        // if(this.isEdit){
-                        //     CaseManager.update(this.formItem)
-                        //     this.$Message.success("修改成功！")
-                        // }else{
-                        //     CaseManager.add(this.formItem)
-                        //     this.$Message.success("新增成功！")
-                        // }
-                        // this.$router.push('/caseManager/list')
-                        //
-                        // return;
-
-
+debugger
                         this.formItem.birthday = DateUtil.format(this.formItem.birthday)
-                        this.formItem.role = 3
+                        this.formItem.role = Role.caseManager
+
+                        debugger
 
 
                         this.http.post(url, this.formItem).then((data) => {

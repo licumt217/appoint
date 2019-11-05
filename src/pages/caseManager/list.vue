@@ -24,6 +24,7 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
+    import Role from '../../assets/js/Role'
     export default {
         components:{
         },
@@ -124,7 +125,7 @@
                 let pageSize=Util.pageSize
 
                 this.http.post('appoint_wx/user/list', {
-                    role:3,
+                    role:Role.caseManager,
                     page,
                     pageSize
 
