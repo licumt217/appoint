@@ -132,7 +132,7 @@
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
 
-                        this.http.post('/appoint_wx/user/login', this.formItem).then((data) => {
+                        this.http.post('appoint_wx/user/login', this.formItem).then((data) => {
 
                             let userId=data.id;
                             let role=data.role;

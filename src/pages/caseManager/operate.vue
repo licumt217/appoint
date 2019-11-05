@@ -3,36 +3,38 @@
 
     <div class="login-wrap">
         <transition name="slideT">
-            <div class="mainContent" >
+            <div class="mainContent">
 
                 <div class="ms-login" style="overflow: initial">
 
                     <Tabs style="overflow: initial">
                         <Tab-pane label="案例管理员操作" name="account" icon="android-person">
 
-                            <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="80" class="demo-ruleForm">
+                            <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="80"
+                                  class="demo-ruleForm">
 
                                 <Form-item prop="name" label="姓名">
-                                    <Input  :maxlength="50" placeholder="请输入姓名" v-model="formItem.name"></Input>
+                                    <Input :maxlength="50" placeholder="请输入姓名" v-model="formItem.name"></Input>
                                 </Form-item>
 
                                 <Form-item prop="phone" label="手机号">
-                                    <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
+                                    <Input :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
                                 </Form-item>
 
-                                <FormItem label="性别" prop="sex">
-                                    <RadioGroup v-model="formItem.sex">
-                                        <Radio label="male" >男</Radio>
-                                        <Radio label="female" >女</Radio>
+                                <FormItem label="性别" prop="gender">
+                                    <RadioGroup v-model="formItem.gender">
+                                        <Radio label="male">男</Radio>
+                                        <Radio label="female">女</Radio>
                                     </RadioGroup>
                                 </FormItem>
 
                                 <Form-item prop="email" label="电子邮箱">
-                                    <Input  :maxlength="30" placeholder="请输入电子邮箱" v-model="formItem.email"></Input>
+                                    <Input :maxlength="30" placeholder="请输入电子邮箱" v-model="formItem.email"></Input>
                                 </Form-item>
 
-                                <FormItem label="出生日期" prop="birthday" >
-                                    <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="bottom"></DatePicker>
+                                <FormItem label="出生日期" prop="birthday">
+                                    <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday"
+                                                placement="bottom"></DatePicker>
                                 </FormItem>
 
                             </Form>
@@ -55,16 +57,17 @@
 </template>
 
 <script>
-    const md5=require('md5')
+    const md5 = require('md5')
     import {Util} from '../../assets/js/Util'
+    import DateUtil from '../../assets/js/DateUtil'
     import {CaseManager} from '../../assets/models/CaseManager'
+
     export default {
         data() {
             return {
-                isEdit:this.$route.query.opType==='edit',
-                userId:this.$route.query.userId,
-                formItem: {
-                },
+                isEdit: this.$route.query.opType === 'edit',
+                userId: this.$route.query.userId,
+                formItem: {},
                 rules: {
                     name: [
                         {required: true, message: "姓名不能为空", trigger: "blur"}
@@ -73,11 +76,11 @@
                         {required: true, message: "手机号不能为空", trigger: "blur"},
                         {type: 'string', min: 11, message: '手机号长度不能少于11位', trigger: 'blur'}
                     ],
-                    sex: [
+                    gender: [
                         {required: true, message: "性别不能为空", trigger: "change"}
                     ],
                     birthday: [
-                        {required: true, type:"date",message: "出生日期不能为空", trigger: "change"}
+                        {required: true, type: "date", message: "出生日期不能为空", trigger: "change"}
                     ],
                     email: [
                         {required: true, message: "电子邮箱不能为空", trigger: "blur"}
@@ -91,58 +94,62 @@
             },
         },
         mounted() {
-            if(this.isEdit){
+            if (this.isEdit) {
 
-                this.formItem=JSON.parse(this.$route.query.formItem);
+                this.formItem = JSON.parse(this.$route.query.formItem);
 
             }
         },
         methods: {
-            back(){
+            back() {
                 this.$router.push('/caseManager/list')
             },
             operate() {
+
 
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
 
 
-                        let url='user/add';
-                        if(this.isEdit){
-                            url='user/update'
+                        let url = 'appoint_wx/user/add';
+                        if (this.isEdit) {
+                            url = 'appoint_wx/user/update'
                         }
 
-                        if(!Util.isValidPhone(this.formItem.phone)){
+                        if (!Util.isValidPhone(this.formItem.phone)) {
                             this.$Message.warning("请输入合法的手机号！")
                             return;
                         }
 
-                        if(!Util.isValidEmail(this.formItem.email)){
+                        if (!Util.isValidEmail(this.formItem.email)) {
                             this.$Message.warning("请输入合法的电子邮箱！")
                             return;
                         }
 
-                        if(this.isEdit){
-                            CaseManager.update(this.formItem)
-                            this.$Message.success("修改成功！")
-                        }else{
-                            CaseManager.add(this.formItem)
-                            this.$Message.success("新增成功！")
-                        }
-                        this.$router.push('/caseManager/list')
+                        // if(this.isEdit){
+                        //     CaseManager.update(this.formItem)
+                        //     this.$Message.success("修改成功！")
+                        // }else{
+                        //     CaseManager.add(this.formItem)
+                        //     this.$Message.success("新增成功！")
+                        // }
+                        // this.$router.push('/caseManager/list')
+                        //
+                        // return;
 
-                        return;
+
+                        this.formItem.birthday = DateUtil.format(this.formItem.birthday)
+                        this.formItem.role = 3
 
 
                         this.http.post(url, this.formItem).then((data) => {
 
-                            if(this.isEdit){
+                            if (this.isEdit) {
                                 this.$Message.success("修改成功！")
-                            }else{
+                            } else {
                                 this.$Message.success("新增成功！")
                             }
                             this.$router.push('/caseManager/list')
-
 
 
                         }).catch(err => {
@@ -154,8 +161,6 @@
                 })
 
             },
-
-
 
 
         }
