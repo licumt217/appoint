@@ -14,7 +14,7 @@
 
         <Table stripe :columns="columns" :data="dataList"></Table>
         <div style="text-align: center;margin-top: 1em;">
-            <Page :total="count" :page-size="pageSize" :current="currentPage" @on-change="pageChange"/>
+            <Page :total="total" :page-size="pageSize" :current="currentPage" @on-change="pageChange"/>
         </div>
 
     </div>
@@ -24,8 +24,7 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
-    import {DivisionManager} from '../../assets/models/DivisionManager'
-    import {SEX,SCHOOL_TYPE,QUALIFICATION_TYPE,MANNER_TYPE} from "../../assets/js/constants/constant"
+    import Role from '../../assets/js/Role'
     export default {
         components:{
         },
@@ -53,10 +52,10 @@
 
                     {
                         title: '性别',
-                        key: 'sex',
+                        key: 'gender',
                         render: (h, params) => {
-                                    return h('div', {}, SEX[params.row.sex])
-                                }
+                            return h('div', {}, params.row.gender === 'male' ? '男' : '女')
+                        }
                     },
                     {
                         title: '电子邮箱',
@@ -64,14 +63,7 @@
                     },
                     {
                         title: '出生日期',
-                        key: 'birthday',
-                        render: (h, params) => {
-
-                            let date=new Date(params.row.birthday);
-
-                            return h('div', {}, date.Format("yyyy/MM/dd"))
-
-                        }
+                        key: 'birthday'
                     },
                     {
                         title: '操作',
@@ -111,8 +103,7 @@
                     }
 
                 ],
-                count:0,
-                totalPages:0,
+                total:0,
                 pageSize:Util.pageSize,
                 currentPage:1,
                 dataList: [],
@@ -125,38 +116,30 @@
         methods: {
 
             pageChange(page){
-              this.getList(page)
+                this.getList(page)
             },
-            getList(currentPage) {
+            getList(page) {
 
+                page=page||1;
 
+                let pageSize=Util.pageSize
 
-                let data= DivisionManager.getList();
+                this.http.post('appoint_wx/user/list', {
+                    role:Role.divisionManager,
+                    page,
+                    pageSize
 
-                if(data){
-                    this.count=data.length;
-                    this.totalPages=data.length/10;
-                    this.currentPage=1;
-
-                    this.dataList = data;
-                }
-
-                return;
-
-                this.http.post('user/list', {
-                    currentPage:currentPage,
-                    pageSize:this.pageSize,
-                }).then(data => {
-
-                    this.count=data.count;
-                    this.totalPages=data.totalPages;
+                }).then((data) => {
+                    this.total=data.count;
                     this.currentPage=data.currentPage;
 
                     this.dataList = data.data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
                 })
             },
             add() {
-                console.log(33)
                 this.$router.push('/divisionManager/operate')
             },
             edit(params){
@@ -175,13 +158,7 @@
                     content: '',
                     onOk: () => {
 
-                        DivisionManager.delete(params.row.id)
-                        this.$Message.success("删除成功")
-                        this.getList()
-                        return;
-
-
-                        this.http.post('user/delete',{
+                        this.http.post('appoint_wx/user/delete',{
                             id:params.row.id
                         }).then(()=>{
                             this.$Message.success("删除成功")

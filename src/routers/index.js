@@ -46,6 +46,11 @@ const room_operate = r => require.ensure([], () => r(require('../pages/room/oper
 const room_detail = r => require.ensure([], () => r(require('../pages/room/detail')), 'room_detail')
 
 
+const schoolType_list = r => require.ensure([], () => r(require('../pages/schoolType/list')), 'schoolType_list')
+const qualificationType_list = r => require.ensure([], () => r(require('../pages/qualificationType/list')), 'qualificationType_list')
+const mannerType_list = r => require.ensure([], () => r(require('../pages/mannerType/list')), 'mannerType_list')
+
+
 
 
 const router=new VueRouter({
@@ -162,7 +167,21 @@ const router=new VueRouter({
         {
             path:'/room/detail',
             component:room_detail
-        }
+        },
+
+
+        //constant
+
+        {
+            path:'/schoolType/list',
+            component:schoolType_list
+        },{
+            path:'/qualificationType/list',
+            component:qualificationType_list
+        },{
+            path:'/mannerType/list',
+            component:mannerType_list
+        },
 
 
 

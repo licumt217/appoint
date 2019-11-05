@@ -50,9 +50,9 @@
                     },
                     {
                         title: '性别',
-                        key: 'sex',
+                        key: 'gender',
                         render: (h, params) => {
-                                    return h('div', {}, SEX[params.row.sex])
+                                    return h('div', {}, SEX[params.row.gender])
                                 }
                     },
                     {
