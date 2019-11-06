@@ -14,7 +14,7 @@
 
         <Table stripe :columns="columns" :data="dataList"></Table>
         <div style="text-align: center;margin-top: 1em;">
-            <Page :total="count" :page-size="pageSize" :current="currentPage" @on-change="pageChange"/>
+            <Page :total="total" :page-size="pageSize" :current="currentPage" @on-change="pageChange"/>
         </div>
 
     </div>
@@ -25,6 +25,7 @@
 <script>
     import {Util} from '../../assets/js/Util'
     import {Room} from '../../assets/models/Room'
+    import Role from '../../assets/js/Role'
     export default {
         components:{
         },
@@ -94,17 +95,16 @@
                                     },
                                     on:{
                                         click:()=>{
-                                            this.detail(params)
+                                            this.occupy(params)
                                         }
                                     }
-                                },'详情')
+                                },'使用率')
                             ])
                         }
                     }
 
                 ],
-                count:0,
-                totalPages:0,
+                total:0,
                 pageSize:Util.pageSize,
                 currentPage:1,
                 dataList: [],
@@ -117,35 +117,28 @@
         methods: {
 
             pageChange(page){
-              this.getList(page)
+                this.getList(page)
             },
-            getList(currentPage) {
+            getList(page) {
 
-                let data= Room.getList();
+                page=page||1;
 
-                if(data){
-                    this.count=data.length;
-                    this.totalPages=data.length/10;
-                    this.currentPage=1;
+                let pageSize=Util.pageSize
 
-                    this.dataList = data;
-                }
+                this.http.post('appoint_wx/room/list', {
+                    role:Role.divisionManager,
+                    page,
+                    pageSize
 
+                }).then((data) => {
+                    this.total=data.count;
+                    this.currentPage=data.currentPage;
 
+                    this.dataList = data.data;
 
-                // return;
-                //
-                // this.http.post('user/list', {
-                //     currentPage:currentPage,
-                //     pageSize:this.pageSize,
-                // }).then(data => {
-                //
-                //     this.count=data.count;
-                //     this.totalPages=data.totalPages;
-                //     this.currentPage=data.currentPage;
-                //
-                //     this.dataList = data.data;
-                // })
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
             },
             add() {
                 this.$router.push('/room/operate')
@@ -159,11 +152,11 @@
                     }
                 })
             },
-            detail(params){
+            occupy(params){
                 this.$router.push({
-                    path:'/room/detail',
+                    path:'/room/occupy',
                     query:{
-                        formItem:JSON.stringify(params.row)
+                        roomId:params.row.id,
                     }
                 })
             },
@@ -174,12 +167,7 @@
                     content: '',
                     onOk: () => {
 
-                        Room.delete(params.row.id)
-                        this.$Message.success("删除成功")
-                        this.getList()
-                        return;
-
-                        this.http.post('user/delete',{
+                        this.http.post('appoint_wx/room/delete',{
                             id:params.row.id
                         }).then(()=>{
                             this.$Message.success("删除成功")

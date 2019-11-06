@@ -173,6 +173,18 @@ class Util{
         return obj;
     }
 
+    /**
+     * 获取某年某月有多少天
+     * @param year
+     * @param month 0-11
+     * @returns {number}
+     */
+    static getDaysOfMonth(year, month) {
+        month+=1;
+        let d = new Date(year, month, 0);
+        return d.getDate();
+    }
+
 
 
 

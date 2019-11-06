@@ -39,15 +39,12 @@
         },
         data() {
             return {
-                roomId: '359baf4a6e1f4cc5a10ad31d1b2f5317',
+                roomId: this.$route.query.roomId,
                 queryDate:'',
                 date: new Date(),
             }
         },
         computed: {
-            isLogin() {
-                return this.$store.state.isLogin;
-            },
         },
         watch: {},
         mounted() {
@@ -56,12 +53,15 @@
         methods: {
 
             query() {
-                if (this.queryDate) {
-
-                    this.date=this.queryDate;
-                } else {
+                if (!this.queryDate) {
                     this.$Message.warning("请选择日期！")
+                    return;
                 }
+
+                this.date=this.queryDate
+
+
+
             },
 
             back() {

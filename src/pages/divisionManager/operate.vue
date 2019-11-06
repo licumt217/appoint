@@ -2,54 +2,51 @@
 
 
     <div class="login-wrap">
-        <transition name="slideT">
-            <div class="mainContent" >
 
-                <div class="ms-login" style="overflow: initial">
+        <Row style="padding:5px;margin-bottom: 3em;">
+            <Col span="8" offset="8">
+                <HeaderName name="分部管理员操作"></HeaderName>
+            </Col>
+        </Row>
+        <Row>
+            <Col span="8" offset="8">
+                <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="80" class="demo-ruleForm">
 
-                    <Tabs style="overflow: initial">
-                        <Tab-pane label="分部管理员操作" name="account" icon="android-person">
+                    <Form-item prop="name" label="姓名">
+                        <Input  :maxlength="50" placeholder="请输入姓名" v-model="formItem.name"></Input>
+                    </Form-item>
 
-                            <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="80" class="demo-ruleForm">
+                    <Form-item prop="phone" label="手机号">
+                        <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
+                    </Form-item>
 
-                                <Form-item prop="name" label="姓名">
-                                    <Input  :maxlength="50" placeholder="请输入姓名" v-model="formItem.name"></Input>
-                                </Form-item>
+                    <FormItem label="性别" prop="sex">
+                        <RadioGroup v-model="formItem.sex">
+                            <Radio label="male" >男</Radio>
+                            <Radio label="female" >女</Radio>
+                        </RadioGroup>
+                    </FormItem>
 
-                                <Form-item prop="phone" label="手机号">
-                                    <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
-                                </Form-item>
+                    <Form-item prop="email" label="电子邮箱">
+                        <Input  :maxlength="30" placeholder="请输入电子邮箱" v-model="formItem.email"></Input>
+                    </Form-item>
 
-                                <FormItem label="性别" prop="sex">
-                                    <RadioGroup v-model="formItem.sex">
-                                        <Radio label="male" >男</Radio>
-                                        <Radio label="female" >女</Radio>
-                                    </RadioGroup>
-                                </FormItem>
+                    <FormItem label="出生日期" prop="birthday" >
+                        <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="bottom"></DatePicker>
+                    </FormItem>
 
-                                <Form-item prop="email" label="电子邮箱">
-                                    <Input  :maxlength="30" placeholder="请输入电子邮箱" v-model="formItem.email"></Input>
-                                </Form-item>
+                </Form>
+                <Row>
+                    <Col span="10" offset="2">
+                        <Button long size="large" type="primary" @click="operate">确定</Button>
+                    </Col>
+                    <Col span="10" offset="2">
+                        <Button long size="large" type="primary" ghost @click="back">返回</Button>
+                    </Col>
+                </Row>
+            </Col>
+        </Row>
 
-                                <FormItem label="出生日期" prop="birthday" >
-                                    <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="bottom"></DatePicker>
-                                </FormItem>
-
-                            </Form>
-
-                        </Tab-pane>
-                    </Tabs>
-
-                    <div class="login-btn">
-                        <Button type="primary" @click="operate">确定</Button>
-                    </div>
-                    <div class="signup-btn">
-                        <a href="javascript:" @click="back">返回</a>
-                    </div>
-                    <!--<Spin size="large" fix ></Spin>-->
-                </div>
-            </div>
-        </transition>
     </div>
 
 </template>

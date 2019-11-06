@@ -137,7 +137,7 @@
                             let userId=data.id;
                             let role=data.role;
 
-                            if(role===0){
+                            if(role===4){
                                 this.$Message.warning("无权限！！！")
                             }else{
                                 sessionStorage.appoint_token=data.token;

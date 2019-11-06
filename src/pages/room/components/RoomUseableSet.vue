@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import {RoomCanNotUseState} from '../../../assets/models/RoomCanNotUseState'
+    import DateUtil from '../../../assets/js/DateUtil'
     import {Util} from '../../../assets/js/Util'
     export default {
         name: '',
@@ -68,7 +68,36 @@
                         key: hourObj.key,
                         align: 'center',
                         render: (h, params) => {
-                            if (params.row['period' + (index + 1)] === '0') {
+
+                            let occupyData=params.row['period' + (index + 1)];
+
+                            if(occupyData){//占用中或不可用
+                                if(occupyData.state === 0){
+
+                                    return h('div', [
+                                        h('Button', {
+                                            props: {
+                                                type: 'warning',
+                                                size: 'small'
+                                            },
+                                        }, '占用中')
+                                    ])
+                                }else{
+                                    return h('div', [
+                                        h('Button', {
+                                            props: {
+                                                type: 'error',
+                                                size: 'small'
+                                            },
+                                            on: {
+                                                click: () => {
+                                                    this.setRoomStateCanUse(occupyData)
+                                                }
+                                            }
+                                        }, '设置为可用')
+                                    ])
+                                }
+                            }else{//空闲中
                                 return h('div', [
                                     h('Button', {
                                         props: {
@@ -82,22 +111,7 @@
                                         }
                                     }, '设置为不可用')
                                 ])
-                            } else {
-                                return h('div', [
-                                    h('Button', {
-                                        props: {
-                                            type: 'error',
-                                            size: 'small'
-                                        },
-                                        on: {
-                                            click: () => {
-                                                this.setRoomStateCanUse(params)
-                                            }
-                                        }
-                                    }, '设置为可用')
-                                ])
                             }
-
 
                         }
                     })
@@ -115,6 +129,12 @@
                         title: '日期',
                         key: 'date',
                         align: 'center',
+                        render: (h, params) => {
+
+                            return h('div', {
+                            }, DateUtil.format(params.row.date))
+
+                        }
                     }
 
                 ]
@@ -151,35 +171,51 @@
             },
 
             init() {
-                let roomId = this.roomId
 
                 this.dataList = []
 
-                let list = RoomCanNotUseState.getListByYearAndMonth(roomId, this.year, this.month)
+                let notUseableList=[]
 
-                let days = this.getDaysOfMonth(this.year, this.month + 1);
+                this.http.post('appoint_wx/roomoccupy/list',{
+                    room_id:this.roomId,
+                    year:this.date.getFullYear(),
+                    month:this.date.getMonth()
+                }).then((data)=>{
 
-                for (let i = 0; i < days; i++) {
+                    notUseableList=data;
+                    let days = Util.getDaysOfMonth(this.year, this.month );
 
-                    let d = new Date(this.date.getTime());
+                    for (let i = 0; i < days; i++) {
 
-                    d.setDate(i + 1)
+                        let d = new Date(this.date.getTime());
 
-                    let obj = {
-                        date: d
-                    }
+                        d.setDate(i + 1)
 
-                    for (let num = 1; num <= 8; num++) {
-                        if (this.isPeriodInList(num, i + 1, list)) {
-                            obj['period' + num] = '1'
-                        } else {
-                            obj['period' + num] = '0'
+                        let obj = {
+                            date: d
                         }
+
+                        for (let num = 1; num <= 8; num++) {
+
+                            let occupyData=this.isPeriodInList(num, i + 1, notUseableList)
+
+                            if(occupyData){//占用
+
+                                obj['period' + num]=occupyData
+                            }else{
+                                obj['period' + num] = null
+                            }
+
+                        }
+
+                        this.dataList.push(obj);
+
                     }
 
-                    this.dataList.push(obj);
+                }).catch(error=>{
+                    this.$Message.error(error)
+                })
 
-                }
             },
             /**
              * 给定月份的给定天的具体某个时段是否在不可用列表
@@ -188,6 +224,7 @@
                 let flag = null;
                 for (let i = 0; i < dataList.length; i++) {
                     if (dataList[i].day === day && period === Number(dataList[i].period)) {
+
                         flag = dataList[i];
                         break;
                     }
@@ -195,45 +232,47 @@
 
                 return flag;
             },
-            getDaysOfMonth(year, month) {
-                let d = new Date(year, month, 0);
-                return d.getDate();
-            },
+
 
             /**
              * 设置房间可用和不可用状态
              */
             setRoomStateCanNotUse(params) {
 
-
-                RoomCanNotUseState.add({
-                    roomId: this.roomId,
+                this.http.post('appoint_wx/roomoccupy/add',{
+                    room_id:this.roomId,
                     year: params.row.date.getFullYear(),
                     month: params.row.date.getMonth(),
                     day: params.row.date.getDate(),
-                    period: params.column.key.substr(6)
+                    period: params.column.key.substr(6),
+                    state:1
+                }).then(()=>{
+
+                    this.$Message.success("设置成功！")
+                    this.init()
+
+                }).catch(error=>{
+                    this.$Message.error(error)
                 })
 
-                this.$Message.success("设置成功！")
-                this.init()
+
 
             },
 
             /**
              * 设置房间可用和可用状态
              */
-            setRoomStateCanUse(params) {
+            setRoomStateCanUse(occupyData) {
+                this.http.post('appoint_wx/roomoccupy/delete',{
+                    id:occupyData.id,
+                }).then(()=>{
 
-                RoomCanNotUseState.deleteByRoomIdYearMonthDayPeriod({
-                    roomId: this.roomId,
-                    year: params.row.date.getFullYear(),
-                    month: params.row.date.getMonth(),
-                    day: params.row.date.getDate(),
-                    period: params.column.key.substr(6)
+                    this.$Message.success("设置成功！")
+                    this.init()
+
+                }).catch(error=>{
+                    this.$Message.error(error)
                 })
-
-                this.$Message.success("设置成功！")
-                this.init()
 
             },
         }

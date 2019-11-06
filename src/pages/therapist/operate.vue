@@ -2,78 +2,74 @@
 
 
     <div class="login-wrap">
-        <transition name="slideT">
-            <div class="mainContent" >
+        <Row style="padding:5px;margin-bottom: 3em;">
+            <Col span="8" offset="8">
+                <HeaderName name="咨询师操作"></HeaderName>
+            </Col>
+        </Row>
+        <Row>
+            <Col span="8" offset="8">
+                <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="80" class="demo-ruleForm">
 
-                <div class="ms-login" style="overflow: initial">
+                    <Form-item prop="name" label="姓名">
+                        <Input  :maxlength="20" placeholder="请输入姓名" v-model="formItem.name"></Input>
+                    </Form-item>
 
-                    <Tabs style="overflow: initial">
-                        <Tab-pane label="咨询师操作" name="account" icon="android-person">
+                    <Form-item prop="phone" label="手机号">
+                        <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
+                    </Form-item>
 
-                            <Form :model="formItem" :rules="rules" ref="loginForm" :label-width="80" class="demo-ruleForm">
+                    <FormItem label="性别" prop="gender">
+                        <RadioGroup v-model="formItem.gender">
+                            <Radio label="male" >男</Radio>
+                            <Radio label="female" >女</Radio>
+                        </RadioGroup>
+                    </FormItem>
 
-                                <Form-item prop="name" label="姓名">
-                                    <Input  :maxlength="20" placeholder="请输入姓名" v-model="formItem.name"></Input>
-                                </Form-item>
+                    <Form-item prop="email" label="电子邮箱">
+                        <Input  :maxlength="30" placeholder="请输入电子邮箱" v-model="formItem.email"></Input>
+                    </Form-item>
 
-                                <Form-item prop="phone" label="手机号">
-                                    <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
-                                </Form-item>
+                    <FormItem label="出生日期" prop="birthday" >
+                        <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="bottom"></DatePicker>
+                    </FormItem>
 
-                                <FormItem label="性别" prop="gender">
-                                    <RadioGroup v-model="formItem.gender">
-                                        <Radio label="male" >男</Radio>
-                                        <Radio label="female" >女</Radio>
-                                    </RadioGroup>
-                                </FormItem>
+                    <FormItem label="流派" prop="schoolTypeId">
+                        <Select v-model="formItem.schoolTypeId">
+                            <Option v-for="item in schoolTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                        </Select>
+                    </FormItem>
 
-                                <Form-item prop="email" label="电子邮箱">
-                                    <Input  :maxlength="30" placeholder="请输入电子邮箱" v-model="formItem.email"></Input>
-                                </Form-item>
+                    <FormItem label="资历" prop="qualificationTypeId">
+                        <Select v-model="formItem.qualificationTypeId">
+                            <Option v-for="item in qualificationTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                        </Select>
+                    </FormItem>
 
-                                <FormItem label="出生日期" prop="birthday" >
-                                    <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="bottom"></DatePicker>
-                                </FormItem>
+                    <FormItem label="咨询方式" prop="mannerTypeId">
+                        <Select v-model="formItem.mannerTypeId">
+                            <Option v-for="item in mannerTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                        </Select>
+                    </FormItem>
 
-                                <FormItem label="流派" prop="schoolTypeId">
-                                    <Select v-model="formItem.schoolTypeId">
-                                        <Option v-for="item in schoolTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                                    </Select>
-                                </FormItem>
+                    <FormItem label="等级" prop="levelTypeId">
+                        <Select v-model="formItem.levelTypeId">
+                            <Option v-for="item in levelTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                        </Select>
+                    </FormItem>
 
-                                <FormItem label="资历" prop="qualificationTypeId">
-                                    <Select v-model="formItem.qualificationTypeId">
-                                        <Option v-for="item in qualificationTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                                    </Select>
-                                </FormItem>
+                </Form>
+                <Row>
+                    <Col span="10" offset="2">
+                        <Button long size="large" type="primary" @click="operate">确定</Button>
+                    </Col>
+                    <Col span="10" offset="2">
+                        <Button long size="large" type="primary" ghost @click="back">返回</Button>
+                    </Col>
+                </Row>
+            </Col>
+        </Row>
 
-                                <FormItem label="咨询方式" prop="mannerTypeId">
-                                    <Select v-model="formItem.mannerTypeId">
-                                        <Option v-for="item in mannerTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                                    </Select>
-                                </FormItem>
-
-                                <FormItem label="等级" prop="levelTypeId">
-                                    <Select v-model="formItem.levelTypeId">
-                                        <Option v-for="item in levelTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
-                                    </Select>
-                                </FormItem>
-
-                            </Form>
-
-                        </Tab-pane>
-                    </Tabs>
-
-                    <div class="login-btn">
-                        <Button type="primary" @click="operate">确定</Button>
-                    </div>
-                    <div class="signup-btn">
-                        <a href="javascript:" @click="back">返回</a>
-                    </div>
-                    <!--<Spin size="large" fix ></Spin>-->
-                </div>
-            </div>
-        </transition>
     </div>
 
 </template>

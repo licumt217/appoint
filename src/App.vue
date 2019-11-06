@@ -10,7 +10,7 @@
                     <!--</div>-->
                     <div class="layout-nav" style="float: right">
 
-                        <template v-if="role===3">
+                        <template v-if="role===0">
 
                             <MenuItem name="divisionManager">
                                 <Icon type="ios-navigate"></Icon>

@@ -40,7 +40,7 @@ const preCheck_operate = r => require.ensure([], () => r(require('../pages/preCh
 
 const room_list = r => require.ensure([], () => r(require('../pages/room/list')), 'room_list')
 const room_operate = r => require.ensure([], () => r(require('../pages/room/operate')), 'room_operate')
-const room_detail = r => require.ensure([], () => r(require('../pages/room/detail')), 'room_detail')
+const room_occupy = r => require.ensure([], () => r(require('../pages/room/occupy')), 'room_occupy')
 
 
 const schoolType_list = r => require.ensure([], () => r(require('../pages/schoolType/list')), 'schoolType_list')
@@ -156,8 +156,8 @@ const router=new VueRouter({
             component:room_operate
         },
         {
-            path:'/room/detail',
-            component:room_detail
+            path:'/room/occupy',
+            component:room_occupy
         },
 
 
