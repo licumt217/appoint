@@ -17,8 +17,7 @@ axios.interceptors.request.use(
     config => {
         config.url = baseURL + config.url
         config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-        config.headers.question_token = sessionStorage.getItem("appoint_token")||'';
-        config.headers.appoint_userId = sessionStorage.getItem("appoint_userId")||'';
+        config.headers.token = sessionStorage.getItem("token")||'';
 
         return config;
     },

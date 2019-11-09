@@ -13,7 +13,8 @@ module.exports={
         assetsPublicPath: '/',
         proxyTable: {
             '/appoint_wx': {
-                target: 'http://www.zhuancaiqian.com/',//后端接口地址
+                // target: 'http://www.zhuancaiqian.com/',//后端接口地址
+                target: 'http://127.0.0.1:8350/',//后端接口地址
                 changeOrigin: true,//是否允许跨越
                 // pathRewrite: {
                 //     '/appoint_wx/': '',//重写,

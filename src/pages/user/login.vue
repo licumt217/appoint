@@ -132,15 +132,18 @@
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
 
-                        this.http.post('appoint_wx/user/login', this.formItem).then((data) => {
+                        this.http.post('appoint_wx/login/login', this.formItem).then((data) => {
 
-                            let userId=data.id;
-                            let role=data.role;
+                            let userInfo=data.userInfo;
+                            let token=data.token;
+
+                            let userId=userInfo.id;
+                            let role=userInfo.role;
 
                             if(role===4){
                                 this.$Message.warning("无权限！！！")
                             }else{
-                                sessionStorage.appoint_token=data.token;
+                                sessionStorage.token=data.token;
                                 sessionStorage.appoint_userId=userId
                                 sessionStorage.appoint_role=role
 
