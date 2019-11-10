@@ -27,7 +27,7 @@ class Model{
             return;
         }
 
-        if(!obj.sex){
+        if(!obj.gender){
             alert("性别不能为空！");
             return;
         }

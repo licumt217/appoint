@@ -37,9 +37,9 @@
                     },
                     {
                         title: '性别',
-                        key: 'sex',
+                        key: 'gender',
                         render: (h, params) => {
-                                    return h('div', {}, params.row.sex === 'male' ? '男' : '女')
+                                    return h('div', {}, params.row.gender === 'male' ? '男' : '女')
                                 }
                     },
                     {
@@ -54,7 +54,7 @@
                         title: '是否答过问卷',
                         key: 'answered',
                         render: (h, params) => {
-                            return h('div', {}, params.row.sex === '0' ? '男' : '答过')
+                            return h('div', {}, params.row.gender === '0' ? '男' : '答过')
                         }
                     },
                     {

@@ -56,6 +56,7 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
+    import Role from '../../assets/js/Role'
     export default {
         data() {
             return {
@@ -121,10 +122,14 @@
                 this.$router.push('/user/register')
             },
             goAfterLogin(){
-                if(Number(sessionStorage.appoint_role)===3){
+                if(Number(sessionStorage.role)===Role.admin){
+                    this.$router.push('/divisionManager/list')
+                }else if(Number(sessionStorage.role)===Role.divisionManager){
                     this.$router.push('/caseManager/list')
-                }else{
-                    this.$router.push('/user/list')
+                }else if(Number(sessionStorage.role)===Role.caseManager){
+                    this.$router.push('/room/list')
+                }else if(Number(sessionStorage.role)===Role.therapist){
+                    this.$router.push('/room/list')
                 }
             },
             login() {
@@ -144,12 +149,12 @@
                                 this.$Message.warning("无权限！！！")
                             }else{
                                 sessionStorage.token=data.token;
-                                sessionStorage.appoint_userId=userId
-                                sessionStorage.appoint_role=role
+                                sessionStorage.userId=userId
+                                sessionStorage.role=role
 
                                 this.$store.commit("userId",userId)
 
-                                this.$store.commit("appoint_role",role)
+                                this.$store.commit("role",role)
 
                                 this.$store.commit('isLogin', true)
 

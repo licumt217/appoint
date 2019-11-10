@@ -16,8 +16,8 @@
                                     <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
                                 </Form-item>
 
-                                <FormItem label="性别" prop="sex">
-                                    <RadioGroup v-model="formItem.sex">
+                                <FormItem label="性别" prop="gender">
+                                    <RadioGroup v-model="formItem.gender">
                                         <Radio label="male" >男</Radio>
                                         <Radio label="female" >女</Radio>
                                     </RadioGroup>
@@ -65,7 +65,7 @@
                         {required: true, message: "手机号不能为空", trigger: "blur"},
                         {type: 'string', min: 11, message: '手机号长度不能少于11位', trigger: 'blur'}
                     ],
-                    sex: [
+                    gender: [
                         {required: true, message: "性别不能为空", trigger: "change"}
                     ],
                     birthday: [

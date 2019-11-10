@@ -48,7 +48,7 @@
                     {
                         title: '姓名',
                         key: 'name',
-                        width:100
+                        width:130
                     },
                     {
                         title: '手机号',
@@ -105,6 +105,13 @@
                         key: 'level',
                         render: (h, params) => {
                             return h('div', {}, this.levelTypeObj[params.row.levelTypeId].name)
+                        }
+                    },
+                    {
+                        title: '紧急咨询',
+                        key: 'isEmergency',
+                        render: (h, params) => {
+                            return h('div', {}, params.row.isEmergency===0?'不接受':'接受')
                         }
                     },
                     {

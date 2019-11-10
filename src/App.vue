@@ -10,7 +10,7 @@
                     <!--</div>-->
                     <div class="layout-nav" style="float: right">
 
-                        <template v-if="role===0">
+                        <template v-if="role===Role.admin">
 
                             <MenuItem name="divisionManager">
                                 <Icon type="ios-navigate"></Icon>
@@ -21,6 +21,54 @@
                                 <Icon type="ios-navigate"></Icon>
                                 案例管理员管理
                             </MenuItem>
+
+                            <MenuItem name="therapist">
+                                <Icon type="ios-navigate"></Icon>
+                                咨询师管理
+                            </MenuItem>
+
+                            <MenuItem name="therapistRevenue">
+                                <Icon type="ios-navigate"></Icon>
+                                咨询师收益查看
+                            </MenuItem>
+
+                            <MenuItem name="blackList">
+                                <Icon type="ios-navigate"></Icon>
+                                黑名单管理
+                            </MenuItem>
+
+                            <MenuItem name="ethicsNotice">
+                                <Icon type="ios-navigate"></Icon>
+                                伦理公告
+                            </MenuItem>
+
+                            <MenuItem name="preCheck">
+                                <Icon type="ios-navigate"></Icon>
+                                预检表
+                            </MenuItem>
+
+                            <Submenu name="complain">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    投诉管理
+                                </template>
+                                <MenuItem name="userComplain">用户投诉咨询师管理</MenuItem>
+                                <MenuItem name="therapistComplain">咨询师投诉用户管理</MenuItem>
+                            </Submenu>
+
+
+                            <Submenu name="setting">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    设置
+                                </template>
+                                <MenuItem name="userList">用户管理</MenuItem>
+                                <MenuItem name="passModify">修改密码</MenuItem>
+                                <MenuItem name="logout" >退出登录</MenuItem>
+                            </Submenu>
+                        </template>
+
+                        <template v-if="role===Role.caseManager">
 
                             <MenuItem name="therapist">
                                 <Icon type="ios-navigate"></Icon>
@@ -115,10 +163,12 @@
 
 <script>
     import Pass from './components/PasswordModify'
+    import Role from './assets/js/Role'
     export default {
         name: 'app',
         data() {
             return {
+                Role,
                 isCollapsed: false,
                 isShowPassModifyModal:false,
             }
@@ -146,7 +196,7 @@
         },
         computed: {
             role(){
-              return   Number(this.$store.state.appoint_role);
+              return   Number(this.$store.state.role);
             },
 
             menuList(){

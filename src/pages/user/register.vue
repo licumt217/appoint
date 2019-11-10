@@ -25,8 +25,8 @@
                                     <Input placeholder="请输入姓名" :maxlength="20" v-model="formItem.name"></Input>
                                 </Form-item>
 
-                                <FormItem label="性别" prop="sex">
-                                    <RadioGroup v-model="formItem.sex">
+                                <FormItem label="性别" prop="gender">
+                                    <RadioGroup v-model="formItem.gender">
                                         <Radio label="0">男</Radio>
                                         <Radio label="1">女</Radio>
                                     </RadioGroup>
@@ -74,7 +74,7 @@
                     password: [
                         {required: true, message: "密码不能为空", trigger: "blur"}
                     ],
-                    sex: [
+                    gender: [
                         {required: true, message: "性别不能为空", trigger: "change"}
                     ],
                     birthday: [

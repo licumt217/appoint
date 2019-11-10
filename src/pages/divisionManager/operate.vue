@@ -20,8 +20,8 @@
                         <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
                     </Form-item>
 
-                    <FormItem label="性别" prop="sex">
-                        <RadioGroup v-model="formItem.sex">
+                    <FormItem label="性别" prop="gender">
+                        <RadioGroup v-model="formItem.gender">
                             <Radio label="male" >男</Radio>
                             <Radio label="female" >女</Radio>
                         </RadioGroup>
@@ -54,7 +54,8 @@
 <script>
     const md5=require('md5')
     import {Util} from '../../assets/js/Util'
-    import {DivisionManager} from '../../assets/models/DivisionManager'
+    import Role from '../../assets/js/Role'
+    import DateUtil from '../../assets/js/DateUtil'
     export default {
         data() {
             return {
@@ -70,7 +71,7 @@
                         {required: true, message: "手机号不能为空", trigger: "blur"},
                         {type: 'string', min: 11, message: '手机号长度不能少于11位', trigger: 'blur'}
                     ],
-                    sex: [
+                    gender: [
                         {required: true, message: "性别不能为空", trigger: "change"}
                     ],
                     birthday: [
@@ -104,9 +105,9 @@
                     if (valid) {
 
 
-                        let url='user/add';
+                        let url='appoint_wx/user/add';
                         if(this.isEdit){
-                            url='user/update'
+                            url='appoint_wx/user/update'
                         }
 
                         if(!Util.isValidPhone(this.formItem.phone)){
@@ -119,17 +120,8 @@
                             return;
                         }
 
-                        if(this.isEdit){
-                            DivisionManager.update(this.formItem)
-                            this.$Message.success("修改成功！")
-                        }else{
-                            DivisionManager.add(this.formItem)
-                            this.$Message.success("新增成功！")
-                        }
-                        this.$router.push('/divisionManager/list')
-
-                        return;
-
+                        this.formItem.role=Role.divisionManager
+                        this.formItem.birthday=DateUtil.format(this.formItem.birthday)
 
                         this.http.post(url, this.formItem).then((data) => {
 

@@ -57,6 +57,12 @@
                             <Option v-for="item in levelTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
                         </Select>
                     </FormItem>
+                    <FormItem label="紧急咨询" prop="isEmergency">
+                        <Select v-model="formItem.isEmergency">
+                            <Option  :value="0" :key="0">不接受</Option>
+                            <Option  :value="1" :key="1">接受</Option>
+                        </Select>
+                    </FormItem>
 
                 </Form>
                 <Row>
@@ -119,6 +125,9 @@
                     ],
                     levelTypeId: [
                         {required: true, message: "等级不能为空", trigger: "change",type:"number"}
+                    ],
+                    isEmergency: [
+                        {required: true, message: "紧急咨询不能为空", trigger: "change",type:"number"}
                     ],
                 },
             }
@@ -210,6 +219,7 @@
                         this.formItem.birthday=DateUtil.format(this.formItem.birthday)
 
                         this.formItem.role=Role.therapist
+                        debugger
                         this.http.post(url, this.formItem).then((data) => {
 
                             this.$Message.success("操作成功！")

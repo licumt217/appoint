@@ -191,7 +191,7 @@ class Util{
 
 }
 
-Util.pageSize=2;
+Util.pageSize=10;
 
 Util.questionScoreArray=[0,1,2,3,4,5,6,7]
 

@@ -47,6 +47,7 @@ const schoolType_list = r => require.ensure([], () => r(require('../pages/school
 const qualificationType_list = r => require.ensure([], () => r(require('../pages/qualificationType/list')), 'qualificationType_list')
 const mannerType_list = r => require.ensure([], () => r(require('../pages/mannerType/list')), 'mannerType_list')
 const levelType_list = r => require.ensure([], () => r(require('../pages/levelType/list')), 'levelType_list')
+const consultType_list = r => require.ensure([], () => r(require('../pages/consultType/list')), 'consultType_list')
 
 
 
@@ -83,7 +84,10 @@ const router=new VueRouter({
         //divisionManager
         {
             path:'/divisionManager/list',
-            component:divisionManager_list
+            component:divisionManager_list,
+            meta:{
+                activeName:'1-1'
+            }
         },{
             path:'/divisionManager/operate',
             component:divisionManager_operate
@@ -175,6 +179,9 @@ const router=new VueRouter({
         },{
             path:'/levelType/list',
             component:levelType_list
+        },{
+            path:'/consultType/list',
+            component:consultType_list
         },
 
 
