@@ -159,7 +159,7 @@
                     onOk: () => {
 
                         this.http.post('appoint_wx/user/delete',{
-                            id:params.row.id
+                            user_id:params.row.user_id
                         }).then(()=>{
                             this.$Message.success("删除成功")
                             this.getList()

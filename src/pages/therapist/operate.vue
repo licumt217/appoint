@@ -34,27 +34,27 @@
                         <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="bottom"></DatePicker>
                     </FormItem>
 
-                    <FormItem label="流派" prop="schoolTypeId">
-                        <Select v-model="formItem.schoolTypeId">
-                            <Option v-for="item in schoolTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                    <FormItem label="流派" prop="school_type_id">
+                        <Select v-model="formItem.school_type_id">
+                            <Option v-for="item in schoolTypeList" :value="item.school_type_id" :key="item.school_type_id">{{ item.school_type_name }}</Option>
                         </Select>
                     </FormItem>
 
-                    <FormItem label="资历" prop="qualificationTypeId">
-                        <Select v-model="formItem.qualificationTypeId">
-                            <Option v-for="item in qualificationTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                    <FormItem label="资历" prop="qualification_type_id">
+                        <Select v-model="formItem.qualification_type_id">
+                            <Option v-for="item in qualificationTypeList" :value="item.qualification_type_id" :key="item.qualification_type_id">{{ item.qualification_type_name }}</Option>
                         </Select>
                     </FormItem>
 
-                    <FormItem label="咨询方式" prop="mannerTypeId">
-                        <Select v-model="formItem.mannerTypeId">
-                            <Option v-for="item in mannerTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                    <FormItem label="咨询方式" prop="manner_type_id">
+                        <Select v-model="formItem.manner_type_id">
+                            <Option v-for="item in mannerTypeList" :value="item.manner_type_id" :key="item.manner_type_id">{{ item.manner_type_name }}</Option>
                         </Select>
                     </FormItem>
 
-                    <FormItem label="等级" prop="levelTypeId">
-                        <Select v-model="formItem.levelTypeId">
-                            <Option v-for="item in levelTypeList" :value="item.id" :key="item.id">{{ item.name }}</Option>
+                    <FormItem label="等级" prop="level_type_id">
+                        <Select v-model="formItem.level_type_id">
+                            <Option v-for="item in levelTypeList" :value="item.level_type_id" :key="item.level_type_id">{{ item.level_type_name }}</Option>
                         </Select>
                     </FormItem>
                     <FormItem label="紧急咨询" prop="isEmergency">
@@ -114,17 +114,17 @@
                     email: [
                         {required: true, message: "电子邮箱不能为空", trigger: "blur"}
                     ],
-                    schoolTypeId: [
-                        {required: true, message: "流派不能为空", trigger: "change",type:"number"}
+                    school_type_id: [
+                        {required: true, message: "流派不能为空", trigger: "change",type:"string"}
                     ],
-                    qualificationTypeId: [
-                        {required: true, message: "资历不能为空", trigger: "change",type:"number"}
+                    qualification_type_id: [
+                        {required: true, message: "资历不能为空", trigger: "change",type:"string"}
                     ],
-                    mannerTypeId: [
-                        {required: true, message: "线上线下不能为空", trigger: "change",type:"number"}
+                    manner_type_id: [
+                        {required: true, message: "线上线下不能为空", trigger: "change",type:"string"}
                     ],
-                    levelTypeId: [
-                        {required: true, message: "等级不能为空", trigger: "change",type:"number"}
+                    level_type_id: [
+                        {required: true, message: "等级不能为空", trigger: "change",type:"string"}
                     ],
                     isEmergency: [
                         {required: true, message: "紧急咨询不能为空", trigger: "change",type:"number"}
@@ -147,7 +147,7 @@
             if(this.isEdit){
 
                 this.formItem=JSON.parse(this.$route.query.formItem);
-                this.formItem.id=this.formItem.therapist_id;
+                this.formItem.user_id=this.formItem.therapist_id;
 
             }
         },
@@ -219,7 +219,6 @@
                         this.formItem.birthday=DateUtil.format(this.formItem.birthday)
 
                         this.formItem.role=Role.therapist
-                        debugger
                         this.http.post(url, this.formItem).then((data) => {
 
                             this.$Message.success("操作成功！")

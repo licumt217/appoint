@@ -83,28 +83,28 @@
                         title: '流派',
                         key: 'school',
                         render: (h, params) => {
-                            return h('div', {}, this.schoolTypeObj[params.row.schoolTypeId].name)
+                            return h('div', {}, this.schoolTypeObj[params.row.school_type_id].school_type_name)
                         }
                     },
                     {
                         title: '资历',
                         key: 'qualification',
                         render: (h, params) => {
-                            return h('div', {}, this.qualificationTypeObj[params.row.qualificationTypeId].name)
+                            return h('div', {}, this.qualificationTypeObj[params.row.qualification_type_id].qualification_type_name)
                         }
                     },
                     {
                         title: '线上线下',
                         key: 'manner',
                         render: (h, params) => {
-                            return h('div', {}, this.mannerTypeObj[params.row.mannerTypeId].name)
+                            return h('div', {}, this.mannerTypeObj[params.row.manner_type_id].manner_type_name)
                         }
                     },
                     {
                         title: '等级',
                         key: 'level',
                         render: (h, params) => {
-                            return h('div', {}, this.levelTypeObj[params.row.levelTypeId].name)
+                            return h('div', {}, this.levelTypeObj[params.row.level_type_id].level_type_name)
                         }
                     },
                     {
@@ -194,7 +194,7 @@
             getSchoolTypeList(){
                 this.http.post('appoint_wx/schooltype/list', {}).then((data) => {
 
-                    this.schoolTypeObj=Util.array2Object(data)
+                    this.schoolTypeObj=Util.array2Object(data,'school_type_id')
 
                 }).catch(err => {
                     this.$Message.error(err)
@@ -203,7 +203,7 @@
             getLevelTypeList(){
                 this.http.post('appoint_wx/leveltype/list', {}).then((data) => {
 
-                    this.levelTypeObj=Util.array2Object(data)
+                    this.levelTypeObj=Util.array2Object(data,'level_type_id')
 
                 }).catch(err => {
                     this.$Message.error(err)
@@ -213,7 +213,7 @@
             getQualificationTypeList(){
                 this.http.post('appoint_wx/qualificationtype/list', {}).then((data) => {
 
-                    this.qualificationTypeObj=Util.array2Object(data)
+                    this.qualificationTypeObj=Util.array2Object(data,'qualification_type_id')
 
                 }).catch(err => {
                     this.$Message.error(err)
@@ -223,7 +223,7 @@
             getMannerTypeList(){
                 this.http.post('appoint_wx/mannertype/list', {}).then((data) => {
 
-                    this.mannerTypeObj=Util.array2Object(data)
+                    this.mannerTypeObj=Util.array2Object(data,'manner_type_id')
 
                 }).catch(err => {
                     this.$Message.error(err)
@@ -272,7 +272,7 @@
                     onOk: () => {
 
                         this.http.post('appoint_wx/user/delete',{
-                            id:params.row.therapist_id
+                            user_id:params.row.user_id
                         }).then(()=>{
                             this.$Message.success("删除成功")
                             this.getList(1)
