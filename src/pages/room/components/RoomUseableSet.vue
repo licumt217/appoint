@@ -20,7 +20,7 @@
                     return {}
                 }
             },
-            roomId:{
+            room_id:{
                 type:String,
                 default:''
             }
@@ -177,7 +177,7 @@
                 let notUseableList=[]
 
                 this.http.post('appoint_wx/roomoccupy/list',{
-                    room_id:this.roomId,
+                    room_id:this.room_id,
                     year:this.date.getFullYear(),
                     month:this.date.getMonth()
                 }).then((data)=>{
@@ -240,7 +240,7 @@
             setRoomStateCanNotUse(params) {
 
                 this.http.post('appoint_wx/roomoccupy/add',{
-                    room_id:this.roomId,
+                    room_id:this.room_id,
                     year: params.row.date.getFullYear(),
                     month: params.row.date.getMonth(),
                     day: params.row.date.getDate(),
@@ -264,7 +264,7 @@
              */
             setRoomStateCanUse(occupyData) {
                 this.http.post('appoint_wx/roomoccupy/delete',{
-                    id:occupyData.id,
+                    room_occupy_id:occupyData.room_occupy_id,
                 }).then(()=>{
 
                     this.$Message.success("设置成功！")

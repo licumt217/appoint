@@ -23,7 +23,7 @@
             <Form :label-width="60">
 
                 <FormItem label="类型">
-                    <Input v-model="name" placeholder="请输入预约类型"></Input>
+                    <Input v-model="consult_type_name" placeholder="请输入预约类型"></Input>
                 </FormItem>
 
                 <FormItem label="备注">
@@ -53,9 +53,9 @@
         data() {
             return {
                 isShowModal:false,
-                name:'',
+                consult_type_name:'',
                 remark:'',
-                id:'',
+                consult_type_id:'',
                 opType:'add',
                 columns: [
                     {
@@ -69,7 +69,7 @@
 
                     {
                         title: '预约类型',
-                        key: 'name'
+                        key: 'consult_type_name'
                     },
 
                     {
@@ -143,13 +143,13 @@
             },
 
             addOrUpdate(){
-                if(!this.name){
+                if(!this.consult_type_name){
                     this.$Message.warning("请输入预约类型")
                 }else{
 
                     if(this.opType==='add'){
                         this.http.post('appoint_wx/consulttype/add', {
-                            name:this.name,
+                            consult_type_name:this.consult_type_name,
                             remark:this.remark
                         }).then(() => {
                             this.$Message.success("操作成功")
@@ -160,8 +160,8 @@
                         })
                     }else{
                         this.http.post('appoint_wx/consulttype/update', {
-                            id: this.id,
-                            name:this.name,
+                            consult_type_id: this.consult_type_id,
+                            consult_type_name:this.consult_type_name,
                             remark:this.remark
                         }).then(() => {
                             this.$Message.success("操作成功")
@@ -179,15 +179,15 @@
             add() {
                 this.opType='add'
 
-                this.name=''
+                this.consult_type_name=''
                 this.remark=''
 
                 this.showModal();
             },
             edit(params) {
-                this.name=params.row.name;
+                this.consult_type_name=params.row.consult_type_name;
                 this.remark=params.row.remark;
-                this.id=params.row.id;
+                this.consult_type_id=params.row.consult_type_id;
 
                 this.opType='edit'
 
@@ -201,7 +201,7 @@
                     onOk: () => {
 
                         this.http.post('appoint_wx/consulttype/delete', {
-                            id: params.row.id
+                            consult_type_id: params.row.consult_type_id
                         }).then(() => {
                             this.$Message.success("删除成功")
                             this.getList()

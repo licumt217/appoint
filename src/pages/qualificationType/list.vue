@@ -21,7 +21,7 @@
                 :mask-closable="false"
         >
             <p>
-                <Input  :maxlength="50" placeholder="请输入资历类型" v-model="name"></Input>
+                <Input  :maxlength="50" placeholder="请输入资历类型" v-model="qualification_type_name"></Input>
             </p>
             <div slot="footer">
                 <Button type="text" size="large" @click="isShowModal=false">取消</Button>
@@ -45,8 +45,8 @@
         data() {
             return {
                 isShowModal:false,
-                name:'',
-                id:'',
+                qualification_type_name:'',
+                qualification_type_id:'',
                 opType:'add',
                 columns: [
                     {
@@ -60,7 +60,7 @@
 
                     {
                         title: '资历类型',
-                        key: 'name'
+                        key: 'qualification_type_name'
                     },
 
 
@@ -129,13 +129,13 @@
             },
 
             addOrUpdate(){
-                if(!this.name){
+                if(!this.qualification_type_name){
                     this.$Message.warning("请输入资历类型")
                 }else{
 
                     if(this.opType==='add'){
                         this.http.post('appoint_wx/qualificationtype/add', {
-                            name:this.name
+                            qualification_type_name:this.qualification_type_name
                         }).then(() => {
                             this.$Message.success("操作成功")
                             this.hideModal()
@@ -145,8 +145,8 @@
                         })
                     }else{
                         this.http.post('appoint_wx/qualificationtype/update', {
-                            id: this.id,
-                            name:this.name
+                            qualification_type_id: this.qualification_type_id,
+                            qualification_type_name:this.qualification_type_name
                         }).then(() => {
                             this.$Message.success("操作成功")
                             this.hideModal()
@@ -163,13 +163,13 @@
             add() {
                 this.opType='add'
 
-                this.name=''
+                this.qualification_type_name=''
 
                 this.showModal();
             },
             edit(params) {
-                this.name=params.row.name;
-                this.id=params.row.id;
+                this.qualification_type_name=params.row.qualification_type_name;
+                this.qualification_type_id=params.row.qualification_type_id;
 
                 this.opType='edit'
 
@@ -183,7 +183,7 @@
                     onOk: () => {
 
                         this.http.post('appoint_wx/qualificationtype/delete', {
-                            id: params.row.id
+                            qualification_type_id: params.row.qualification_type_id
                         }).then(() => {
                             this.$Message.success("删除成功")
                             this.getList()

@@ -156,7 +156,7 @@
                 this.$router.push({
                     path:'/room/occupy',
                     query:{
-                        roomId:params.row.id,
+                        room_id:params.row.room_id,
                     }
                 })
             },
@@ -168,7 +168,7 @@
                     onOk: () => {
 
                         this.http.post('appoint_wx/room/delete',{
-                            id:params.row.id
+                            room_id:params.row.room_id
                         }).then(()=>{
                             this.$Message.success("删除成功")
                             this.getList()

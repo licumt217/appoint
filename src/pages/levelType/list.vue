@@ -20,10 +20,10 @@
                 title="请输入等级类型"
                 :mask-closable="false"
         >
-            <Form :model="formItem" :label-width="120">
+            <Form :label-width="120">
 
                 <FormItem label="等级">
-                    <Input v-model="name" placeholder="请输入等级类型"></Input>
+                    <Input v-model="level_type_name" placeholder="请输入等级类型"></Input>
                 </FormItem>
 
                 <FormItem label="分成比例（%）">
@@ -53,9 +53,9 @@
         data() {
             return {
                 isShowModal:false,
-                name:'',
+                level_type_name:'',
                 divide_ratio:'',
-                id:'',
+                level_type_id:'',
                 opType:'add',
                 columns: [
                     {
@@ -69,7 +69,7 @@
 
                     {
                         title: '等级类型',
-                        key: 'name'
+                        key: 'level_type_name'
                     },
 
                     {
@@ -143,7 +143,7 @@
             },
 
             addOrUpdate(){
-                if(!this.name){
+                if(!this.level_type_name){
                     this.$Message.warning("请输入等级类型")
                 }else if(!this.divide_ratio){
                     this.$Message.warning("请输入分成比例")
@@ -151,7 +151,7 @@
 
                     if(this.opType==='add'){
                         this.http.post('appoint_wx/leveltype/add', {
-                            name:this.name,
+                            level_type_name:this.level_type_name,
                             divide_ratio:this.divide_ratio
                         }).then(() => {
                             this.$Message.success("操作成功")
@@ -162,8 +162,8 @@
                         })
                     }else{
                         this.http.post('appoint_wx/leveltype/update', {
-                            id: this.id,
-                            name:this.name,
+                            level_type_id: this.level_type_id,
+                            level_type_name:this.level_type_name,
                             divide_ratio:this.divide_ratio
                         }).then(() => {
                             this.$Message.success("操作成功")
@@ -181,14 +181,14 @@
             add() {
                 this.opType='add'
 
-                this.name=''
+                this.level_type_name=''
 
                 this.showModal();
             },
             edit(params) {
-                this.name=params.row.name;
+                this.level_type_name=params.row.level_type_name;
                 this.divide_ratio=params.row.divide_ratio;
-                this.id=params.row.id;
+                this.level_type_id=params.row.level_type_id;
 
                 this.opType='edit'
 
@@ -202,7 +202,7 @@
                     onOk: () => {
 
                         this.http.post('appoint_wx/leveltype/delete', {
-                            id: params.row.id
+                            level_type_id: params.row.level_type_id
                         }).then(() => {
                             this.$Message.success("删除成功")
                             this.getList()

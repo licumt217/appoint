@@ -22,7 +22,7 @@
 
         </Row>
 
-        <RoomUseableSet :date="date" :roomId="roomId"></RoomUseableSet>
+        <RoomUseableSet :date="date" :room_id="room_id"></RoomUseableSet>
     </div>
 
 
@@ -39,7 +39,7 @@
         },
         data() {
             return {
-                roomId: this.$route.query.roomId,
+                room_id: this.$route.query.room_id,
                 queryDate:'',
                 date: new Date(),
             }

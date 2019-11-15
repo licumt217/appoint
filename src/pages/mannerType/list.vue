@@ -21,7 +21,7 @@
                 :mask-closable="false"
         >
             <p>
-                <Input  :maxlength="50" placeholder="请输入咨询方式类型" v-model="name"></Input>
+                <Input  :maxlength="50" placeholder="请输入咨询方式类型" v-model="manner_type_name"></Input>
             </p>
             <div slot="footer">
                 <Button type="text" size="large" @click="isShowModal=false">取消</Button>
@@ -45,8 +45,8 @@
         data() {
             return {
                 isShowModal:false,
-                name:'',
-                id:'',
+                manner_type_name:'',
+                manner_type_id:'',
                 opType:'add',
                 columns: [
                     {
@@ -60,7 +60,7 @@
 
                     {
                         title: '咨询方式类型',
-                        key: 'name'
+                        key: 'manner_type_name'
                     },
 
 
@@ -129,13 +129,13 @@
             },
 
             addOrUpdate(){
-                if(!this.name){
+                if(!this.manner_type_name){
                     this.$Message.warning("请输入咨询方式类型")
                 }else{
 
                     if(this.opType==='add'){
                         this.http.post('appoint_wx/mannertype/add', {
-                            name:this.name
+                            manner_type_name:this.manner_type_name
                         }).then(() => {
                             this.$Message.success("操作成功")
                             this.hideModal()
@@ -145,8 +145,8 @@
                         })
                     }else{
                         this.http.post('appoint_wx/mannertype/update', {
-                            id: this.id,
-                            name:this.name
+                            manner_type_id: this.manner_type_id,
+                            manner_type_name:this.manner_type_name
                         }).then(() => {
                             this.$Message.success("操作成功")
                             this.hideModal()
@@ -163,13 +163,13 @@
             add() {
                 this.opType='add'
 
-                this.name=''
+                this.manner_type_name=''
 
                 this.showModal();
             },
             edit(params) {
-                this.name=params.row.name;
-                this.id=params.row.id;
+                this.manner_type_name=params.row.manner_type_name;
+                this.manner_type_id=params.row.manner_type_id;
 
                 this.opType='edit'
 
@@ -183,7 +183,7 @@
                     onOk: () => {
 
                         this.http.post('appoint_wx/mannertype/delete', {
-                            id: params.row.id
+                            manner_type_id: params.row.manner_type_id
                         }).then(() => {
                             this.$Message.success("删除成功")
                             this.getList()

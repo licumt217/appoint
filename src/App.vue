@@ -64,6 +64,11 @@
                                 </template>
                                 <MenuItem name="userList">用户管理</MenuItem>
                                 <MenuItem name="passModify">修改密码</MenuItem>
+                                <MenuItem name="level">等级设置</MenuItem>
+                                <MenuItem name="manner">咨询方式设置</MenuItem>
+                                <MenuItem name="qualification">资历类型设置</MenuItem>
+                                <MenuItem name="school">流派设置</MenuItem>
+                                <MenuItem name="consult">预约类型设置</MenuItem>
                                 <MenuItem name="logout" >退出登录</MenuItem>
                             </Submenu>
                         </template>
@@ -295,11 +300,21 @@
                     case 'room':
                         this.$router.push('/room/list')
                         break;
-
-
-
-
-
+                    case 'level':
+                        this.$router.push('/levelType/list')
+                        break;
+                    case 'manner':
+                        this.$router.push('/mannerType/list')
+                        break;
+                    case 'qualification':
+                        this.$router.push('/qualificationType/list')
+                        break;
+                    case 'school':
+                        this.$router.push('/schoolType/list')
+                        break;
+                    case 'consult':
+                        this.$router.push('/consultType/list')
+                        break;
 
                 }
 
