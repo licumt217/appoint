@@ -6,7 +6,7 @@ let projectName = 'appoint'
 let gutil = require('gulp-util')
 
 let username = 'root'
-let password = '819819819qQ'
+let password = 'y2pe2NF7'
 let assets = process.cwd() + '/' + projectName
 let address = '/server/html/appoint'
 
