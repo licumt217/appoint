@@ -12,7 +12,7 @@ let address = '/server/html/appoint'
 
 let remoteServer1Prep = {
     host: '47.92.74.29',
-    port: 22,
+    port: 22444,
     remotePath: address,
     user: username,
     pass: password
