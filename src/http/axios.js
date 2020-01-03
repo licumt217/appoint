@@ -4,7 +4,7 @@ import axios from 'axios'
 axios.defaults.timeout = 20000;
 axios.defaults.baseURL = '';
 
-let baseURL = 'http://www.zhuancaiqian.com'
+let baseURL = 'http://www.zhuancaiqian.com/'
 
 
 if(location.href.includes('localhost')){
