@@ -12,9 +12,9 @@
 
                         <template v-if="role===Role.admin">
 
-                            <MenuItem name="divisionManager">
+                            <MenuItem name="division">
                                 <Icon type="ios-navigate"></Icon>
-                                分部管理员管理
+                                分部管理
                             </MenuItem>
 
                             <MenuItem name="caseManager">
@@ -73,7 +73,14 @@
                             </Submenu>
                         </template>
 
-                        <template v-if="role===Role.caseManager">
+                        <template v-if="role===Role.divisionManager">
+
+
+
+                            <MenuItem name="station">
+                                <Icon type="ios-navigate"></Icon>
+                                工作室管理
+                            </MenuItem>
 
                             <MenuItem name="therapist">
                                 <Icon type="ios-navigate"></Icon>
@@ -131,21 +138,67 @@
                             </Submenu>
                         </template>
 
-                        <template v-if="role!=='1'">
-<!--                            <MenuItem name="statistics">-->
-<!--                                <Icon type="ios-navigate"></Icon>-->
-<!--                                数据导出-->
-<!--                            </MenuItem>-->
-<!--                            <Submenu name="7">-->
-<!--                                <template slot="title">-->
-<!--                                    <Icon type="ios-stats"/>-->
-<!--                                    用户管理-->
-<!--                                </template>-->
-<!--                                <MenuItem name="userList">用户管理</MenuItem>-->
-<!--                                <MenuItem name="passModify">修改密码</MenuItem>-->
-<!--                                <MenuItem name="logout" >退出登录</MenuItem>-->
-<!--                            </Submenu>-->
+                        <template v-if="role===Role.caseManager">
+
+
+
+                            <MenuItem name="therapist">
+                                <Icon type="ios-navigate"></Icon>
+                                咨询师管理
+                            </MenuItem>
+
+                            <MenuItem name="therapistLevel">
+                                <Icon type="ios-navigate"></Icon>
+                                咨询师等级管理
+                            </MenuItem>
+
+                            <MenuItem name="therapistRevenue">
+                                <Icon type="ios-navigate"></Icon>
+                                咨询师收益查看
+                            </MenuItem>
+
+                            <MenuItem name="blackList">
+                                <Icon type="ios-navigate"></Icon>
+                                黑名单管理
+                            </MenuItem>
+
+                            <MenuItem name="ethicsNotice">
+                                <Icon type="ios-navigate"></Icon>
+                                伦理公告
+                            </MenuItem>
+
+                            <MenuItem name="preCheck">
+                                <Icon type="ios-navigate"></Icon>
+                                预检表
+                            </MenuItem>
+
+                            <MenuItem name="room">
+                                <Icon type="ios-navigate"></Icon>
+                                房间
+                            </MenuItem>
+
+                            <Submenu name="complain">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    投诉管理
+                                </template>
+                                <MenuItem name="userComplain">用户投诉咨询师管理</MenuItem>
+                                <MenuItem name="therapistComplain">咨询师投诉用户管理</MenuItem>
+                            </Submenu>
+
+
+                            <Submenu name="setting">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    设置
+                                </template>
+                                <MenuItem name="userList">用户管理</MenuItem>
+                                <MenuItem name="passModify">修改密码</MenuItem>
+                                <MenuItem name="logout" >退出登录</MenuItem>
+                            </Submenu>
                         </template>
+
+
 
 
 
@@ -285,8 +338,8 @@
                         this.$router.push('/caseManager/list')
                         break;
 
-                    case 'divisionManager':
-                        this.$router.push('/divisionManager/list')
+                    case 'division':
+                        this.$router.push('/division/list')
                         break;
                     case 'blackList':
                         this.$router.push('/blackList/list')
@@ -314,6 +367,10 @@
                         break;
                     case 'consult':
                         this.$router.push('/consultType/list')
+                        break;
+
+                    case 'station':
+                        this.$router.push('/station/list')
                         break;
 
                 }

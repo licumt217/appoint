@@ -15,8 +15,14 @@ const user_detail = r => require.ensure([], () => r(require('../pages/user/detai
 const user_list = r => require.ensure([], () => r(require('../pages/user/list')), 'user_list')
 const user_operate = r => require.ensure([], () => r(require('../pages/user/operate')), 'user_operate')
 
-const divisionManager_list = r => require.ensure([], () => r(require('../pages/divisionManager/list')), 'divisionManager_list_list')
-const divisionManager_operate = r => require.ensure([], () => r(require('../pages/divisionManager/operate')), 'divisionManager_operate')
+
+const division_list = r => require.ensure([], () => r(require('../pages/division/list')), 'division_list')
+const division_operate = r => require.ensure([], () => r(require('../pages/division/operate')), 'division_operate')
+const division_adminList = r => require.ensure([], () => r(require('../pages/division/adminList')), 'division_adminList')
+const division_adminOperate = r => require.ensure([], () => r(require('../pages/division/adminOperate')), 'division_adminOperate')
+
+
+
 
 const caseManager_list = r => require.ensure([], () => r(require('../pages/caseManager/list')), 'caseManager_list')
 const caseManager_operate = r => require.ensure([], () => r(require('../pages/caseManager/operate')), 'caseManager_operate')
@@ -25,6 +31,11 @@ const therapist_list = r => require.ensure([], () => r(require('../pages/therapi
 const therapist_operate = r => require.ensure([], () => r(require('../pages/therapist/operate')), 'therapist_operate')
 
 const therapist_revenueList = r => require.ensure([], () => r(require('../pages/therapist/revenueList')), 'therapistRevenue_list')
+
+
+const station_list = r => require.ensure([], () => r(require('../pages/station/list')), 'station_list')
+const station_operate = r => require.ensure([], () => r(require('../pages/station/operate')), 'station_operate')
+
 
 
 const complain_userList = r => require.ensure([], () => r(require('../pages/complain/userList')), 'complain_userList')
@@ -81,17 +92,25 @@ const router=new VueRouter({
         },
 
 
-        //divisionManager
+        //division
         {
-            path:'/divisionManager/list',
-            component:divisionManager_list,
+            path:'/division/list',
+            component:division_list,
             meta:{
                 activeName:'1-1'
             }
         },{
-            path:'/divisionManager/operate',
-            component:divisionManager_operate
+            path:'/division/operate',
+            component:division_operate
+        },{
+            path:'/division/adminList',
+            component:division_adminList
+        },{
+            path:'/division/adminOperate',
+            component:division_adminOperate
         },
+
+
 
         //caseManager
         {
@@ -162,6 +181,16 @@ const router=new VueRouter({
         {
             path:'/room/occupy',
             component:room_occupy
+        },
+
+        //constant
+
+        {
+            path:'/station/list',
+            component:station_list
+        },{
+            path:'/station/operate',
+            component:station_operate
         },
 
 
