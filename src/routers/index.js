@@ -35,6 +35,7 @@ const therapist_revenueList = r => require.ensure([], () => r(require('../pages/
 
 const station_list = r => require.ensure([], () => r(require('../pages/station/list')), 'station_list')
 const station_operate = r => require.ensure([], () => r(require('../pages/station/operate')), 'station_operate')
+const station_caseManagerOperate = r => require.ensure([], () => r(require('../pages/station/caseManagerOperate')), 'station_caseManagerOperate')
 
 
 
@@ -191,6 +192,9 @@ const router=new VueRouter({
         },{
             path:'/station/operate',
             component:station_operate
+        },{
+            path:'/station/caseManagerOperate',
+            component:station_caseManagerOperate
         },
 
 

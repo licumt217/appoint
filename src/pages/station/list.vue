@@ -100,7 +100,7 @@
                                     },
                                     on:{
                                         click:()=>{
-                                            this.setEthicsNotice(params)
+                                            this.setCaseManager(params)
                                         }
                                     }
                                 },'案例管理员')
@@ -146,6 +146,14 @@
 
                 }).catch(err => {
                     this.$Message.error(err)
+                })
+            },
+            setCaseManager(params){
+                this.$router.push({
+                    path:'/station/caseManagerOperate',
+                    query:{
+                        station_id:params.row.station_id,
+                    }
                 })
             },
             add() {

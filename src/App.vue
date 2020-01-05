@@ -17,34 +17,9 @@
                                 分部管理
                             </MenuItem>
 
-                            <MenuItem name="caseManager">
-                                <Icon type="ios-navigate"></Icon>
-                                案例管理员管理
-                            </MenuItem>
-
-                            <MenuItem name="therapist">
-                                <Icon type="ios-navigate"></Icon>
-                                咨询师管理
-                            </MenuItem>
-
-                            <MenuItem name="therapistRevenue">
-                                <Icon type="ios-navigate"></Icon>
-                                咨询师收益查看
-                            </MenuItem>
-
-                            <MenuItem name="blackList">
-                                <Icon type="ios-navigate"></Icon>
-                                黑名单管理
-                            </MenuItem>
-
                             <MenuItem name="ethicsNotice">
                                 <Icon type="ios-navigate"></Icon>
                                 伦理公告
-                            </MenuItem>
-
-                            <MenuItem name="preCheck">
-                                <Icon type="ios-navigate"></Icon>
-                                预检表
                             </MenuItem>
 
                             <Submenu name="complain">
@@ -55,27 +30,35 @@
                                 <MenuItem name="userComplain">用户投诉咨询师管理</MenuItem>
                                 <MenuItem name="therapistComplain">咨询师投诉用户管理</MenuItem>
                             </Submenu>
+                            <MenuItem name="blackList">
+                                <Icon type="ios-navigate"></Icon>
+                                黑名单管理
+                            </MenuItem>
 
-
-                            <Submenu name="setting">
+                            <Submenu name="base">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
-                                    设置
+                                    基础信息
                                 </template>
-                                <MenuItem name="userList">用户管理</MenuItem>
-                                <MenuItem name="passModify">修改密码</MenuItem>
                                 <MenuItem name="level">等级设置</MenuItem>
                                 <MenuItem name="manner">咨询方式设置</MenuItem>
                                 <MenuItem name="qualification">资历类型设置</MenuItem>
                                 <MenuItem name="school">流派设置</MenuItem>
                                 <MenuItem name="consult">预约类型设置</MenuItem>
+                            </Submenu>
+
+
+                            <Submenu name="setting">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    个人中心
+                                </template>
+                                <MenuItem name="passModify">修改密码</MenuItem>
                                 <MenuItem name="logout" >退出登录</MenuItem>
                             </Submenu>
                         </template>
 
                         <template v-if="role===Role.divisionManager">
-
-
 
                             <MenuItem name="station">
                                 <Icon type="ios-navigate"></Icon>
@@ -97,24 +80,9 @@
                                 咨询师收益查看
                             </MenuItem>
 
-                            <MenuItem name="blackList">
-                                <Icon type="ios-navigate"></Icon>
-                                黑名单管理
-                            </MenuItem>
-
-                            <MenuItem name="ethicsNotice">
-                                <Icon type="ios-navigate"></Icon>
-                                伦理公告
-                            </MenuItem>
-
                             <MenuItem name="preCheck">
                                 <Icon type="ios-navigate"></Icon>
                                 预检表
-                            </MenuItem>
-
-                            <MenuItem name="room">
-                                <Icon type="ios-navigate"></Icon>
-                                房间
                             </MenuItem>
 
                             <Submenu name="complain">
@@ -127,12 +95,20 @@
                             </Submenu>
 
 
+                            <Submenu name="base">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    基础信息
+                                </template>
+                                <MenuItem name="level">等级设置</MenuItem>
+                            </Submenu>
+
+
                             <Submenu name="setting">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
-                                    设置
+                                    个人中心
                                 </template>
-                                <MenuItem name="userList">用户管理</MenuItem>
                                 <MenuItem name="passModify">修改密码</MenuItem>
                                 <MenuItem name="logout" >退出登录</MenuItem>
                             </Submenu>
@@ -141,40 +117,19 @@
                         <template v-if="role===Role.caseManager">
 
 
+                            <MenuItem name="room">
+                                <Icon type="ios-navigate"></Icon>
+                                房间管理
+                            </MenuItem>
 
                             <MenuItem name="therapist">
                                 <Icon type="ios-navigate"></Icon>
                                 咨询师管理
                             </MenuItem>
 
-                            <MenuItem name="therapistLevel">
-                                <Icon type="ios-navigate"></Icon>
-                                咨询师等级管理
-                            </MenuItem>
-
-                            <MenuItem name="therapistRevenue">
-                                <Icon type="ios-navigate"></Icon>
-                                咨询师收益查看
-                            </MenuItem>
-
-                            <MenuItem name="blackList">
-                                <Icon type="ios-navigate"></Icon>
-                                黑名单管理
-                            </MenuItem>
-
-                            <MenuItem name="ethicsNotice">
-                                <Icon type="ios-navigate"></Icon>
-                                伦理公告
-                            </MenuItem>
-
                             <MenuItem name="preCheck">
                                 <Icon type="ios-navigate"></Icon>
                                 预检表
-                            </MenuItem>
-
-                            <MenuItem name="room">
-                                <Icon type="ios-navigate"></Icon>
-                                房间
                             </MenuItem>
 
                             <Submenu name="complain">
@@ -187,12 +142,20 @@
                             </Submenu>
 
 
+                            <Submenu name="base">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    基础信息
+                                </template>
+                                <MenuItem name="level">等级设置</MenuItem>
+                            </Submenu>
+
+
                             <Submenu name="setting">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
-                                    设置
+                                    个人中心
                                 </template>
-                                <MenuItem name="userList">用户管理</MenuItem>
                                 <MenuItem name="passModify">修改密码</MenuItem>
                                 <MenuItem name="logout" >退出登录</MenuItem>
                             </Submenu>
