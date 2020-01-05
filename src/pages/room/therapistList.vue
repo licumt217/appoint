@@ -5,11 +5,11 @@
 
         <Row style="padding:5px;">
             <Col span="20">
-                <HeaderName name="房间管理"></HeaderName>
+                <HeaderName name="咨询师列表"></HeaderName>
             </Col>
             <Col span="4" >
                 <Button type="success" @click="add">新增</Button>
-                <Button type="primary" @click="useablePeriodSet()">可用时段设置</Button>
+                <Button @click="back">返回</Button>
             </Col>
         </Row>
 
@@ -19,7 +19,8 @@
         </div>
 
 
-        <UseablePeriodSet ref="useablePeriodSet"></UseablePeriodSet>
+        <RelateTherapist :station_id="station_id" ref="relateTherapist" @done="refresh"></RelateTherapist>
+
     </div>
 
 
@@ -27,12 +28,11 @@
 
 <script>
     import {Util} from '../../assets/js/Util'
-    import {Room} from '../../assets/models/Room'
-    import UseablePeriodSet from './components/UseablePeriodSet'
     import Role from '../../assets/js/Role'
+    import RelateTherapist from './components/RelateTherapist'
     export default {
         components:{
-            UseablePeriodSet
+            RelateTherapist
         },
         data() {
             return {
@@ -45,37 +45,30 @@
                             return (this.currentPage-1)*Util.pageSize+(params._index+1);
                         }
                     },
-
                     {
-                        title: '房间名',
-                        key: 'name'
+                        title: '手机号',
+                        key: 'phone'
                     },
-
                     {
-                        title: '房间位置',
-                        key: 'position'
+                        title: '性别',
+                        key: 'gender',
+                        render: (h, params) => {
+                            return h('div', {}, params.row.gender === 'male' ? '男' : '女')
+                        }
                     },
-
-
+                    {
+                        title: '电子邮箱',
+                        key: 'email'
+                    },
+                    {
+                        title: '出生日期',
+                        key: 'birthday'
+                    },
                     {
                         title: '操作',
                         key: 'action',
                         render: (h, params) => {
                             return h('div', [
-                                h('Button',{
-                                    props:{
-                                        type:'primary',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.edit(params)
-                                        }
-                                    }
-                                },'编辑'),
                                 h('Button',{
                                     props:{
                                         type:'error',
@@ -86,24 +79,10 @@
                                     },
                                     on:{
                                         click:()=>{
-                                            this.delete(params)
+                                            this.remove(params)
                                         }
                                     }
-                                },'删除'),
-                                h('Button',{
-                                    props:{
-                                        type:'success',
-                                        size:'small'
-                                    },
-                                    style:{
-                                        marginRight:'5px'
-                                    },
-                                    on:{
-                                        click:()=>{
-                                            this.occupy(params)
-                                        }
-                                    }
-                                },'使用率')
+                                },'移除')
                             ])
                         }
                     }
@@ -113,17 +92,21 @@
                 pageSize:Util.pageSize,
                 currentPage:1,
                 dataList: [],
+                station_id:this.$route.query.station_id
             }
         },
         mounted() {
             this.getList(1)
 
-
-
         },
         methods: {
-            useablePeriodSet(){
-                this.$refs.useablePeriodSet.show()
+            refresh(){
+              this.getList(1)
+            },
+            back(){
+                this.$router.push({
+                    path:'/station/list',
+                })
             },
             pageChange(page){
                 this.getList(page)
@@ -134,52 +117,41 @@
 
                 let pageSize=Util.pageSize
 
-                this.http.post('appoint_wx/room/list', {
-                    role:Role.divisionManager,
+                this.http.post('appoint_wx/station/getTherapistList', {
+                    station_id:this.station_id,
                     page,
                     pageSize
 
                 }).then((data) => {
-                    this.total=data.count;
-                    this.currentPage=data.currentPage;
 
-                    this.dataList = data.data;
+                    // this.total=data.count;
+                    // this.currentPage=data.currentPage;
+                    //
+                    // this.dataList = data.data;
+                    this.dataList=data;
 
                 }).catch(err => {
                     this.$Message.error(err)
                 })
             },
             add() {
-                this.$router.push('/room/operate')
+
+                this.$refs.relateTherapist.show();
+
             },
-            edit(params){
-                this.$router.push({
-                    path:'/room/operate',
-                    query:{
-                        opType:'edit',
-                        formItem:JSON.stringify(params.row)
-                    }
-                })
-            },
-            occupy(params){
-                this.$router.push({
-                    path:'/room/occupy',
-                    query:{
-                        room_id:params.row.room_id,
-                    }
-                })
-            },
-            delete(params){
+
+            remove(params){
 
                 this.$Modal.confirm({
-                    title: '您确认删除吗？',
+                    title: '您确认移除吗？',
                     content: '',
                     onOk: () => {
 
-                        this.http.post('appoint_wx/room/delete',{
-                            room_id:params.row.room_id
+                        this.http.post('appoint_wx/station/removeRelate',{
+                            therapist_id:params.row.user_id,
+                            station_id:this.station_id
                         }).then(()=>{
-                            this.$Message.success("删除成功")
+                            this.$Message.success("移除成功")
                             this.getList()
                         }).catch(error=>{
                             this.$Message.error(error)

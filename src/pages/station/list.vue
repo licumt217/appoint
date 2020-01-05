@@ -165,7 +165,7 @@
 
             therapistList(params){
                 this.$router.push({
-                    path:'/station/therapistList',
+                    path:'/therapist/list',
                     query:{
                         station_id:params.row.station_id,
                     }

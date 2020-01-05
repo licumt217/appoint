@@ -29,7 +29,7 @@
 <script>
     import {Util} from '../../assets/js/Util'
     import Role from '../../assets/js/Role'
-    import RelateTherapist from './components/RelateTherapist'
+    import RelateTherapist from '../therapist/components/RelateTherapist'
     export default {
         components:{
             RelateTherapist

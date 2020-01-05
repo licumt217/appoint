@@ -96,7 +96,7 @@
         },
         methods: {
             ok(params){
-                this.http.post('appoint_wx/station/relate', {
+                this.http.post('appoint_wx/therapist/relate', {
                     station_id:this.station_id,
                     therapist_id:params.row.user_id
                 }).then(() => {
