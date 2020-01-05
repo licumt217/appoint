@@ -36,6 +36,7 @@ const therapist_revenueList = r => require.ensure([], () => r(require('../pages/
 const station_list = r => require.ensure([], () => r(require('../pages/station/list')), 'station_list')
 const station_operate = r => require.ensure([], () => r(require('../pages/station/operate')), 'station_operate')
 const station_caseManagerOperate = r => require.ensure([], () => r(require('../pages/station/caseManagerOperate')), 'station_caseManagerOperate')
+const station_therapistList = r => require.ensure([], () => r(require('../pages/station/therapistList')), 'station_therapistList')
 
 
 
@@ -62,6 +63,8 @@ const levelType_list = r => require.ensure([], () => r(require('../pages/levelTy
 const consultType_list = r => require.ensure([], () => r(require('../pages/consultType/list')), 'consultType_list')
 
 
+
+const appoint_list = r => require.ensure([], () => r(require('../pages/appoint/list')), 'appoint_list')
 
 
 const router=new VueRouter({
@@ -195,6 +198,9 @@ const router=new VueRouter({
         },{
             path:'/station/caseManagerOperate',
             component:station_caseManagerOperate
+        },{
+            path:'/station/therapistList',
+            component:station_therapistList
         },
 
 
@@ -215,6 +221,15 @@ const router=new VueRouter({
         },{
             path:'/consultType/list',
             component:consultType_list
+        },
+
+
+
+        //appoint
+
+        {
+            path:'/appoint/list',
+            component:appoint_list
         },
 
 

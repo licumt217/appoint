@@ -17,6 +17,10 @@
                                     <Input  :maxlength="11" placeholder="请输入手机号" v-model="formItem.phone"></Input>
                                 </Form-item>
 
+                                <Form-item prop="identification_no" label="身份证号">
+                                    <Input  type="text" placeholder="请输入身份证号" v-model="formItem.identification_no"></Input>
+                                </Form-item>
+
                                 <Form-item prop="password" label="密码">
                                     <Input type="password" placeholder="请输入密码" :maxlength="20" v-model="formItem.password"></Input>
                                 </Form-item>
@@ -74,6 +78,9 @@
                     password: [
                         {required: true, message: "密码不能为空", trigger: "blur"}
                     ],
+                    identification_no: [
+                        {required: true, message: "身份证号不能为空", trigger: "blur"}
+                    ],
                     gender: [
                         {required: true, message: "性别不能为空", trigger: "change"}
                     ],
@@ -115,8 +122,13 @@
                             return;
                         }
 
-                        this.http.post('login/register', this.formItem).then((data) => {
-                            this.$Message.success("注册成功")
+                        if(!Util.isValidID(this.formItem.identification_no)){
+                            this.$Message.warning("请输入合法的身份证号！")
+                            return;
+                        }
+
+                        this.http.post('appoint_wx/login/register', this.formItem).then((data) => {
+                            this.$Message.success("注册成功，请登录！")
 
                             this.$router.push('/user/login')
 

@@ -103,7 +103,21 @@
                                             this.setCaseManager(params)
                                         }
                                     }
-                                },'案例管理员')
+                                },'案例管理员'),
+                                h('Button',{
+                                    props:{
+                                        type:'success',
+                                        size:'small'
+                                    },
+                                    style:{
+                                        marginRight:'5px'
+                                    },
+                                    on:{
+                                        click:()=>{
+                                            this.therapistList(params)
+                                        }
+                                    }
+                                },'咨询师列表'),
                             ])
                         }
                     }
@@ -146,6 +160,15 @@
 
                 }).catch(err => {
                     this.$Message.error(err)
+                })
+            },
+
+            therapistList(params){
+                this.$router.push({
+                    path:'/station/therapistList',
+                    query:{
+                        station_id:params.row.station_id,
+                    }
                 })
             },
             setCaseManager(params){

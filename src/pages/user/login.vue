@@ -33,6 +33,10 @@
                         <Button type="primary" @click="login">登录</Button>
                     </div>
 
+                    <div class="login-btn" style="margin-top: .5em;">
+                        <Button @click="register">注册</Button>
+                    </div>
+
                 </div>
             </div>
         </transition>
@@ -125,11 +129,11 @@
                 if(Number(sessionStorage.role)===Role.admin){
                     this.$router.push('/divisionManager/list')
                 }else if(Number(sessionStorage.role)===Role.divisionManager){
-                    this.$router.push('/caseManager/list')
+                    this.$router.push('/station/list')
                 }else if(Number(sessionStorage.role)===Role.caseManager){
                     this.$router.push('/room/list')
                 }else if(Number(sessionStorage.role)===Role.therapist){
-                    this.$router.push('/room/list')
+                    this.$router.push('/appoint/list')
                 }
             },
             login() {

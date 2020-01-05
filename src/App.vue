@@ -95,15 +95,6 @@
                             </Submenu>
 
 
-                            <Submenu name="base">
-                                <template slot="title">
-                                    <Icon type="ios-stats"/>
-                                    基础信息
-                                </template>
-                                <MenuItem name="level">等级设置</MenuItem>
-                            </Submenu>
-
-
                             <Submenu name="setting">
                                 <template slot="title">
                                     <Icon type="ios-stats"/>
@@ -161,6 +152,58 @@
                             </Submenu>
                         </template>
 
+                        <template v-if="role===Role.therapist">
+
+
+                            <MenuItem name="time">
+                                <Icon type="ios-navigate"></Icon>
+                                时间管理
+                            </MenuItem>
+
+                            <MenuItem name="fee">
+                                <Icon type="ios-navigate"></Icon>
+                                收费设置
+                            </MenuItem>
+
+                            <MenuItem name="revenue">
+                                <Icon type="ios-navigate"></Icon>
+                                收入查看
+                            </MenuItem>
+
+                            <MenuItem name="tax">
+                                <Icon type="ios-navigate"></Icon>
+                                设定报税
+                            </MenuItem>
+
+                            <MenuItem name="preCheck">
+                                <Icon type="ios-navigate"></Icon>
+                                预检表
+                            </MenuItem>
+
+                            <Submenu name="myAppoint">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    我的来访
+                                </template>
+                                <MenuItem name="appointList">咨询访客记录</MenuItem>
+                                <MenuItem name="waitlist">等待名单</MenuItem>
+                                <MenuItem name="preCheck">预检表</MenuItem>
+                            </Submenu>
+
+                            <Submenu name="setting">
+                                <template slot="title">
+                                    <Icon type="ios-stats"/>
+                                    个人中心
+                                </template>
+                                <MenuItem name="functionSet">功能设置</MenuItem>
+                                <MenuItem name="education">继续教育</MenuItem>
+                                <MenuItem name="type">设置咨询类型</MenuItem>
+                                <MenuItem name="emergency">紧急咨询</MenuItem>
+                                <MenuItem name="passModify">修改密码</MenuItem>
+                                <MenuItem name="logout" >退出登录</MenuItem>
+                            </Submenu>
+                        </template>
+
 
 
 
@@ -201,13 +244,13 @@
             $route (to, from) {
                 console.log(to.path)
 
-                if (!this.isLogin) {
+                if (!this.isLogin && !(to.path === '/user/login' || to.path === '/user/register')) {
                     this.$router.push('/user/login')
                 }
                 //
                 //
                 //
-                // if (to.path === '/login' || to.path === '/user/register') {
+                // if (to.path === '/user/login' || to.path === '/user/register') {
                 //     // this.isLogin = true
                 // } else {
                 //     // $('.layout').show()
