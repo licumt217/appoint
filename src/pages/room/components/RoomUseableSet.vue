@@ -5,12 +5,14 @@
 <script>
     import DateUtil from '../../../assets/js/DateUtil'
     import {Util} from '../../../assets/js/Util'
+
     export default {
         name: '',
         data() {
             return {
-                columns:this.getColumns(),
-                dataList:[]
+                columns: [],
+                dataList: [],
+                period: []
             }
         },
         props: {
@@ -20,45 +22,113 @@
                     return {}
                 }
             },
-            room_id:{
-                type:String,
-                default:''
+            room_id: {
+                type: String,
+                default: ''
             }
         },
         computed: {},
-        watch:{
-            date(newValue){
+        watch: {
+            date(newValue) {
 
-                this.year=newValue.getFullYear();
-                this.month=newValue.getMonth();
+                this.year = newValue.getFullYear();
+                this.month = newValue.getMonth();
 
                 this.init()
             }
         },
+        mounted() {
+            this.getColumns();
+        },
         methods: {
-            getColumns() {
+            init() {
 
-                let hourArray = [{
-                    title: '上午 8:00-8:50'
-                }, {
-                    title: '上午 9:00-9:50'
-                }, {
-                    title: '上午 10:00-10:50'
-                }, {
-                    title: '上午 11:00-11:50'
-                }, {
-                    title: '下午 13:00-13:50'
-                }, {
-                    title: '下午 14:00-14:50'
-                }, {
-                    title: '下午 15:00-15:50'
-                }, {
-                    title: '下午 16:00-16:50'
-                }]
+                this.dataList = []
 
-                hourArray.forEach((value, index, array) => {
-                    array[index].key = 'period' + (index + 1)
+                let notUseableList = []
+
+                this.http.post('appoint_wx/roomoccupy/list', {
+                    room_id: this.room_id,
+                    year: this.date.getFullYear(),
+                    month: this.date.getMonth()
+                }).then((data) => {
+
+                    notUseableList = data;
+                    let days = Util.getDaysOfMonth(this.year, this.month);
+
+                    for (let i = 1; i <= days; i++) {
+
+                        let d = new Date(this.date.getTime());
+
+
+
+                        d.setDate(i )
+
+                        // console.log(d)
+
+                        let obj = {
+                            date: d
+                        }
+
+                        for (let num = 0; num <= 23; num++) {
+
+                            let occupyData = this.isPeriodInList(num, i , notUseableList)
+
+                            if (occupyData ) {//占用
+                                // console.log(5555,'period' + num,occupyData)
+
+                                obj['period' + num] = occupyData
+                            } else {
+                                obj['period' + num] = null
+                            }
+
+                        }
+
+                        this.dataList.push(obj);
+
+                        if(i===1){
+                            // console.log(this.dataList)
+                        }
+
+                    }
+
+
+
+                }).catch(error => {
+                    this.$Message.error(error)
                 })
+
+            },
+            getSet() {
+                return new Promise(((resolve, reject) => {
+                    this.http.post('appoint_wx/room/getUseablePeriodSet', {}).then((data) => {
+                        this.period = data.period.split(',')
+                        this.period.sort((val1, val2) => {
+                            return Number(val1) - Number(val2)
+                        });
+                        resolve();
+                    }).catch(err => {
+                        this.$Message.error(err)
+                        reject();
+                    })
+                }));
+
+            },
+            async getColumns() {
+                await this.getSet();
+
+                let hourArray = []
+
+                this.period.forEach((item) => {
+                    hourArray.push({
+                        title: `${item}:00-${item}:50`,
+                        key: `period${item}`,
+                    })
+                })
+
+                // hourArray.forEach((value, index, array) => {
+                //     array[index].key = 'period' + (index + 1)
+                // })
 
                 let optionArray = [];
 
@@ -69,10 +139,14 @@
                         align: 'center',
                         render: (h, params) => {
 
-                            let occupyData=params.row['period' + (index + 1)];
+                            // console.log(hourObj.key)
 
-                            if(occupyData){//占用中或不可用
-                                if(occupyData.state === 0){
+                            let occupyData = params.row[hourObj.key];
+
+                            if (occupyData) {//占用中或不可用
+                                console.log(123)
+
+                                if (occupyData.state === 0) {
 
                                     return h('div', [
                                         h('Button', {
@@ -82,7 +156,7 @@
                                             },
                                         }, '占用中')
                                     ])
-                                }else{
+                                } else {
                                     return h('div', [
                                         h('Button', {
                                             props: {
@@ -97,7 +171,7 @@
                                         }, '设置为可用')
                                     ])
                                 }
-                            }else{//空闲中
+                            } else {//空闲中
                                 return h('div', [
                                     h('Button', {
                                         props: {
@@ -131,15 +205,14 @@
                         align: 'center',
                         render: (h, params) => {
 
-                            return h('div', {
-                            }, DateUtil.format(params.row.date))
+                            return h('div', {}, DateUtil.format(params.row.date))
 
                         }
                     }
 
                 ]
 
-                let operateObj={
+                let operateObj = {
                     title: '操作',
                     key: 'action',
                     render: (h, params) => {
@@ -162,61 +235,15 @@
                     }
                 }
 
-                columns=columns.concat(optionArray)
+                columns = columns.concat(optionArray)
 
                 columns.push(operateObj)
 
-                return columns;
+                this.columns = columns;
 
             },
 
-            init() {
 
-                this.dataList = []
-
-                let notUseableList=[]
-
-                this.http.post('appoint_wx/roomoccupy/list',{
-                    room_id:this.room_id,
-                    year:this.date.getFullYear(),
-                    month:this.date.getMonth()
-                }).then((data)=>{
-
-                    notUseableList=data;
-                    let days = Util.getDaysOfMonth(this.year, this.month );
-
-                    for (let i = 0; i < days; i++) {
-
-                        let d = new Date(this.date.getTime());
-
-                        d.setDate(i + 1)
-
-                        let obj = {
-                            date: d
-                        }
-
-                        for (let num = 1; num <= 8; num++) {
-
-                            let occupyData=this.isPeriodInList(num, i + 1, notUseableList)
-
-                            if(occupyData){//占用
-
-                                obj['period' + num]=occupyData
-                            }else{
-                                obj['period' + num] = null
-                            }
-
-                        }
-
-                        this.dataList.push(obj);
-
-                    }
-
-                }).catch(error=>{
-                    this.$Message.error(error)
-                })
-
-            },
             /**
              * 给定月份的给定天的具体某个时段是否在不可用列表
              * */
@@ -239,22 +266,21 @@
              */
             setRoomStateCanNotUse(params) {
 
-                this.http.post('appoint_wx/roomoccupy/add',{
-                    room_id:this.room_id,
+                this.http.post('appoint_wx/roomoccupy/add', {
+                    room_id: this.room_id,
                     year: params.row.date.getFullYear(),
                     month: params.row.date.getMonth(),
                     day: params.row.date.getDate(),
                     period: params.column.key.substr(6),
-                    state:1
-                }).then(()=>{
+                    state: 1
+                }).then(() => {
 
                     this.$Message.success("设置成功！")
                     this.init()
 
-                }).catch(error=>{
+                }).catch(error => {
                     this.$Message.error(error)
                 })
-
 
 
             },
@@ -263,14 +289,15 @@
              * 设置房间可用和可用状态
              */
             setRoomStateCanUse(occupyData) {
-                this.http.post('appoint_wx/roomoccupy/delete',{
-                    room_occupy_id:occupyData.room_occupy_id,
-                }).then(()=>{
+                console.log(occupyData)
+                this.http.post('appoint_wx/roomoccupy/delete', {
+                    room_occupy_id: occupyData.room_occupy_id,
+                }).then(() => {
 
                     this.$Message.success("设置成功！")
                     this.init()
 
-                }).catch(error=>{
+                }).catch(error => {
                     this.$Message.error(error)
                 })
 

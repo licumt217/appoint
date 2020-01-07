@@ -29,7 +29,6 @@
 </template>
 
 <script>
-    const md5 = require('md5')
     import {Util} from '../../assets/js/Util'
     import RoomUseableSet from './components/RoomUseableSet'
 
