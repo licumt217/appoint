@@ -64,8 +64,6 @@
 
                         d.setDate(i )
 
-                        // console.log(d)
-
                         let obj = {
                             date: d
                         }
@@ -75,7 +73,6 @@
                             let occupyData = this.isPeriodInList(num, i , notUseableList)
 
                             if (occupyData ) {//占用
-                                // console.log(5555,'period' + num,occupyData)
 
                                 obj['period' + num] = occupyData
                             } else {
@@ -85,10 +82,6 @@
                         }
 
                         this.dataList.push(obj);
-
-                        if(i===1){
-                            // console.log(this.dataList)
-                        }
 
                     }
 
@@ -139,12 +132,9 @@
                         align: 'center',
                         render: (h, params) => {
 
-                            // console.log(hourObj.key)
-
                             let occupyData = params.row[hourObj.key];
 
                             if (occupyData) {//占用中或不可用
-                                console.log(123)
 
                                 if (occupyData.state === 0) {
 
@@ -289,7 +279,6 @@
              * 设置房间可用和可用状态
              */
             setRoomStateCanUse(occupyData) {
-                console.log(occupyData)
                 this.http.post('appoint_wx/roomoccupy/delete', {
                     room_occupy_id: occupyData.room_occupy_id,
                 }).then(() => {
