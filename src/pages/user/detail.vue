@@ -124,7 +124,7 @@ console.log(this.formItem)
                             this.$Message.success("登录成功")
 
                             this.$store.commit('isLogin', true)
-                            this.$store.commit('userId', data._id)
+                            this.$store.commit('user_id', data._id)
                             this.$store.commit('username', data.username)
                             this.$store.commit('userInfo', data)
                             this.getMenuList()
@@ -142,7 +142,7 @@ console.log(this.formItem)
             getMenuList(){
                 this.http.get('resources/listByLevel', {
                     params:{
-                        userId:this.$store.state.userId
+                        user_id:this.$store.state.user_id
                     }
                 }).then((data) => {
 

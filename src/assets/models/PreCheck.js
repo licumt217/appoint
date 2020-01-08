@@ -10,29 +10,6 @@ class Model{
         }else{
             let array=[]
 
-            array.push({
-                id:Util.uuid(),
-                userId:'张三',
-                userPhone:'18601965856',
-                answerDate:"2019/07/22",
-                state:'0',//0：未回答；1：已回答
-            })
-
-            array.push({
-                id:Util.uuid(),
-                userId:'李四',
-                userPhone:'18601965856',
-                answerDate:"2019/07/22",
-                state:'1',//0：未回答；1：已回答
-            })
-
-            array.push({
-                id:Util.uuid(),
-                userId:'王五',
-                userPhone:'18601965856',
-                answerDate:"2019/07/22",
-                state:'0',//0：未回答；1：已回答
-            })
 
 
             localStorage.PreCheck=JSON.stringify(array)
@@ -44,10 +21,6 @@ class Model{
     }
 
     static add(obj){
-        if(!obj.userId){
-            alert("用户姓名不能为空！");
-            return;
-        }
         if(!obj.userPhone){
             alert("用户手机号不能为空！");
             return;

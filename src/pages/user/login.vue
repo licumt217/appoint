@@ -133,7 +133,7 @@
                 }else if(Number(sessionStorage.role)===Role.caseManager){
                     this.$router.push('/room/list')
                 }else if(Number(sessionStorage.role)===Role.therapist){
-                    this.$router.push('/appoint/list')
+                    this.$router.push('/therapist/periodSet')
                 }
             },
             login() {
@@ -146,17 +146,17 @@
                             let userInfo=data.userInfo;
                             let token=data.token;
 
-                            let userId=userInfo.id;
+                            let user_id=userInfo.user_id;
                             let role=userInfo.role;
 
                             if(role===4){
                                 this.$Message.warning("无权限！！！")
                             }else{
                                 sessionStorage.token=data.token;
-                                sessionStorage.userId=userId
+                                sessionStorage.user_id=user_id
                                 sessionStorage.role=role
 
-                                this.$store.commit("userId",userId)
+                                this.$store.commit("user_id",user_id)
 
                                 this.$store.commit("role",role)
 

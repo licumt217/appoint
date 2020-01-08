@@ -39,7 +39,7 @@
 
                     {
                         title: '姓名',
-                        key: 'userId'
+                        key: 'user_id'
                     },
 
                     {

@@ -48,7 +48,7 @@
         data() {
             return {
                 isEdit:this.$route.query.opType==='edit',
-                userId:this.$route.query.userId,
+                user_id:this.$route.query.user_id,
                 formItem: {
                 },
                 rules: {

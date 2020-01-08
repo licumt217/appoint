@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const state={
     //防止页面刷新状态丢失
     isLogin:sessionStorage.getItem("isLogin")==='true'?true:false,
-    userId:sessionStorage.getItem("userId")||'',
+    user_id:sessionStorage.getItem("user_id")||'',
     role:sessionStorage.getItem("role")||'',
     activeMenuName:sessionStorage.getItem("activeMenuName")||'1-1',
     username:sessionStorage.getItem("username")||'',
@@ -22,9 +22,9 @@ const getters={
 
         return sessionStorage.getItem("isLogin")==='yes';
     },
-    userId:(state)=>{
+    user_id:(state)=>{
 
-        return sessionStorage.getItem("userId")||'';
+        return sessionStorage.getItem("user_id")||'';
     },
 
 }
@@ -34,9 +34,9 @@ const mutations={
         sessionStorage.setItem("isLogin",value)
         state.isLogin=value
     },
-    userId:(state,value)=>{
-        sessionStorage.setItem("userId",value)
-        state.userId=value
+    user_id:(state,value)=>{
+        sessionStorage.setItem("user_id",value)
+        state.user_id=value
     },
     role:(state,value)=>{
         sessionStorage.setItem("role",value)
@@ -67,14 +67,14 @@ const mutations={
             state[key]=undefined;
         }
 
-        let keyArray=['isLogin','userId','activeMenuName','username','userInfo','menuList','role']
+        let keyArray=['isLogin','user_id','activeMenuName','username','userInfo','menuList','role']
 
         keyArray.forEach((key)=>{
             sessionStorage.removeItem(key)
         })
 
         sessionStorage.removeItem("token")
-        sessionStorage.removeItem("userId")
+        sessionStorage.removeItem("user_id")
     }
 }
 

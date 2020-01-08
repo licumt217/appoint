@@ -16,7 +16,7 @@ hqAxios.interceptors.request.use(
         config.responseType='blob'
         config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         config.headers.token = sessionStorage.getItem("token")||'';
-        config.headers.userId = sessionStorage.getItem("userId")||'';
+        config.headers.userId = sessionStorage.getItem("user_id")||'';
 
         return config;
     },

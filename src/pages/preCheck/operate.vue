@@ -12,7 +12,7 @@
                             <Form :label-width="80" class="demo-ruleForm">
 
                                 <Form-item label="用户姓名">
-                                    {{formItem.userId}}
+                                    {{formItem.user_id}}
                                 </Form-item>
 
                                 <Form-item label="用户手机号">
@@ -50,7 +50,7 @@
         data() {
             return {
                 isEdit:this.$route.query.opType==='edit',
-                userId:this.$route.query.userId,
+                user_id:this.$route.query.user_id,
                 formItem: {
                 },
                 rules: {

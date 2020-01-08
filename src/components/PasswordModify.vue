@@ -76,7 +76,7 @@
 
 
                         this.http.post('appoint_wx/user/updatePassword',{
-                            id:this.$store.state.userId,
+                            id:this.$store.state.user_id,
                             password:this.formItem.password,
                             newPassword:this.formItem.newPassword,
                             confirmPassword:this.formItem.confirmPassword,

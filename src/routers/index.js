@@ -31,6 +31,7 @@ const therapist_list = r => require.ensure([], () => r(require('../pages/therapi
 const therapist_operate = r => require.ensure([], () => r(require('../pages/therapist/operate')), 'therapist_operate')
 
 const therapist_revenueList = r => require.ensure([], () => r(require('../pages/therapist/revenueList')), 'therapistRevenue_list')
+const therapist_periodSet = r => require.ensure([], () => r(require('../pages/therapist/periodSet')), 'therapist_periodSet')
 
 
 const station_list = r => require.ensure([], () => r(require('../pages/station/list')), 'station_list')
@@ -137,6 +138,12 @@ const router=new VueRouter({
             path:'/therapist/revenueList',
             component:therapist_revenueList
         },
+        {
+            path:'/therapist/periodSet',
+            component:therapist_periodSet
+        },
+
+
 
         //complain
         {
