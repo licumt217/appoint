@@ -42,4 +42,15 @@ let NOTICE_SHOW_TYPE={
     2:'一段时间显示'
 }
 
-export {SEX,SCHOOL_TYPE,QUALIFICATION_TYPE,MANNER_TYPE,NOTICE_SHOW_TYPE}
+let ORDER_STATE={
+    0:'未支付',
+    1:'已支付',
+    2:'已退款',
+    3:'已取消',
+    4:'已过期',
+}
+
+
+
+
+export {SEX,SCHOOL_TYPE,QUALIFICATION_TYPE,MANNER_TYPE,NOTICE_SHOW_TYPE,ORDER_STATE}

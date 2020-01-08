@@ -379,6 +379,12 @@
                         this.$router.push('/station/list')
                         break;
 
+                    case 'appointList':
+                        this.$router.push('/appoint/list')
+                        break;
+
+
+
                 }
 
             },
