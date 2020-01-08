@@ -44,6 +44,33 @@
                                     <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday" placement="top"></DatePicker>
                                 </FormItem>
 
+
+                                <FormItem label="流派" prop="school_type_id">
+                                    <Select v-model="formItem.school_type_id">
+                                        <Option v-for="item in schoolTypeList" :value="item.school_type_id" :key="item.school_type_id">{{ item.school_type_name }}</Option>
+                                    </Select>
+                                </FormItem>
+
+                                <FormItem label="资历" prop="qualification_type_id">
+                                    <Select v-model="formItem.qualification_type_id">
+                                        <Option v-for="item in qualificationTypeList" :value="item.qualification_type_id" :key="item.qualification_type_id">{{ item.qualification_type_name }}</Option>
+                                    </Select>
+                                </FormItem>
+
+                                <FormItem label="咨询方式" prop="manner_type_id">
+                                    <Select v-model="formItem.manner_type_id">
+                                        <Option v-for="item in mannerTypeList" :value="item.manner_type_id" :key="item.manner_type_id">{{ item.manner_type_name }}</Option>
+                                    </Select>
+                                </FormItem>
+
+                                <FormItem label="等级" prop="level_type_id">
+                                    <Select v-model="formItem.level_type_id">
+                                        <Option v-for="item in levelTypeList" :value="item.level_type_id" :key="item.level_type_id">{{ item.level_type_name }}</Option>
+                                    </Select>
+                                </FormItem>
+
+
+
                             </Form>
 
                         </Tab-pane>
@@ -68,6 +95,10 @@
     export default {
         data() {
             return {
+                schoolTypeList:[],
+                qualificationTypeList:[],
+                mannerTypeList:[],
+                levelTypeList:[],
                 formItem: {
                 },
                 rules: {
@@ -90,6 +121,18 @@
                     email: [
                         {required: true, message: "电子邮箱不能为空", trigger: "blur"}
                     ],
+                    school_type_id: [
+                        {required: true, message: "流派不能为空", trigger: "change",type:"string"}
+                    ],
+                    qualification_type_id: [
+                        {required: true, message: "资历不能为空", trigger: "change",type:"string"}
+                    ],
+                    manner_type_id: [
+                        {required: true, message: "线上线下不能为空", trigger: "change",type:"string"}
+                    ],
+                    level_type_id: [
+                        {required: true, message: "等级不能为空", trigger: "change",type:"string"}
+                    ],
                 },
             }
         },
@@ -102,8 +145,51 @@
             if (this.isLogin) {
                 this.$router.push('/')
             }
+
+            this.getSchoolTypeList()
+            this.getMannerTypeList()
+            this.getQualificationTypeList()
+            this.getLevelTypeList()
         },
         methods: {
+            getSchoolTypeList(){
+                this.http.post('appoint_wx/schooltype/list', {}).then((data) => {
+
+                    this.schoolTypeList = data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
+            getLevelTypeList(){
+                this.http.post('appoint_wx/leveltype/list', {}).then((data) => {
+
+                    this.levelTypeList = data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
+
+            getQualificationTypeList(){
+                this.http.post('appoint_wx/qualificationtype/list', {}).then((data) => {
+
+                    this.qualificationTypeList = data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
+
+            getMannerTypeList(){
+                this.http.post('appoint_wx/mannertype/list', {}).then((data) => {
+
+                    this.mannerTypeList = data;
+
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
+            },
             back2Login(){
               this.$router.go(-1)
             },
@@ -156,7 +242,7 @@
 
     .mainContent {
         position: absolute;
-        top: 20%;
+        /*top: 20%;*/
         left: 50%;
         margin-left: -190px;
     }
