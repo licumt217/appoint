@@ -133,7 +133,7 @@
                 }else if(Number(sessionStorage.role)===Role.caseManager){
                     this.$router.push('/room/list')
                 }else if(Number(sessionStorage.role)===Role.therapist){
-                    this.$router.push('/therapist/periodSet')
+                    this.$router.push('/appoint/list')
                 }
             },
             login() {

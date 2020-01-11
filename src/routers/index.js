@@ -14,6 +14,7 @@ const user_register = r => require.ensure([], () => r(require('../pages/user/reg
 const user_detail = r => require.ensure([], () => r(require('../pages/user/detail')), 'user_detail')
 const user_list = r => require.ensure([], () => r(require('../pages/user/list')), 'user_list')
 const user_operate = r => require.ensure([], () => r(require('../pages/user/operate')), 'user_operate')
+const user_center = r => require.ensure([], () => r(require('../pages/user/center')), 'user_center')
 
 
 const division_list = r => require.ensure([], () => r(require('../pages/division/list')), 'division_list')
@@ -32,6 +33,8 @@ const therapist_operate = r => require.ensure([], () => r(require('../pages/ther
 
 const therapist_revenueList = r => require.ensure([], () => r(require('../pages/therapist/revenueList')), 'therapistRevenue_list')
 const therapist_periodSet = r => require.ensure([], () => r(require('../pages/therapist/periodSet')), 'therapist_periodSet')
+const therapist_feeSet = r => require.ensure([], () => r(require('../pages/therapist/feeSet')), 'therapist_feeSet')
+const therapist_appointSet = r => require.ensure([], () => r(require('../pages/therapist/appointSet')), 'therapist_appointSet')
 
 
 const station_list = r => require.ensure([], () => r(require('../pages/station/list')), 'station_list')
@@ -94,6 +97,9 @@ const router=new VueRouter({
         },{
             path:'/user/operate',
             component:user_operate
+        },{
+            path:'/user/center',
+            component:user_center
         },
 
 
@@ -141,6 +147,12 @@ const router=new VueRouter({
         {
             path:'/therapist/periodSet',
             component:therapist_periodSet
+        },{
+            path:'/therapist/feeSet',
+            component:therapist_feeSet
+        },{
+            path:'/therapist/appointSet',
+            component:therapist_appointSet
         },
 
 

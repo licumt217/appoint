@@ -3,16 +3,31 @@
 
     <div>
 
-        <Row style="padding:5px;">
-            <Col span="20">
-                <HeaderName name="咨询师可用时段设置"></HeaderName>
-            </Col>
-            <Col span="4">
-                <Button type="primary" @click="useablePeriodSet()">可用时段设置</Button>
-            </Col>
-        </Row>
+        <Card style="width:780px;margin:2em auto;">
+            <p slot="title">
+                咨询师可用时段设置
+            </p>
+            <Row style="">
+                <CheckboxGroup v-model="period">
+                    <template v-for="(item,index) in allList">
+                        <template v-if="index%6===0">
+                            <br/>
+                        </template>
+                        <Checkbox :label="item" :key="item" style="min-width: 9em;margin-bottom: 3em;">
+                            <span>{{index}}</span>
+                        </Checkbox>
 
-        <UseablePeriodSet ref="useablePeriodSet"></UseablePeriodSet>
+                    </template>
+
+                </CheckboxGroup>
+            </Row>
+            <div style="text-align: center">
+                <Button type="primary" size="large" @click="ok">确定</Button>
+            </div>
+        </Card>
+
+
+
     </div>
 
 
@@ -30,9 +45,8 @@
         },
         data() {
             return {
-                total: 0,
-                pageSize: Util.pageSize,
-                currentPage: 1,
+                period:[],
+                allList:['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23']
             }
         },
         mounted() {
@@ -42,25 +56,31 @@
         },
         methods: {
             init() {
+                this.getSet()
             },
-            useablePeriodSet() {
-                this.$refs.useablePeriodSet.show()
-            },
-            onOff(params) {
 
-                let url = 'appoint_wx/room/onOff';
+            ok(){
 
-                this.http.post(url, params.row).then((data) => {
 
-                    this.$Message.success("操作成功！")
-                    this.init()
-
+                this.http.post('appoint_wx/therapist/updateUseablePeriodSet', {
+                    period:this.period.join(','),
+                }).then((data) => {
+                    this.$Message.success('设置成功！')
+                    this.isShow=false;
 
                 }).catch(err => {
                     this.$Message.error(err)
                 })
+            },
+            getSet(){
+                this.http.post('appoint_wx/therapist/getUseablePeriodSet', {
+                    therapist_id:sessionStorage.user_id
+                }).then((data) => {
+                    this.period=data.period.split(',')
 
-
+                }).catch(err => {
+                    this.$Message.error(err)
+                })
             }
         }
     }

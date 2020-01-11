@@ -54,7 +54,7 @@
                                     个人中心
                                 </template>
                                 <MenuItem name="passModify">修改密码</MenuItem>
-                                <MenuItem name="logout" >退出登录</MenuItem>
+                                <MenuItem name="logout">退出登录</MenuItem>
                             </Submenu>
                         </template>
 
@@ -101,7 +101,7 @@
                                     个人中心
                                 </template>
                                 <MenuItem name="passModify">修改密码</MenuItem>
-                                <MenuItem name="logout" >退出登录</MenuItem>
+                                <MenuItem name="logout">退出登录</MenuItem>
                             </Submenu>
                         </template>
 
@@ -148,7 +148,7 @@
                                     个人中心
                                 </template>
                                 <MenuItem name="passModify">修改密码</MenuItem>
-                                <MenuItem name="logout" >退出登录</MenuItem>
+                                <MenuItem name="logout">退出登录</MenuItem>
                             </Submenu>
                         </template>
 
@@ -160,7 +160,7 @@
                                 时间管理
                             </MenuItem>
 
-                            <MenuItem name="fee">
+                            <MenuItem name="feeSet">
                                 <Icon type="ios-navigate"></Icon>
                                 收费设置
                             </MenuItem>
@@ -195,28 +195,27 @@
                                     <Icon type="ios-stats"/>
                                     个人中心
                                 </template>
+                                <MenuItem name="baseInfo">基础信息</MenuItem>
+                                <MenuItem name="appointSet">预约设置</MenuItem>
                                 <MenuItem name="functionSet">功能设置</MenuItem>
                                 <MenuItem name="education">继续教育</MenuItem>
                                 <MenuItem name="type">设置咨询类型</MenuItem>
                                 <MenuItem name="emergency">紧急咨询</MenuItem>
                                 <MenuItem name="passModify">修改密码</MenuItem>
-                                <MenuItem name="logout" >退出登录</MenuItem>
+                                <MenuItem name="logout">退出登录</MenuItem>
                             </Submenu>
                         </template>
-
-
-
 
 
                     </div>
                 </Menu>
             </Header>
 
-            <Content :style="{margin: '88px 20px 0', background: '#fff'}" >
+            <Content :style="{margin: '88px 20px 0', background: '#fff'}">
                 <router-view></router-view>
             </Content>
 
-<!--            <Footer class="layout-footer-center" v-show="isLogin"></Footer>-->
+            <!--            <Footer class="layout-footer-center" v-show="isLogin"></Footer>-->
 
             <Pass ref="pass" :isShow="isShowPassModifyModal"></Pass>
 
@@ -228,20 +227,21 @@
 <script>
     import Pass from './components/PasswordModify'
     import Role from './assets/js/Role'
+
     export default {
         name: 'app',
         data() {
             return {
                 Role,
                 isCollapsed: false,
-                isShowPassModifyModal:false,
+                isShowPassModifyModal: false,
             }
         },
-        components:{
-          Pass
+        components: {
+            Pass
         },
         watch: {
-            $route (to, from) {
+            $route(to, from) {
                 console.log(to.path)
 
                 if (!this.isLogin && !(to.path === '/user/login' || to.path === '/user/register')) {
@@ -259,17 +259,17 @@
             },
         },
         computed: {
-            role(){
-              return   Number(this.$store.state.role);
+            role() {
+                return Number(this.$store.state.role);
             },
 
-            menuList(){
+            menuList() {
                 return this.$store.state.menuList;
             },
-            activeMenuName(){
+            activeMenuName() {
                 return this.$store.state.activeMenuName;
             },
-            username(){
+            username() {
                 return this.$store.state.username;
             },
             isLogin() {
@@ -289,15 +289,15 @@
             }
         },
         methods: {
-            selectMenu(activeName){
+            selectMenu(activeName) {
                 // console.log(e)
                 // this.$router.push(e)
                 // console.log(activeName)
 
                 // this.$nextTick(()=>{
                 //     setTimeout(()=>{
-                        this.$router.push(activeName)
-                    // },5000)
+                this.$router.push(activeName)
+                // },5000)
                 // })
             },
 
@@ -305,7 +305,7 @@
                 this.$refs.side1.toggleCollapse();
             },
 
-            operate(name){
+            operate(name) {
 
                 switch (name) {
                     case 'logout':
@@ -383,12 +383,25 @@
                         this.$router.push('/appoint/list')
                         break;
 
+                    case 'time':
+                        this.$router.push('/therapist/periodSet')
+                        break;
+                    case 'feeSet':
+                        this.$router.push('/therapist/feeSet')
+                        break;
+
+                    case 'baseInfo':
+                        this.$router.push('/user/center')
+                        break;
+                    case 'appointSet':
+                        this.$router.push('/therapist/appointSet')
+                        break;
 
 
                 }
 
             },
-            go2UserDetail(){
+            go2UserDetail() {
                 this.$router.push('/user/detail')
             }
 
@@ -396,7 +409,6 @@
         mounted() {
 
             //相关信息存缓存
-
 
 
         }
@@ -410,87 +422,83 @@
 
 
     .layout_notlogin {
-        border: none!important;
+        border: none !important;
         background: #fff !important;
     }
 
     /*.layout-header-bar {*/
-        /*background: #fff !important;*/
-        /*box-shadow: 0 1px 1px rgba(0, 0, 0, .1);*/
+    /*background: #fff !important;*/
+    /*box-shadow: 0 1px 1px rgba(0, 0, 0, .1);*/
     /*}*/
 
     /*.layout-logo-left {*/
-        /*width: 90%;*/
-        /*height: 30px;*/
-        /*background: #5b6270;*/
-        /*border-radius: 3px;*/
-        /*margin: 15px auto;*/
+    /*width: 90%;*/
+    /*height: 30px;*/
+    /*background: #5b6270;*/
+    /*border-radius: 3px;*/
+    /*margin: 15px auto;*/
     /*}*/
 
     /*.menu-icon {*/
-        /*transition: all .3s;*/
+    /*transition: all .3s;*/
     /*}*/
 
     /*.rotate-icon {*/
-        /*transform: rotate(-90deg);*/
+    /*transform: rotate(-90deg);*/
     /*}*/
 
     /*.menu-item span {*/
-        /*display: inline-block;*/
-        /*overflow: hidden;*/
-        /*width: 69px;*/
-        /*text-overflow: ellipsis;*/
-        /*white-space: nowrap;*/
-        /*vertical-align: bottom;*/
-        /*transition: width .2s ease .2s;*/
+    /*display: inline-block;*/
+    /*overflow: hidden;*/
+    /*width: 69px;*/
+    /*text-overflow: ellipsis;*/
+    /*white-space: nowrap;*/
+    /*vertical-align: bottom;*/
+    /*transition: width .2s ease .2s;*/
     /*}*/
 
     /*.menu-item i {*/
-        /*transform: translateX(0px);*/
-        /*transition: font-size .2s ease, transform .2s ease;*/
-        /*vertical-align: middle;*/
-        /*font-size: 16px;*/
+    /*transform: translateX(0px);*/
+    /*transition: font-size .2s ease, transform .2s ease;*/
+    /*vertical-align: middle;*/
+    /*font-size: 16px;*/
     /*}*/
 
     /*.collapsed-menu span {*/
-        /*width: 0px;*/
-        /*transition: width .2s ease;*/
+    /*width: 0px;*/
+    /*transition: width .2s ease;*/
     /*}*/
 
     /*.collapsed-menu i {*/
-        /*transform: translateX(5px);*/
-        /*transition: font-size .2s ease .2s, transform .2s ease .2s;*/
-        /*vertical-align: middle;*/
-        /*font-size: 22px;*/
+    /*transform: translateX(5px);*/
+    /*transition: font-size .2s ease .2s, transform .2s ease .2s;*/
+    /*vertical-align: middle;*/
+    /*font-size: 22px;*/
     /*}*/
 
     .hidden {
         display: none;
     }
-    .ivu-menu-horizontal.ivu-menu-light:after{
-        width: auto!important;
+
+    .ivu-menu-horizontal.ivu-menu-light:after {
+        width: auto !important;
     }
-     /*.ivu-menu-horizontal .ivu-menu-submenu {*/
-        /*float: right!important;*/
-         /*display: inline-block!important;*/
+
+    /*.ivu-menu-horizontal .ivu-menu-submenu {*/
+    /*float: right!important;*/
+    /*display: inline-block!important;*/
     /*}*/
 
 
-
-
-
-
-
-
-
-    .layout{
+    .layout {
         /*border: 1px solid #d7dde4;*/
         /*background: #f5f7f9;*/
         position: relative;
         border-radius: 4px;
         overflow: hidden;
     }
-    .layout-logo{
+
+    .layout-logo {
         width: 100px;
         height: 30px;
         background: #5b6270;
@@ -500,10 +508,12 @@
         top: 15px;
         left: 20px;
     }
-    .layout-nav{
+
+    .layout-nav {
         margin: 0 auto;
     }
-    .layout-footer-center{
+
+    .layout-footer-center {
         text-align: center;
     }
 
