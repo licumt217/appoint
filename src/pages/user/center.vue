@@ -1,7 +1,7 @@
 <template>
 
 
-    <div>
+    <div style="min-height:70vh">
 
         <Card style="width:780px;margin:2em auto;">
             <p slot="title">
@@ -31,7 +31,7 @@
 
                 <FormItem label="出生日期" prop="birthday">
                     <DatePicker type="date" placeholder="请选择出生日期" v-model="formItem.birthday"
-                                placement="top"></DatePicker>
+                                ></DatePicker>
                 </FormItem>
 
             </Form>
