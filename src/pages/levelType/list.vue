@@ -5,7 +5,7 @@
 
         <Row style="padding:5px;">
             <Col span="22">
-                <HeaderName name="等级类型管理"></HeaderName>
+                <HeaderName name="咨询师等级类型管理"></HeaderName>
             </Col>
             <Col span="2">
                 <Button type="success" @click="add">新增</Button>
