@@ -116,8 +116,13 @@
 
                         this.formItem.therapist_id = sessionStorage.user_id;
 
+                        let url=`appoint_wx/therapistAttachRelation/add`
 
-                        this.http.post(`appoint_wx/therapistAttachRelation/update`, this.formItem).then((data) => {
+                        if(this.formItem.therapist_attach_relation_id){
+                            url=`appoint_wx/therapistAttachRelation/update`
+                        }
+
+                        this.http.post(url, this.formItem).then((data) => {
 
                             this.$Message.success("操作成功！")
                             this.init();
@@ -138,7 +143,11 @@
                     therapist_id: sessionStorage.user_id
                 }).then((data) => {
 
-                    this.formItem = data;
+                    if(data){
+
+                        this.formItem = data;
+
+                    }
 
 
                 }).catch(err => {
