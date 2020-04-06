@@ -50,7 +50,27 @@ let ORDER_STATE={
     4:'已过期',
 }
 
+/**
+ * 咨询师收费方式列表
+ * @type {{"0": string, "1": string, "2": string}}
+ */
+let FEE_TYPE_LIST=[
+    {
+        key:0,
+        desc:'咨询前每单单次收费',
+    },
+    {
+        key:1,
+        desc:'咨询后每单单次收费',
+    },
+    {
+        key:2,
+        desc:'咨询后按月收费',
+    },
+
+]
 
 
 
-export {SEX,SCHOOL_TYPE,QUALIFICATION_TYPE,MANNER_TYPE,NOTICE_SHOW_TYPE,ORDER_STATE}
+
+export {SEX,SCHOOL_TYPE,QUALIFICATION_TYPE,MANNER_TYPE,NOTICE_SHOW_TYPE,ORDER_STATE,FEE_TYPE_LIST}
