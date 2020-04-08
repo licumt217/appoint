@@ -6,9 +6,8 @@ axios.defaults.baseURL = '';
 
 let baseURL = 'http://www.zhuancaiqian.com/'
 
-
 if(location.href.includes('localhost')){
-    baseURL = ''
+    baseURL = 'http://127.0.0.1:8350/'
 }
 
 
