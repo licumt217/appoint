@@ -99,6 +99,20 @@
                                         }
                                     }
                                 }, '删除'),
+                                h('Button', {
+                                    props: {
+                                        type: 'success',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.occupy(params)
+                                        }
+                                    }
+                                }, '使用率'),
 
                                 h('Button', {
                                     props: {
@@ -114,20 +128,7 @@
                                         }
                                     }
                                 }, params.row.state === 0 ? '停用' : '启用'),
-                                h('Button', {
-                                    props: {
-                                        type: 'success',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.occupy(params)
-                                        }
-                                    }
-                                }, '使用率')
+
                             ])
                         }
                     }

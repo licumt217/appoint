@@ -102,6 +102,9 @@
                 formItem: {
                 },
                 rules: {
+                    name: [
+                        {required: true, message: "姓名不能为空", trigger: "blur"}
+                    ],
                     phone: [
                         {required: true, message: "手机号不能为空", trigger: "blur"},
                         {type: 'string', min: 11, message: '手机号长度不能少于11位', trigger: 'blur'}

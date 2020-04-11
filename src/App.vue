@@ -65,11 +65,6 @@
                                 工作室管理
                             </MenuItem>
 
-                            <MenuItem name="therapist">
-                                <Icon type="ios-navigate"></Icon>
-                                咨询师管理
-                            </MenuItem>
-
                             <MenuItem name="therapistLevel">
                                 <Icon type="ios-navigate"></Icon>
                                 咨询师等级管理

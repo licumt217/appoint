@@ -38,6 +38,10 @@
                         }
                     },
                     {
+                        title: '姓名',
+                        key: 'name'
+                    },
+                    {
                         title: '手机号',
                         key: 'phone'
                     },

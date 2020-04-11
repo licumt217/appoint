@@ -100,6 +100,7 @@
 
                 }).then((data) => {
                     if(data){
+                        this.isEdit=true;
                         this.formItem=data;
                     }
 

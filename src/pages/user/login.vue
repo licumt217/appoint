@@ -127,7 +127,7 @@
             },
             goAfterLogin(){
                 if(Number(sessionStorage.role)===Role.admin){
-                    this.$router.push('/divisionManager/list')
+                    this.$router.push('/division/list')
                 }else if(Number(sessionStorage.role)===Role.divisionManager){
                     this.$router.push('/station/list')
                 }else if(Number(sessionStorage.role)===Role.caseManager){

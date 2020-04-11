@@ -100,7 +100,6 @@
                         if(this.isEdit){
                             url='appoint_wx/division/update'
                         }
-debugger
 
                         this.http.post(url, this.formItem).then((data) => {
 
