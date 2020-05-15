@@ -1,42 +1,54 @@
-import store from '../store'
 import axios from 'axios'
+import Modal from '../components/Modal'
+import qs from 'qs'
+import store from "../store";
 // axios 配置
-axios.defaults.timeout = 20000;
-axios.defaults.baseURL = '';
+let baseURL = 'http://www.zhuancaiqian.com/appoint_wx/'
 
-let baseURL = 'http://www.zhuancaiqian.com/'
-
-if(location.href.includes('localhost')){
-    baseURL = 'http://127.0.0.1:8350/'
+if(window.location.href.includes('localhost')){
+    baseURL = 'http://127.0.0.1:8350/appoint_wx/'
 }
-
-
 // http request 拦截器
 axios.interceptors.request.use(
     config => {
+
+
+
         config.url = baseURL + config.url
         config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-        config.headers.token = sessionStorage.getItem("token")||'';
+        config.headers.token = store.getState().token;
+
+        let commonObj={
+            openid:store.getState().openid,
+            user_id:store.getState().user_id,
+
+        }
+
+        config.data=Object.assign(commonObj,config.data);
 
         return config;
     },
     err => {
         return Promise.reject(err);
     });
+
 // http response 拦截器
 axios.interceptors.response.use(
     response => {
+
         if(response.data.isSuccess==="2"){
+            // store.commit("reset")
+            //
+            // location.href=location.href.split("#")[0]+"#"+"/user/login"
+
             return Promise.reject(response.data.errorMsg);
         }else if(response.data.isSuccess==="1"){
             return Promise.reject(response.data.errorMsg);
         }else if(response.data.isSuccess==="0"){
             return Promise.resolve(response.data.data);
         }
-
     },
     error => {
-
         let errorMsg="请求异常"
         if(error.message && error.message==='Network Error'){
             errorMsg="网络异常"
@@ -46,7 +58,6 @@ axios.interceptors.response.use(
 
 
         return Promise.reject(errorMsg)
-
     }
 );
 

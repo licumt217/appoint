@@ -1,26 +1,38 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import App from './App.vue'
-import router from './routers'
-import iView from 'iview';
-import axios from './http/axios'
-import myCommponents from './components'
-import "./assets/js/datePrototype"
-
-import 'iview/dist/styles/iview.css';
-
-Vue.use(Vuex)
-import store from './store'
-Vue.use(iView)
-Vue.use(myCommponents)
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import VConsole from 'vconsole';
+import {Provider} from 'react-redux'
+import {ConfigProvider} from "antd";
+import zhCn from 'antd/es/locale/zh_CN'
+import moment from "moment";
+import 'moment/locale/zh-cn'
 
 
-Vue.prototype.http=axios;
+import The_Layout from './views/layout'
 
-Vue.config.productionTip = false
+import {PersistGate} from "redux-persist/integration/react";
+import {store, persistor} from "./store";
+import {BrowserRouter as Router} from "react-router-dom";
+moment.locale('zh-cn')
 
-new Vue({
-  render: h => h(App),
-  router,
-  store,
-}).$mount('#app')
+if (process.env.OUR_NODE_ENV !== 'prod') {
+    new VConsole();
+}
+
+ReactDOM.render(
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <Router basename={'/appoint/'}>
+            <The_Layout>
+                <ConfigProvider locale={zhCn}>
+                    <App/>
+                </ConfigProvider>
+            </The_Layout>
+            </Router>
+        </PersistGate>
+    </Provider>
+    ,
+    document.getElementById('root')
+);
+
