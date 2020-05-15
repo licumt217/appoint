@@ -91,13 +91,13 @@ class The_Layout extends React.Component {
                                     <Header className="site-layout-background" style={{padding: 0}}>
 
                                         <Row>
-                                            <Col span={22}>
+                                            <Col span={21}>
                                                 {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
                                                     className: 'trigger',
                                                     onClick: this.toggle,
                                                 })}
                                             </Col>
-                                            <Col span={2}>
+                                            <Col span={3}>
                                                 <Dropdown overlay={logoutMenu}>
                                                     <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                                                         {store.getState().user_name} <DownOutlined/>

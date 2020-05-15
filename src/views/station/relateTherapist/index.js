@@ -4,14 +4,18 @@ import {Row, Col, Button, Table, Space, message, Modal, Divider, Pagination, For
 
 import Util from "../../../assets/js/Util";
 
-import {getRelateTherapistList,deleteRelateTherapist} from "../../../http/service";
+import {getRelateTherapistList, deleteRelateTherapist} from "../../../http/service";
 
 import TherapistList from './components/TherapistList'
+
 class Index extends Component {
 
     constructor(props) {
         super(props);
+
         this.station_id = this.props.location.state.station_id
+        this.station_name = this.props.location.state.station_name
+
         this.state = {
             data: {
                 data: []
@@ -61,7 +65,7 @@ class Index extends Component {
     close = () => {
 
         this.setState({
-            visible:false
+            visible: false
         })
 
         this.getList()
@@ -140,14 +144,14 @@ class Index extends Component {
 
 
                 <Row>
-                    <Col span={22}>
-                        <h3>咨询师列表</h3>
+                    <Col span={20}>
+                        <h3>{this.station_name} / 咨询师列表</h3>
                     </Col>
                     <Col span={2}>
-                        <Space>
-                            <Button type={"primary"} onClick={this.open}>新增</Button>
-                            <Button type={"primary"} onClick={this.back}>返回</Button>
-                        </Space>
+                        <Button type={"primary"} onClick={this.open}>添加</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button type={"default"} onClick={this.back}>返回</Button>
                     </Col>
                 </Row>
                 <Divider/>

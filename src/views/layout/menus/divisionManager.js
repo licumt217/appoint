@@ -12,32 +12,14 @@ class DivisionManagerMenu extends Component {
     render() {
         return (
             <Menu theme="dark" mode="inline">
-                <SubMenu
-                    icon={<MenuUnfoldOutlined/>}
-                    key="station"
-                    title={<span>工作室管理</span>}
-                >
-                    <Menu.Item key="station-list"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/station/list`}
-                              style={{color: 'inherit'}}>工作室列表</Link>
-                    </Menu.Item>
-                </SubMenu>
+                <Menu.Item key="station-list" icon={<MenuUnfoldOutlined/>}>
+                    <Link to={`/station/list`}
+                          style={{color: 'inherit'}}>工作室管理</Link>
+                </Menu.Item>
                 <Menu.Item key="therapist-revenue" icon={<MenuUnfoldOutlined/>}>
                     <Link to={`/therapist/revenue`}
                           style={{color: 'inherit'}}>咨询师收益查看</Link>
                 </Menu.Item>
-                <SubMenu
-                    icon={<MenuUnfoldOutlined/>}
-                    key="caseManager"
-                    title={<span>案例管理员</span>}
-                >
-                    <Menu.Item key="caseManager-list"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/caseManager/list`}
-                              style={{color: 'inherit'}}>案例管理员管理</Link>
-                    </Menu.Item>
-                </SubMenu>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}
                     key="complain"
@@ -46,12 +28,12 @@ class DivisionManagerMenu extends Component {
                     <Menu.Item key="complain-user"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/complain/userList`}
-                              style={{color: 'inherit'}}>用户投诉咨询师管理</Link>
+                              style={{color: 'inherit'}}>用户投诉</Link>
                     </Menu.Item>
                     <Menu.Item key="complain-therapist"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/complain/therapistList`}
-                              style={{color: 'inherit'}}>咨询师投诉用户管理</Link>
+                              style={{color: 'inherit'}}>咨询师投诉</Link>
 
                     </Menu.Item>
                 </SubMenu>

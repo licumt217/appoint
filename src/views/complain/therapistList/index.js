@@ -12,7 +12,7 @@ class Index extends Component {
 
         this.state = {
             data: [],
-            visible:true,
+            visible:false,
             reportContent:'',
             form:{}
 

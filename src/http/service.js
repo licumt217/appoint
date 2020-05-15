@@ -581,6 +581,55 @@ export function deleteRoomOccupy(params = {}) {
 
 }
 
+// 伦理公告
+/**
+ * 新增伦理公告
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function addEthicsnotice(params = {}) {
+
+    return axios.post('ethicsnotice/add', params)
+
+
+}
+
+/**
+ * 删除伦理公告
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function deleteEthicsnotice(params = {}) {
+
+    return axios.post('ethicsnotice/delete', params)
+
+
+}
+
+/**
+ * 修改伦理公告
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function updateEthicsnotice(params = {}) {
+
+    return axios.post('ethicsnotice/update', params)
+
+
+}
+
+/**
+ * 查询伦理公告列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getEthicsnoticeList(params = {}) {
+
+    return axios.post('ethicsnotice/list', params)
+
+
+}
+
 
 
 

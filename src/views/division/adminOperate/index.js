@@ -30,7 +30,7 @@ class Index extends Component {
 
 
     back = () => {
-        this.props.history.push('division/adminList')
+        this.props.history.goBack()
     }
     operate = (form) => {
 

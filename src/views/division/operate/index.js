@@ -57,16 +57,16 @@ class Index extends Component {
     render() {
 
         this.function_level_list = [{
-            id: 0,
+            value: 0,
             name: '基础功能'
         }, {
-            id: 1,
+            value: 1,
             name: '预约管理'
         }, {
-            id: 2,
+            value: 2,
             name: '账单生成'
         }, {
-            id: 3,
+            value: 3,
             name: '线上支付'
         }]
 
@@ -108,7 +108,7 @@ class Index extends Component {
                                 >
                                     {
                                         this.function_level_list.map((item, index) => {
-                                            return <Option key={index} value={item.id}>{item.name}</Option>
+                                            return <Option key={index} value={item.value}>{item.name}</Option>
                                         })
                                     }
 

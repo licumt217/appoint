@@ -13,6 +13,7 @@ class Index extends Component {
     constructor(props) {
         super(props);
         this.station_id=this.props.location.state.station_id
+        this.station_name=this.props.location.state.station_name
         this.state={
             data:{
                 data:[]
@@ -24,6 +25,9 @@ class Index extends Component {
         this.getList(1)
     }
 
+    back=()=>{
+        this.props.history.goBack()
+    }
 
     getList=(page)=> {
 
@@ -135,11 +139,14 @@ class Index extends Component {
         return (
             <div>
                 <Row>
-                    <Col span={22}>
-                        <h3>案例管理员管理</h3>
+                    <Col span={20}>
+                        <h3>{this.station_name} / 案例管理员管理</h3>
                     </Col>
                     <Col span={2}>
                         <Button type={"primary"} onClick={this.add}>新增</Button>
+                    </Col>
+                    <Col span={2}>
+                        <Button type={"default"} onClick={this.back}>返回</Button>
                     </Col>
                 </Row>
                 <Divider/>

@@ -138,7 +138,7 @@ class Index extends Component {
                     }
                 },
                 {
-                    title: '咨询方式类型',
+                    title: '咨询方式',
                     dataIndex: 'manner_type_name',
                 },
                 {
@@ -164,7 +164,7 @@ class Index extends Component {
             <div>
 
                 <Modal
-                    title="咨询方式类型"
+                    title="咨询方式"
                     visible={this.state.visible}
                     onOk={this.modalOnOk}
                     onCancel={this.close}
@@ -174,13 +174,13 @@ class Index extends Component {
                           onFinish={this.addOrUpdate}
 
                     >
-                        <Form.Item name={'manner_type_name'} label={'咨询方式类型'} rules={[
+                        <Form.Item name={'manner_type_name'} label={'咨询方式'} rules={[
                             {
                                 required: true,
-                                message: '咨询方式类型不能为空!',
+                                message: '咨询方式不能为空!',
                             },
                         ]}>
-                            <Input placeholder='请输入咨询方式类型'></Input>
+                            <Input placeholder='请输入咨询方式'></Input>
                         </Form.Item>
                     </Form>
                 </Modal>
@@ -188,7 +188,7 @@ class Index extends Component {
 
                 <Row>
                     <Col span={22}>
-                        <h3>咨询方式类型管理</h3>
+                        <h3>咨询方式管理</h3>
                     </Col>
                     <Col span={2}>
                         <Button type={"primary"} onClick={this.add}>新增</Button>

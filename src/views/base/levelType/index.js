@@ -141,7 +141,7 @@ class Index extends Component {
                     }
                 },
             {
-                title: '咨询师等级类型',
+                title: '咨询师等级',
                 dataIndex: 'level_type_name',
             },
             {
@@ -171,7 +171,7 @@ class Index extends Component {
             <div>
 
                 <Modal
-                    title="咨询师等级类型"
+                    title="咨询师等级"
                     visible={this.state.visible}
                     onOk={this.modalOnOk}
                     onCancel={this.close}
@@ -181,13 +181,13 @@ class Index extends Component {
                           onFinish={this.addOrUpdate}
 
                     >
-                        <Form.Item name={'level_type_name'} label={'咨询师等级类型'} rules={[
+                        <Form.Item name={'level_type_name'} label={'咨询师等级'} rules={[
                             {
                                 required: true,
-                                message: '咨询师等级类型不能为空!',
+                                message: '咨询师等级不能为空!',
                             },
                         ]}>
-                            <Input placeholder='请输入咨询师等级类型'></Input>
+                            <Input placeholder='请输入咨询师等级'></Input>
                         </Form.Item>
 
                         <Form.Item name={'divide_ratio'} label={'分成比例（%）'} rules={[
@@ -201,6 +201,7 @@ class Index extends Component {
                                 max={100}
                                 precision={2}
                                 step={0.01}
+                                style={{width:'100%'}}
                                 // onChange={onChange}
                             />
                         </Form.Item>
@@ -211,7 +212,7 @@ class Index extends Component {
 
                 <Row>
                     <Col span={22}>
-                        <h3>咨询师等级类型管理</h3>
+                        <h3>咨询师等级管理</h3>
                     </Col>
                     <Col span={2}>
                         <Button type={"primary"} onClick={this.add}>新增</Button>

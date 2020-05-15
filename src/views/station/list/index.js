@@ -83,20 +83,22 @@ class Index extends Component {
 
     }
 
-    go2CaseManagerList = (station_id) => {
+    go2CaseManagerList = (row) => {
         this.props.history.push({
             pathname:'/caseManager/list',
             state:{
-                station_id
+                station_id:row.station_id,
+                station_name:row.station_name,
             }
         })
     }
 
-    go2TherapistList = (station_id) => {
+    go2TherapistList = (row) => {
         this.props.history.push({
             pathname:'/station/relateTherapist',
             state:{
-                station_id
+                station_id:row.station_id,
+                station_name:row.station_name,
             }
         })
     }
@@ -133,9 +135,9 @@ class Index extends Component {
                         <Button size={"small"} type={"primary"} danger
                                 onClick={this.delete.bind(this, row.station_id)}>删除</Button>
                         <Button size={"small"} type={"primary"}
-                                onClick={this.go2CaseManagerList.bind(this, row.station_id)}>案例管理员</Button>
+                                onClick={this.go2CaseManagerList.bind(this, row)}>案例管理员</Button>
                         <Button size={"small"} type={"primary"}
-                                onClick={this.go2TherapistList.bind(this, row.station_id)}>咨询师列表</Button>
+                                onClick={this.go2TherapistList.bind(this, row)}>咨询师列表</Button>
                     </Space>
                 ),
             },

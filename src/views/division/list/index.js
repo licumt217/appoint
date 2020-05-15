@@ -130,9 +130,9 @@ class Index extends Component {
                 dataIndex: 'action',
                 render: (text, row) => (
                     <Space size="middle">
-                        <Button type={"primary"} onClick={this.edit.bind(this,row)}>编辑</Button>
-                        <Button type={"primary"} danger onClick={this.delete.bind(this,row.division_id)}>删除</Button>
-                        <Button type={"primary"} onClick={this.adminList.bind(this,row.division_id)}>分部管理员</Button>
+                        <Button type={"primary"} size={"small"} onClick={this.edit.bind(this,row)}>编辑</Button>
+                        <Button type={"primary"} size={"small"} danger onClick={this.delete.bind(this,row.division_id)}>删除</Button>
+                        <Button type={"primary"} size={"small"} onClick={this.adminList.bind(this,row.division_id)}>分部管理员</Button>
                     </Space>
                 ),
             },

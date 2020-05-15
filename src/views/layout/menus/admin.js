@@ -32,12 +32,12 @@ class Admin extends Component {
                     <Menu.Item key="complain-user"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/complain/userList`}
-                              style={{color: 'inherit'}}>用户投诉咨询师管理</Link>
+                              style={{color: 'inherit'}}>用户投诉</Link>
                     </Menu.Item>
                     <Menu.Item key="complain-therapist"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/complain/therapistList`}
-                              style={{color: 'inherit'}}>咨询师投诉用户管理</Link>
+                              style={{color: 'inherit'}}>咨询师投诉</Link>
 
                     </Menu.Item>
                 </SubMenu>
@@ -49,27 +49,27 @@ class Admin extends Component {
                     <Menu.Item key="base-level"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/base/levelType`}
-                              style={{color: 'inherit'}}>等级设置</Link>
+                              style={{color: 'inherit'}}>咨询师等级</Link>
                     </Menu.Item>
                     <Menu.Item key="base-manner"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/base/mannerType`}
-                              style={{color: 'inherit'}}>咨询方式设置</Link>
+                              style={{color: 'inherit'}}>咨询方式</Link>
                     </Menu.Item>
                     <Menu.Item key="base-qualification"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/base/qualificationType`}
-                              style={{color: 'inherit'}}>资历类型设置</Link>
+                              style={{color: 'inherit'}}>资历类型</Link>
                     </Menu.Item>
                     <Menu.Item key="base-school"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/base/schoolType`}
-                              style={{color: 'inherit'}}>流派设置</Link>
+                              style={{color: 'inherit'}}>咨询师流派</Link>
                     </Menu.Item>
                     <Menu.Item key="base-consult"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/base/consultType`}
-                              style={{color: 'inherit'}}>预约类型设置</Link>
+                              style={{color: 'inherit'}}>预约类型</Link>
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu

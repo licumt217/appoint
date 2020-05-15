@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Button, Col, Divider, Pagination, Row, Space, Table} from "antd";
+import {Button, Col, Divider, message, Pagination, Row, Space, Table} from "antd";
 import Util from "../../../assets/js/Util";
-import {EthicsNotice} from "../EthicsNotice";
+import {getEthicsnoticeList, deleteEthicsnotice} from "../../../http/service";
 
 
 class Index extends Component {
@@ -10,7 +10,9 @@ class Index extends Component {
         super(props);
 
         this.state = {
-            data: [],
+            data: {
+                data: []
+            }
 
         }
     }
@@ -20,20 +22,25 @@ class Index extends Component {
     }
 
 
-    pageChange = (page) => {
-        this.getList(page)
-    }
-    getList = (currentPage) => {
+    getList = (page) => {
 
-        let data = EthicsNotice.getList();
+        page = page || 1;
 
-        if (data) {
+        let pageSize = Util.pageSize
+        pageSize = 2;
+
+        getEthicsnoticeList({
+            page,
+            pageSize,
+        }).then((data) => {
 
             this.setState({
-                data: data,
-                count: data.length
+                data: data
             })
-        }
+
+        }).catch(err => {
+            Util.error(err)
+        })
 
 
     }
@@ -44,14 +51,14 @@ class Index extends Component {
     }
     edit = (row) => {
         this.props.history.push({
-            pathname:'/ethicsNotice/operate',
-            state:{
+            pathname: '/ethicsNotice/operate',
+            state: {
                 opType: 'edit',
                 formItem: row
             }
         })
     }
-    delete = (id) => {
+    delete = (ethicsnotice_id) => {
 
 
         Util.confirm({
@@ -59,9 +66,13 @@ class Index extends Component {
             content: '',
             onOk: () => {
 
-                EthicsNotice.delete(id)
-                Util.success("删除成功")
-                this.getList()
+                deleteEthicsnotice({
+                    ethicsnotice_id
+                }).then(data=>{
+                    Util.success("删除成功")
+                    this.getList()
+                })
+
             },
             onCancel: () => {
             }
@@ -83,11 +94,11 @@ class Index extends Component {
             },
             {
                 title: '咨询师姓名',
-                dataIndex: 'therapistId',
+                dataIndex: 'name',
             },
             {
                 title: '添加时间',
-                dataIndex: 'addDate',
+                dataIndex: 'add_date',
             },
             {
                 title: '显示方式',
@@ -97,21 +108,18 @@ class Index extends Component {
                 }
             },
             {
-                title: '截止时间',
-                dataIndex: 'endDate',
+                title: '显示截止日期',
+                dataIndex: 'end_date',
                 render: (text) => {
 
-                    if (!text) {
-                        return ''
-                    } else {
-                        let date = new Date(text);
-                        return date.toLocaleString
-                    }
+                    return text?text.split(' ')[0]:text;
                 }
             },
             {
                 title: '公告内容',
                 dataIndex: 'content',
+                width:'20em',
+                ellipsis:true
             },
             {
                 title: '操作',
@@ -120,7 +128,7 @@ class Index extends Component {
                     <Space size="middle">
                         <Button size={"small"} type={"primary"} onClick={this.edit.bind(this, row)}>编辑</Button>
                         <Button size={"small"} type={"primary"} danger
-                                onClick={this.delete.bind(this, row.id)}>删除</Button>
+                                onClick={this.delete.bind(this, row.ethicsnotice_id)}>删除</Button>
                     </Space>
                 ),
             },
@@ -140,11 +148,15 @@ class Index extends Component {
                 <Divider/>
                 <Row justify={'center'}>
                     <Col span={24}>
-                        <Table dataSource={this.state.data.data} columns={columns} rowKey="user_id" pagination={false}/>
+                        <Table dataSource={this.state.data.data} columns={columns} rowKey="ethicsnotice_id" pagination={false}/>
                         {
                             this.state.data.count > 0
                                 ?
-                                (<Pagination showQuickJumper total={this.state.data.count} onChange={this.getList}/>)
+                                (<Pagination showQuickJumper
+                                             total={this.state.data.count}
+                                             pageSize={this.state.data.pageSize}
+                                             current={this.state.data.currentPage}
+                                             onChange={this.getList}/>)
                                 :
                                 (null)
                         }

@@ -1,13 +1,25 @@
 import React, {Component} from 'react';
-import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker} from "antd";
+import {
+    Button,
+    Col,
+    Row,
+    Form,
+    Input,
+    Select,
+    Space,
+    message,
+    Divider,
+    DatePicker,
+    Table,
+    Pagination,
+    Modal
+} from "antd";
 import {addDivisionAdmin, updateDivisionAdmin} from "../../../http/service";
 import Util from "../../../assets/js/Util";
 import Role from "../../../assets/js/Role";
 import {NOTICE_SHOW_TYPE} from "../../../assets/js/constants/constant";
-import {getUserList} from "../../../http/service";
-import {EthicsNotice} from "../EthicsNotice";
+import {addEthicsnotice,updateEthicsnotice,getUserList} from "../../../http/service";
 import moment from 'moment'
-import {Therapist} from "../Therapist";
 
 const {Option} = Select;
 
@@ -21,17 +33,25 @@ class Index extends Component {
         this.isEdit = this.props.location.state && this.props.location.state.opType === 'edit'
 
         let formItem = {
-            showManner: 1
+            show_manner: 1,
+            therapist_id:''
         }
         if (this.isEdit) {
             formItem = this.props.location.state.formItem
-            formItem.endDate = moment(formItem.endDate)
+            formItem.therapist_name=formItem.name;
+            if(formItem.end_date){
+                formItem.end_date = moment(formItem.end_date)
+            }
+
         }
 
 
         this.state = {
             formItem,
-            therapistList: []
+            therapistListData: {
+              data:[]
+            },
+            visible:false,
         }
 
     }
@@ -41,24 +61,39 @@ class Index extends Component {
     }
 
 
-    getTherapistList = () => {
-        getUserList({
-            role: Role.therapist
-        }).then(data => {
 
+    getTherapistList=(page)=>{
+        page = page || 1;
+
+        let pageSize = Util.pageSize
+        pageSize = 2;
+
+        getUserList({
+            role:Role.therapist,
+            page,
+            pageSize
+        }).then(data=>{
             this.setState({
-                therapistList: data.data
+                therapistListData:data
             })
+        }).catch(err => {
+            Util.error(err)
         })
     }
 
 
     back = () => {
-        this.props.history.push('/ethicsNotice/list')
+        this.props.history.goBack()
+    }
+
+    close = () => {
+        this.setState({
+            visible:false
+        })
     }
     operate = (form) => {
+        form.end_date = Util.getDateFromMoment(form.end_date);
 
-        form.endDate = moment(form.birthday).format('yyyy-MM-DD');
 
         this.setState({
             formItem: Object.assign(this.state.formItem, form)
@@ -66,29 +101,118 @@ class Index extends Component {
 
 
         if (this.isEdit) {
-            Util.success("修改成功！")
 
-            this.props.history.push({
-                pathname: '/ethicsNotice/list',
-                state: {}
+            updateEthicsnotice(this.state.formItem).then(data=>{
+                Util.success("操作成功！")
+                this.back()
+            }).catch(err => {
+                Util.error(err)
             })
-        } else {
-            Util.success("添加成功！")
 
-            this.props.history.push({
-                pathname: '/ethicsNotice/list',
-                state: {}
+        } else {
+            addEthicsnotice(this.state.formItem).then(data=>{
+                Util.success("操作成功！")
+                this.back()
+            }).catch(err => {
+                Util.error(err)
             })
         }
 
 
     }
 
+    relate=(row)=>{
+
+
+        this.formRef.current.setFieldsValue({
+
+            therapist_name:row.name,
+        })
+
+        this.setState({
+            formItem:{
+                therapist_id:row.user_id,
+            },
+        })
+
+        this.close()
+    }
+
     render() {
+
+        const allColumns = [
+            {
+                title: '序号',
+                dataIndex: 'index',
+                render: (text, row, index) => {
+                    return index + 1;
+                }
+            },
+            {
+                title: '咨询师姓名',
+                dataIndex: 'name',
+            },
+            {
+                title: '手机号',
+                dataIndex: 'phone',
+            },
+            {
+                title: '性别',
+                dataIndex: 'gender',
+                render: (text) => {
+                    return text === 'male' ? '男' : '女'
+                }
+            },
+            {
+                title: '电子邮箱',
+                dataIndex: 'email',
+            },
+            {
+                title: '出生日期',
+                dataIndex: 'birthday',
+            },
+            {
+                title: '操作',
+                dataIndex: 'action',
+                render: (text, row) => (
+                    <Space size="middle">
+                        <Button size={"small"} type={"primary"}
+                                onClick={this.relate.bind(this, row)}>选择</Button>
+                    </Space>
+                ),
+            },
+        ];
 
 
         return (
             <div>
+                <Modal
+                    width='50vw'
+                    visible={this.state.visible}
+                    title="选择咨询师"
+                    onCancel={()=>{
+                        this.close()
+                    }}
+                    footer={[
+                        <Button key={1} onClick={() => {
+                            this.close()
+                        }}>关闭</Button>
+                    ]}
+                >
+                    <Table dataSource={this.state.therapistListData.data} columns={allColumns} rowKey='user_id'
+                           pagination={false}/>
+                    {
+                        this.state.therapistListData.count > 0
+                            ?
+                            (<Pagination showQuickJumper total={this.state.therapistListData.count}
+                                         pageSize={this.state.therapistListData.pageSize}
+                                         current={this.state.therapistListData.currentPage}
+                                         onChange={this.getTherapistList}/>)
+                            :
+                            (null)
+                    }
+                </Modal>
+
                 <Row>
                     <Col span={22}>
                         <h3>伦理公告操作</h3>
@@ -106,19 +230,23 @@ class Index extends Component {
                             initialValues={this.state.formItem}
                             onFinish={this.operate}
                         >
-                            <Form.Item name="therapistId" label="咨询师"
+                            {
+                                !this.isEdit?
+                                    (
+                                        <Form.Item label="选择咨询师">
+                                            <Button type={"dashed"} onClick={()=>{this.setState({visible:true})}}>选择咨询师</Button>
+                                        </Form.Item>
+                                    )
+                                    :
+                                    (
+                                       null
+                                    )
+
+                            }
+
+                            <Form.Item name="therapist_name" label="咨询师"
                                        rules={[{required: true, message: '咨询师不能为空!'}]}>
-                                <Select
-                                    placeholder="请选择咨询师"
-                                >
-
-                                    {
-                                        this.state.therapistList.map((item, index) => {
-                                            return <Option key={index} value={item.user_id}>{item.name}</Option>
-                                        })
-                                    }
-
-                                </Select>
+                                <Input placeholder={'请选择咨询师'} readOnly />
                             </Form.Item>
 
                             <Form.Item
@@ -134,7 +262,7 @@ class Index extends Component {
                                 <Input.TextArea rows={5} placeholder={'请输入公告内容'} maxLength={500}/>
                             </Form.Item>
 
-                            <Form.Item name="showManner" label="显示方式"
+                            <Form.Item name="show_manner" label="显示方式"
                                        rules={[{required: true, message: '显示方式不能为空!'}]}>
                                 <Select
                                     placeholder="请选择显示方式"
@@ -147,14 +275,14 @@ class Index extends Component {
                             </Form.Item>
                             <Form.Item
                                 noStyle
-                                shouldUpdate={(prevValues, currentValues) => prevValues.showManner !== currentValues.showManner}
+                                shouldUpdate={(prevValues, currentValues) => prevValues.show_manner !== currentValues.show_manner}
                             >
 
                                 {({getFieldValue}) => {
-                                    return getFieldValue('showManner') === 2 ? (
+                                    return getFieldValue('show_manner') === 2 ? (
                                         <Form.Item
                                             label="截止日期"
-                                            name="endDate"
+                                            name="end_date"
                                             format="YYYY-MM-DD"
                                             rules={[
                                                 {
