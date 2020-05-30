@@ -630,6 +630,54 @@ export function getEthicsnoticeList(params = {}) {
 
 }
 
+/**
+ * 查询用户投诉咨询师列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getUserComplaints(params = {}) {
+
+    return axios.post('complaint/getUserComplaints', params)
+
+
+}
+
+/**
+ * 查询咨询师投诉用户列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getTherapistComplaints(params = {}) {
+
+    return axios.post('complaint/getTherapistComplaints', params)
+
+
+}
+
+/**
+ * 查询咨询师投诉用户列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function saveResearchReport(params = {}) {
+
+    return axios.post('complaint/saveResearchReport', params)
+
+
+}
+
+/**
+ * 驳回咨询师的投诉
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function rejectComplaint(params = {}) {
+
+    return axios.post('complaint/reject', params)
+
+
+}
+
 
 
 

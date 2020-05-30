@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Col, DatePicker, Divider, Form, Input, Pagination, Row, Modal, Space, Table} from "antd";
 import Util from "../../../assets/js/Util";
+import {getUserComplaints} from "../../../http/service";
 
 const {RangePicker} = DatePicker;
 
@@ -12,7 +13,6 @@ class Index extends Component {
 
         this.state = {
             data: [],
-            visible: true,
             reportContent: '',
             form: {}
 
@@ -24,38 +24,43 @@ class Index extends Component {
     }
 
 
-    getList = (currentPage) => {
+    getList = (page) => {
+        page = page || 1;
 
-        let data = []
+        let pageSize = Util.pageSize
+        getUserComplaints(Object.assign({
+            page,
+            pageSize,
 
-        if (data) {
-
+        }, this.state.form)).then(data => {
             this.setState({
                 data: data,
-                count: data.length
             })
-        }
-
-
-    }
-
-    close = () => {
-        this.setState({
-            visible: false
+        }).catch(err => {
+            Util.error(err)
         })
-    }
 
+
+    }
 
     query = (form) => {
 
         let obj = Object.assign({}, this.state.form, form)
         if (obj.date) {
             obj.startDate = Util.getDateFromMoment(obj.date[0])
-            obj.endDate = Util.getDateFromMoment(obj.date[1])
+            obj.endDate = Util.getDateFromMoment(obj.date[1])+` 23:59:59`
+
+        }else{
+            obj.startDate =''
+            obj.endDate = ''
         }
 
+        this.setState({
+            form: obj
+        })
 
-        this.close()
+
+        this.getList()
     }
 
 
@@ -72,34 +77,27 @@ class Index extends Component {
 
                 {
                     title: '用户姓名',
-                    dataIndex: 'userName',
+                    dataIndex: 'name',
                 },
                 {
                     title: '用户手机号',
-                    dataIndex: 'userPhone',
+                    dataIndex: 'phone',
                 },
                 {
                     title: '咨询师姓名',
-                    dataIndex: 'therapistId',
+                    dataIndex: 'therapist_name',
                 },
                 {
                     title: '咨询师手机号',
-                    dataIndex: 'therapistPhone',
+                    dataIndex: 'therapist_phone',
                 },
                 {
                     title: '投诉时间',
-                    dataIndex: 'complainDate',
+                    dataIndex: 'complaint_date',
                 },
                 {
                     title: '投诉内容',
-                    dataIndex: 'complainContent',
-                },
-                {
-                    title: '状态',
-                    dataIndex: 'state',
-                    render: (text) => {
-                        return text === '0' ? '未处理' : text === '1' ? '已驳回' : '已添加黑名单'
-                    }
+                    dataIndex: 'content',
                 },
             ]
         ;
@@ -146,7 +144,7 @@ class Index extends Component {
                                 name="date"
                                 format="YYYY-MM-DD"
                             >
-                                <RangePicker/>
+                                <RangePicker style={{width:'20em'}}/>
                             </Form.Item>
 
 

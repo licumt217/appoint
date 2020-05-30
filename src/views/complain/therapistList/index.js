@@ -1,20 +1,23 @@
 import React, {Component} from 'react';
 import {Button, Col, DatePicker, Divider, Form, Input, Pagination, Row, Modal, Space, Table} from "antd";
 import Util from "../../../assets/js/Util";
+import {getTherapistComplaints,saveResearchReport,rejectComplaint} from "../../../http/service";
+import Complaint_STATE from "../../../assets/js/constants/Complaint_STATE";
 
-const {RangePicker} =DatePicker;
+const {RangePicker} = DatePicker;
 
 class Index extends Component {
     formRef = React.createRef();
     modalRef = React.createRef();
+
     constructor(props) {
         super(props);
 
         this.state = {
             data: [],
-            visible:false,
-            reportContent:'',
-            form:{}
+            visible: false,
+            reportContent: '',
+            form: {},
 
         }
     }
@@ -24,73 +27,84 @@ class Index extends Component {
     }
 
 
-    getList = (currentPage) => {
+    getList = (page) => {
+        page = page || 1;
 
-        let data=[]
+        let pageSize = Util.pageSize
+        getTherapistComplaints(Object.assign({
+            page,
+            pageSize,
 
-        if (data) {
-
+        }, this.state.form)).then(data => {
             this.setState({
                 data: data,
-                count: data.length
             })
-        }
+        }).catch(err => {
+            Util.error(err)
+        })
 
 
     }
 
-    close=()=>{
+    query = (form) => {
+
+        let obj = Object.assign({}, this.state.form, form)
+        if (obj.date) {
+            obj.startDate = Util.getDateFromMoment(obj.date[0])
+            obj.endDate = Util.getDateFromMoment(obj.date[1]) + ` 23:59:59`
+
+        } else {
+            obj.startDate = ''
+            obj.endDate = ''
+        }
+
         this.setState({
-            visible:false
+            form: obj
+        })
+
+        this.getList()
+    }
+
+
+    checkReport = () => {
+
+        this.modalRef.current.submit();
+
+
+    }
+
+    saveReport=(form)=>{
+        saveResearchReport({
+            complaint_id:this.modalRef.current.getFieldValue('complaint_id'),
+            report_content:form.report_content
+        }).then(data => {
+            Util.success(`操作成功！`)
+            this.close()
+            this.getList(this.state.data.currentPage)
+        }).catch(err => {
+            Util.error(err)
         })
     }
 
-
-    query=(form)=>{
-
-        let obj=Object.assign({},this.state.form,form)
-        if(obj.date){
-            obj.startDate=Util.getDateFromMoment(obj.date[0])
-            obj.endDate=Util.getDateFromMoment(obj.date[1])
-        }
-
-
-        this.close()
-    }
-
-
-    saveReport=(form)=>{
-
-        let a=this.modalRef;
-
-
-        a.current.submit()
-
-
-
-    }
-    /**
-     * 调查报告
-     * */
-    showReportModal=(params)=>{
-
-    }
 
     /**
      * 驳回
      * @param params
      */
-    reject=(params)=>{
+    reject = (row) => {
         Util.confirm({
             title: '您确认驳回此投诉吗？',
             content: '',
             onOk: () => {
 
-                params.row.state='1'
-
-                Util.success("驳回成功")
-
-                this.getList(1)
+                rejectComplaint({
+                    complaint_id:row.complaint_id
+                }).then(data => {
+                    Util.success(`已驳回！`)
+                    this.getList(this.state.data.currentPage)
+                }).catch(err => {
+                    Util.error(err)
+                })
 
             },
             onCancel: () => {
@@ -101,7 +115,7 @@ class Index extends Component {
      * 添加黑名单
      * @param params
      */
-    addBlackList=(params)=>{
+    addBlackList = (params) => {
         Util.confirm({
             title: '您确认添加此用户到黑名单吗？',
             content: '',
@@ -117,6 +131,22 @@ class Index extends Component {
         });
     }
 
+    close=()=>{
+        this.setState({
+            visible:false,
+        })
+    }
+
+    show=(row)=>{
+        this.setState({
+            visible:true,
+        })
+        setTimeout(()=>{
+            this.modalRef.current.setFieldsValue(row)
+        })
+
+
+    }
 
 
     render() {
@@ -131,52 +161,53 @@ class Index extends Component {
                 },
                 {
                     title: '咨询师姓名',
-                    dataIndex: 'therapistId',
+                    dataIndex: 'therapist_name',
                 },
                 {
                     title: '咨询师手机号',
-                    dataIndex: 'therapistPhone',
+                    dataIndex: 'therapist_phone',
                 },
                 {
                     title: '用户姓名',
-                    dataIndex: 'userName',
+                    dataIndex: 'name',
                 },
                 {
                     title: '用户手机号',
-                    dataIndex: 'userPhone',
+                    dataIndex: 'phone',
                 },
                 {
                     title: '投诉时间',
-                    dataIndex: 'complainDate',
+                    dataIndex: 'complaint_date',
                 },
                 {
                     title: '投诉内容',
-                    dataIndex: 'complainContent',
+                    dataIndex: 'content',
                 },
                 {
                     title: '状态',
                     dataIndex: 'state',
                     render: (text) => {
-                        return text === '0' ? '未处理' : text === '1' ? '已驳回' : '已添加黑名单'
+                        return text === Complaint_STATE.UNHANDLED ? '未处理' : text === Complaint_STATE.REJECTED ? '已驳回' : '已添加黑名单'
                     }
                 },
                 {
                     title: '操作',
                     dataIndex: 'action',
                     render: (text, row) => {
-                        return row.state === '0' ?
+                        return row.state === Complaint_STATE.UNHANDLED ?
                             <Space size="middle">
-                                <Button size={"small"} type={"primary"} onClick={this.reject.bind(this, row)}
-                                        danger>编辑</Button>
                                 <Button size={"small"} type={"primary"}
                                         onClick={this.addBlackList.bind(this, row)}>添加黑名单</Button>
+                                <Button size={"small"} type={"primary"} onClick={this.reject.bind(this, row)}
+                                        danger>驳回</Button>
+
                                 <Button size={"small"} type={"primary"}
-                                        onClick={this.setState({visible:true})}>调查报告</Button>
+                                        onClick={this.show.bind(this,row)}>调查报告</Button>
                             </Space>
                             :
                             <Space size="middle">
                                 <Button size={"small"} type={"primary"}
-                                        onClick={this.setState({visible:true})}>调查报告</Button>
+                                        onClick={this.show.bind(this,row)}>调查报告</Button>
                             </Space>
 
                     }
@@ -192,20 +223,20 @@ class Index extends Component {
                 <Modal
                     title="调查报告"
                     visible={this.state.visible}
-                    onOk={this.saveReport}
+                    onOk={this.checkReport}
                     onCancel={this.close}
                 >
                     <Form ref={this.modalRef}
-                          onFinish={this.query}
+                          onFinish={this.saveReport}
 
                     >
-                        <Form.Item name={'reportContent'} rules={[
+                        <Form.Item name={'report_content'} rules={[
                             {
                                 required: true,
                                 message: '调查报告内容不能为空!',
                             },
                         ]}>
-                            <Input.TextArea rows={5} placeholder={'请输入调查报告内容'} ></Input.TextArea>
+                            <Input.TextArea rows={5} placeholder={'请输入调查报告内容'}></Input.TextArea>
                         </Form.Item>
                     </Form>
                 </Modal>
@@ -218,7 +249,7 @@ class Index extends Component {
                 </Row>
                 <Divider/>
                 <Row>
-                    <Col >
+                    <Col>
                         <Form
                             ref={this.formRef}
                             layout="inline"
@@ -246,7 +277,7 @@ class Index extends Component {
                                 name="date"
                                 format="YYYY-MM-DD"
                             >
-                                <RangePicker />
+                                <RangePicker style={{width:'20em'}}/>
                             </Form.Item>
 
 
