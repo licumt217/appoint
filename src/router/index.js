@@ -3,6 +3,7 @@ import Home from '../views/home'
 import Login from '../views/user/login'
 import Register from '../views/user/register'
 import User_Center from '../views/user/center'
+import User_Modifypass from '../views/user/modifypass'
 
 
 import Division_List from '../views/division/list'
@@ -64,6 +65,7 @@ const routers = [
     {path: '/user/register', component: Register},
     {path: '/user/login', component: Login},
     {path: '/user/center', component: User_Center},
+    {path: '/user/modifypass', component: User_Modifypass},
 
     {path: '/division/list', component: Division_List},
     {path: '/division/operate', component: Division_operate},

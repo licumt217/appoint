@@ -82,7 +82,8 @@ class Admin extends Component {
                               style={{color: 'inherit'}}>个人中心</Link>
                     </Menu.Item>
                     <Menu.Item key="setting-passModify"
-                               icon={<MenuUnfoldOutlined/>}>修改密码</Menu.Item>
+                               icon={<MenuUnfoldOutlined/>}><Link to={`/user/modifypass`}
+                                                                  style={{color: 'inherit'}}>修改密码</Link></Menu.Item>
                 </SubMenu>
 
 

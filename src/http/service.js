@@ -60,6 +60,13 @@ export function addUser(params = {}) {
 
 }
 
+export function updatePassword(params = {}) {
+
+    return axios.post('user/updatePassword', params)
+
+
+}
+
 // 分部
 
 export function getDivisionList(params = {}) {
