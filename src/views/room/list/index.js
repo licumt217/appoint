@@ -63,11 +63,12 @@ class Index extends Component {
         })
     }
 
-    occupy=(room_id)=> {
+    occupy=(row)=> {
         this.props.history.push({
             pathname:'/room/occupy',
             state:{
-                room_id
+                room_id:row.room_id,
+                name:row.name
             }
         })
     }
@@ -97,12 +98,11 @@ class Index extends Component {
 
     }
     delete=(room_id)=>{
-
         Util.confirm({
             title:'您确认删除吗？',
             onOk:()=>{
                 deleteRoom({
-                    room_id,
+                    room_id
                 }).then(()=>{
                     message.success("删除成功")
                     this.getList()
@@ -148,7 +148,7 @@ class Index extends Component {
                     <Space size="middle">
                         <Button size={"small"} type={"primary"} onClick={this.edit.bind(this,row)}>编辑</Button>
                         <Button size={"small"} type={"primary"} danger onClick={this.delete.bind(this,row.room_id)}>删除</Button>
-                        <Button size={"small"} type={"primary"} onClick={this.occupy.bind(this,row.room_id)}>使用率</Button>
+                        <Button size={"small"} type={"primary"} onClick={this.occupy.bind(this,row)}>当前房间时段设置</Button>
                         {
                             row.state===0?
                                 (

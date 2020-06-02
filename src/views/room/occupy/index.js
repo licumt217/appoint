@@ -14,6 +14,7 @@ class Index extends Component {
         super(props);
 
         this.room_id=this.props.location.state.room_id;
+        this.name=this.props.location.state.name;
         this.state={
             dataSource:[],
             columns:[]
@@ -222,7 +223,7 @@ class Index extends Component {
         let queryDate=form.queryDate
 
         if (!queryDate) {
-            Util.warning("请选择日期！")
+            Util.warning("请选择月份！")
         }else{
             queryDate=new Date(Util.getDateFromMoment(queryDate))
             this.date=queryDate
@@ -293,7 +294,7 @@ class Index extends Component {
             <div>
                 <Row>
                     <Col span={20}>
-                        <h3>房间可用设置</h3>
+                        <h3>{this.name} / 房间可用设置</h3>
                     </Col>
                 </Row>
                 <Divider/>

@@ -6,7 +6,7 @@ import Util from "../../../../../assets/js/Util";
 
 import Role from "../../../../../assets/js/Role";
 
-import { getUserList, addRelateTherapist} from "../../../../../http/service";
+import { getNotRelatedTherapist, addRelateTherapist} from "../../../../../http/service";
 
 class Index extends Component {
 
@@ -14,7 +14,7 @@ class Index extends Component {
         super(props);
         this.station_id = this.props.station_id
         this.state = {
-            therapistListData: {
+            data: {
                 data: []
             },
             visible: false
@@ -29,12 +29,12 @@ class Index extends Component {
             this.setState({
                 visible:true
             })
-            this.getAllList(1)
+            this.getNotRelatedTherapist(1)
         }
     }
 
 
-    getAllList = (page) => {
+    getNotRelatedTherapist = (page) => {
 
         page = page || 1;
 
@@ -42,16 +42,15 @@ class Index extends Component {
 
         pageSize = 3
 
-        getUserList({
+        getNotRelatedTherapist({
             page,
             pageSize,
-            role: Role.therapist
+            station_id:this.station_id
+        }).then((data) => {
 
-        }).then((therapistListData) => {
-
-            if (therapistListData) {
+            if (data) {
                 this.setState({
-                    therapistListData
+                    data
                 })
             }
 
@@ -73,9 +72,10 @@ class Index extends Component {
         addRelateTherapist({
             station_id: this.station_id,
             therapist_id
-        }).then((therapistListData) => {
+        }).then(() => {
 
-            Util.success('关联成功！')
+            Util.success('已关联！')
+            this.getNotRelatedTherapist();
 
         }).catch(err => {
             message.warning(err)
@@ -93,7 +93,7 @@ class Index extends Component {
                 title: '序号',
                 dataIndex: 'index',
                 render: (text, row, index) => {
-                    return index + 1;
+                    return `${(this.state.data.currentPage-1)*(this.state.data.pageSize)+(index+1)}`
                 }
             },
             {
@@ -147,15 +147,15 @@ class Index extends Component {
                         }}>关闭</Button>
                     ]}
                 >
-                    <Table dataSource={this.state.therapistListData.data} columns={allColumns} rowKey='user_id'
+                    <Table dataSource={this.state.data.data} columns={allColumns} rowKey='user_id'
                            pagination={false}/>
                     {
-                        this.state.therapistListData.count > 0
+                        this.state.data.count > 0
                             ?
-                            (<Pagination showQuickJumper total={this.state.therapistListData.count}
-                                         pageSize={this.state.therapistListData.pageSize}
-                                         current={this.state.therapistListData.currentPage}
-                                         onChange={this.getAllList}/>)
+                            (<Pagination showQuickJumper total={this.state.data.count}
+                                         pageSize={this.state.data.pageSize}
+                                         current={this.state.data.currentPage}
+                                         onChange={this.getNotRelatedTherapist}/>)
                             :
                             (null)
                     }

@@ -69,7 +69,7 @@ class Index extends Component {
                     sessionStorage.user_id = user_id
                     sessionStorage.role = role
 
-                    store.batchDispatch([{
+                    let batchArray=[{
                         type: 'login',
                         payload: true
                     }, {
@@ -84,7 +84,19 @@ class Index extends Component {
                     }, {
                         type: 'token',
                         payload: token
-                    }])
+                    }]
+
+                    if(role===Role.caseManager){
+                        batchArray.push({
+                            type: 'station_id',
+                            payload: userInfo.station_id
+                        })
+                        batchArray.push({
+                            type: 'station_name',
+                            payload: userInfo.station_name
+                        })
+                    }
+                    store.batchDispatch(batchArray)
 
                     message.success("登录成功")
 

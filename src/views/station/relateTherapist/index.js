@@ -6,6 +6,10 @@ import Util from "../../../assets/js/Util";
 
 import {getRelateTherapistList, deleteRelateTherapist} from "../../../http/service";
 
+import store from "../../../store";
+
+import Role from "../../../assets/js/Role";
+
 import TherapistList from './components/TherapistList'
 
 class Index extends Component {
@@ -13,8 +17,10 @@ class Index extends Component {
     constructor(props) {
         super(props);
 
-        this.station_id = this.props.location.state.station_id
-        this.station_name = this.props.location.state.station_name
+
+        this.getStationInfo();
+
+
 
         this.state = {
             data: {
@@ -28,6 +34,17 @@ class Index extends Component {
         this.getList(1)
     }
 
+    getStationInfo=()=>{
+        //此菜单分部管理员和案例管理员都有权限；分部的话，工作室id通过参数传递；案例的话，取当前登录案例管理员对应的工作室id
+
+        if(store.getState().role===Role.divisionManager){
+            this.station_id = this.props.location.state.station_id
+            this.station_name = this.props.location.state.station_name
+        }else{
+            this.station_id = store.getState().station_id
+            this.station_name = store.getState().station_name
+        }
+    }
 
     getList = (page) => {
 

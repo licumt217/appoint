@@ -18,6 +18,11 @@ class CaseManagerMenu extends Component {
                           style={{color: 'inherit'}}>房间管理</Link>
                 </Menu.Item>
 
+                <Menu.Item key="station-relateTherapist" icon={<MenuUnfoldOutlined/>}>
+                    <Link to={`/station/relateTherapist`}
+                          style={{color: 'inherit'}}>咨询师管理</Link>
+                </Menu.Item>
+
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}
                     key="setting"

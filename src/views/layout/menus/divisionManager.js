@@ -22,23 +22,6 @@ class DivisionManagerMenu extends Component {
                 </Menu.Item>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}
-                    key="complain"
-                    title={<span>投诉管理</span>}
-                >
-                    <Menu.Item key="complain-user"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/complain/userList`}
-                              style={{color: 'inherit'}}>用户投诉</Link>
-                    </Menu.Item>
-                    <Menu.Item key="complain-therapist"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/complain/therapistList`}
-                              style={{color: 'inherit'}}>咨询师投诉</Link>
-
-                    </Menu.Item>
-                </SubMenu>
-                <SubMenu
-                    icon={<MenuUnfoldOutlined/>}
                     key="preCheck"
                     title={<span>预检表</span>}
                 >

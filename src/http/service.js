@@ -348,6 +348,20 @@ export function getRelateTherapistList(params = {}) {
 }
 
 /**
+ * 获取工作室没有关联的咨询师列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getNotRelatedTherapist(params = {}) {
+
+    return axios.post('stationTherapistRelation/getNotRelatedTherapist', params)
+
+
+}
+
+
+
+/**
  * 工作室和咨询师建立关联
  * @param params
  * @returns {Promise<AxiosResponse<T>>}
