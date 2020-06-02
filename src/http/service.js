@@ -678,6 +678,42 @@ export function rejectComplaint(params = {}) {
 
 }
 
+/**
+ * 添加黑名单
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function addBlacklist(params = {}) {
+
+    return axios.post('complaint/addBlacklist', params)
+
+
+}
+
+/**
+ * 移除黑名单
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function deleteBlacklist(params = {}) {
+
+    return axios.post('blacklist/delete', params)
+
+
+}
+
+/**
+ * 黑名单列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getBlackList(params = {}) {
+
+    return axios.post('blacklist/getList', params)
+
+
+}
+
 
 
 

@@ -20,8 +20,8 @@ class Admin extends Component {
                     <Link to={`/ethicsNotice/list`}
                           style={{color: 'inherit'}}>伦理公告</Link>
                 </Menu.Item>
-                <Menu.Item key="blackList" icon={<MenuUnfoldOutlined/>}>
-                    <Link to={`/blackList/list`}
+                <Menu.Item key="blacklist" icon={<MenuUnfoldOutlined/>}>
+                    <Link to={`/blacklist/list`}
                           style={{color: 'inherit'}}>黑名单管理</Link>
                 </Menu.Item>
                 <SubMenu

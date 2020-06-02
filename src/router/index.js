@@ -15,7 +15,7 @@ import EthicsNotice_List from '../views/ethicsNotice/list'
 import EthicsNotice_Operate from '../views/ethicsNotice/operate'
 
 
-import BlackList from '../views/blackList/list'
+import BlackList from '../views/blacklist/list'
 
 
 import Complain_TherapistList from '../views/complain/therapistList'
@@ -74,7 +74,7 @@ const routers = [
     {path: '/ethicsNotice/operate', component: EthicsNotice_Operate},
 
 
-    {path: '/blackList/list', component: BlackList},
+    {path: '/blacklist/list', component: BlackList},
 
     {path: '/complain/therapistList', component: Complain_TherapistList},
     {path: '/complain/userList', component: Complain_UserList},

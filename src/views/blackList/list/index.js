@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Col, Divider, Pagination, Row, Space, Table} from "antd";
 import Util from "../../../assets/js/Util";
+import {getBlackList,deleteBlacklist} from "../../../http/service";
 
 
 class Index extends Component {
@@ -19,32 +20,40 @@ class Index extends Component {
     }
 
 
-    getList = (currentPage) => {
+    getList = (page) => {
+        page=page||1;
 
-        let data = []
-
-        if (data) {
-
+        getBlackList({
+            page,
+            pageSize:Util.pageSize
+        }).then(data=>{
             this.setState({
                 data: data,
                 count: data.length
             })
-        }
-
+        })
 
     }
 
 
-    delete = (id) => {
+    delete = (blacklist_id) => {
 
 
         Util.confirm({
-            title: '您确认删除吗？',
+            title: '您确认移除吗？',
             content: '',
             onOk: () => {
 
-                Util.success("删除成功")
-                this.getList()
+                deleteBlacklist({
+                    blacklist_id
+                }).then(()=>{
+                    Util.success("移除成功")
+                    this.getList()
+                }).catch(err=>{
+                    Util.error(err)
+                })
+
+
             },
             onCancel: () => {
             }
@@ -66,33 +75,22 @@ class Index extends Component {
             },
             {
                 title: '用户姓名',
-                dataIndex: 'userName',
+                dataIndex: 'name',
             },
             {
                 title: '用户手机号',
-                dataIndex: 'userPhone',
+                dataIndex: 'phone',
             },
             {
                 title: '添加黑名单时间',
-                dataIndex: 'addDate',
-            },
-            {
-                title: '移除黑名单时间',
-                dataIndex: 'removeDate',
-                render: (text) => {
-                    return text || ''
-                }
+                dataIndex: 'add_date',
             },
             {
                 title: '操作',
                 dataIndex: 'action',
                 render: (text, row) => (
-                    row.state === '0'
-                        ?
-                        <Button size={"small"} type={"primary"} danger
-                                onClick={this.delete.bind(this, row.id)}>移除黑名单</Button>
-                        :
-                        <span>已移除</span>
+                    <Button size={"small"} type={"primary"} danger
+                            onClick={this.delete.bind(this, row.blacklist_id)}>移除黑名单</Button>
 
                 ),
             },

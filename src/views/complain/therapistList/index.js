@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Col, DatePicker, Divider, Form, Input, Pagination, Row, Modal, Space, Table} from "antd";
 import Util from "../../../assets/js/Util";
-import {getTherapistComplaints,saveResearchReport,rejectComplaint} from "../../../http/service";
+import {getTherapistComplaints,saveResearchReport,rejectComplaint,addBlacklist} from "../../../http/service";
 import Complaint_STATE from "../../../assets/js/constants/Complaint_STATE";
 
 const {RangePicker} = DatePicker;
@@ -115,15 +115,21 @@ class Index extends Component {
      * 添加黑名单
      * @param params
      */
-    addBlackList = (params) => {
+    addBlackList = (row) => {
         Util.confirm({
             title: '您确认添加此用户到黑名单吗？',
             content: '',
             onOk: () => {
 
-                Util.success("操作成功")
-
-                this.getList(1)
+                addBlacklist({
+                    complaint_id:row.complaint_id,
+                    user_id:row.user_id,
+                }).then(data => {
+                    Util.success(`已添加！`)
+                    this.getList(this.state.data.currentPage)
+                }).catch(err => {
+                    Util.error(err)
+                })
 
             },
             onCancel: () => {
