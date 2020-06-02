@@ -298,6 +298,7 @@ class Index extends Component {
                     </Col>
                 </Row>
                 <Divider/>
+                
                 <Row justify={'center'}>
                     <Col span={24}>
                         <Table dataSource={this.state.data.data} columns={columns} rowKey="user_id" pagination={false}/>
