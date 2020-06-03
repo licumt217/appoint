@@ -196,6 +196,10 @@ class Util {
         return moment(dateStr).format('yyyy-MM-DD');
     }
 
+    static getRealDateFromMoment(dateStr){
+        return new Date(moment(dateStr));
+    }
+
     static getDateTimeFromMoment(dateStr){
         return moment(dateStr).format('yyyy-MM-DD HH:MM:SS');
     }

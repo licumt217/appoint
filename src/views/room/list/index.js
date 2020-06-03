@@ -148,7 +148,7 @@ class Index extends Component {
                     <Space size="middle">
                         <Button size={"small"} type={"primary"} onClick={this.edit.bind(this,row)}>编辑</Button>
                         <Button size={"small"} type={"primary"} danger onClick={this.delete.bind(this,row.room_id)}>删除</Button>
-                        <Button size={"small"} type={"primary"} onClick={this.occupy.bind(this,row)}>当前房间时段设置</Button>
+                        <Button size={"small"} type={"primary"} onClick={this.occupy.bind(this,row)}>房间使用率</Button>
                         {
                             row.state===0?
                                 (

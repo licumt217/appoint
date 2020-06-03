@@ -566,41 +566,7 @@ export function getRoomPeriodSet(params = {}) {
 
 }
 
-/**
- * 获取给定房间某月份中各个时段占用列表
- * @param params
- * @returns {Promise<AxiosResponse<T>>}
- */
-export function getRoomOccupyList(params = {}) {
 
-    return axios.post('roomoccupy/list', params)
-
-
-}
-
-/**
- * 设置房间某天某个时段可用和不可用状态
- * @param params
- * @returns {Promise<AxiosResponse<T>>}
- */
-export function addRoomOccupy(params = {}) {
-
-    return axios.post('roomoccupy/add', params)
-
-
-}
-
-/**
- * 设置房间某天某个时段状态由不可用改为可用状态
- * @param params
- * @returns {Promise<AxiosResponse<T>>}
- */
-export function deleteRoomOccupy(params = {}) {
-
-    return axios.post('roomoccupy/delete', params)
-
-
-}
 
 // 伦理公告
 /**
@@ -731,6 +697,18 @@ export function deleteBlacklist(params = {}) {
 export function getBlackList(params = {}) {
 
     return axios.post('blacklist/getList', params)
+
+
+}
+
+/**
+ * 根据房间ID获取生效中的预约列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getAppointmentsOfUsingByRoomId(params = {}) {
+
+    return axios.post('appointment/getListOfUsingByRoomId', params)
 
 
 }

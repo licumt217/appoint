@@ -6,18 +6,18 @@ import Util from "../../../assets/js/Util";
 
 import Role from "../../../assets/js/Role";
 import DateUtil from "../../../assets/js/DateUtil";
-import {addRoomOccupy,deleteRoomOccupy,getRoomPeriodSet,getRoomOccupyList} from "../../../http/service";
+import {  getRoomPeriodSet, getAppointmentsOfUsingByRoomId} from "../../../http/service";
 
 class Index extends Component {
 
     constructor(props) {
         super(props);
 
-        this.room_id=this.props.location.state.room_id;
-        this.name=this.props.location.state.name;
-        this.state={
-            dataSource:[],
-            columns:[]
+        this.room_id = this.props.location.state.room_id;
+        this.name = this.props.location.state.name;
+        this.state = {
+            dataSource: [],
+            columns: []
         }
     }
 
@@ -28,7 +28,7 @@ class Index extends Component {
     /**
      * 给定月份的给定天的具体某个时段是否在不可用列表
      * */
-    isPeriodInList=(period, day, dataList)=> {
+    isPeriodInList = (period, day, dataList) => {
         let flag = null;
         for (let i = 0; i < dataList.length; i++) {
             if (dataList[i].day === day && period === Number(dataList[i].period)) {
@@ -41,28 +41,34 @@ class Index extends Component {
         return flag;
     }
 
-    loadData=()=> {
+    isSameDay = (date1, date2) => {
+        return date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate();
+    }
+
+    isSameDayOfWeek = (date1, date2) => {
+        return date1.getDay() === date2.getDay()
+    }
+    loadData = () => {
 
         this.dataList = []
 
         let notUseableList = []
 
-        getRoomOccupyList({
+        getAppointmentsOfUsingByRoomId({
             room_id: this.room_id,
-            year: this.year,
-            month: this.month
         }).then((data) => {
 
             notUseableList = data;
             let days = Util.getDaysOfMonth(this.year, this.month);
+
+            let nowDate = new Date();
 
             for (let i = 1; i <= days; i++) {
 
                 let d = new Date(this.date.getTime());
 
 
-
-                d.setDate(i )
+                d.setDate(i)
 
                 let obj = {
                     date: d
@@ -70,14 +76,32 @@ class Index extends Component {
 
                 for (let num = 0; num <= 23; num++) {
 
-                    let occupyData = this.isPeriodInList(num, i , notUseableList)
-
-                    if (occupyData ) {//占用
-
-                        obj['period' + num] = occupyData
+                    if (d.getTime() < nowDate.getTime()) {//早于当前日期的不统计
+                        obj['period' + num] = -1
                     } else {
-                        obj['period' + num] = null
+                        for (let i = 0; i < notUseableList.length; i++) {
+                            let appointment = notUseableList[i];
+                            if (appointment.ismulti === 0) {//单次预约
+                                let isSame = this.isSameDay(new Date(appointment.appoint_date), d)
+                                if (isSame && appointment.period.includes(String(num))) {
+                                    obj['period' + num] = 1;
+                                    break;
+                                }
+                            } else {
+
+                                if (new Date(appointment.appoint_date).getTime() < d.getTime() && this.isSameDayOfWeek(new Date(appointment.appoint_date), d) && appointment.period.includes(String(num))) {
+                                    obj['period' + num] = 1;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!obj['period' + num]) {
+                            obj['period' + num] = 0;
+                        }
+
+
                     }
+
 
                 }
 
@@ -86,9 +110,8 @@ class Index extends Component {
             }
 
             this.setState({
-                dataSource:this.dataList
+                dataSource: this.dataList
             })
-
 
 
         }).catch(err => {
@@ -97,7 +120,7 @@ class Index extends Component {
 
     }
 
-    getRoomPeriodSet=()=> {
+    getRoomPeriodSet = () => {
 
         getRoomPeriodSet().then((data) => {
             this.period = data.period.split(',')
@@ -111,49 +134,7 @@ class Index extends Component {
 
     }
 
-    /**
-     * 设置房间可用和不可用状态
-     */
-    setRoomStateCanNotUse=(row,period)=> {
-
-
-        addRoomOccupy( {
-            room_id: this.room_id,
-            year: row.date.getFullYear(),
-            month: row.date.getMonth(),
-            day: row.date.getDate(),
-            period: period,
-            state: 1
-        }).then(() => {
-
-            Util.success("设置成功！")
-            this.loadData()
-
-        }).catch(err => {
-            Util.error(err)
-        })
-
-
-    }
-
-    /**
-     * 设置房间可用和可用状态
-     */
-    setRoomStateCanUse=(occupyData)=> {
-        deleteRoomOccupy( {
-            room_occupy_id: occupyData.room_occupy_id,
-        }).then(() => {
-
-            Util.success("设置成功！")
-            this.loadData()
-
-        }).catch(err => {
-            Util.error(err)
-        })
-
-    }
-
-    getColumns=()=> {
+    getColumns = () => {
 
         let hourArray = []
 
@@ -170,24 +151,25 @@ class Index extends Component {
             optionArray.push({
                 title: hourObj.title,
                 dataIndex: hourObj.key,
-                render: (text, row,c) => {
+                render: (text, row, c) => {
+
+                    //占用率只看当天之后的日期
 
 
                     let occupyData = row[hourObj.key];
 
                     console.log(occupyData)
 
-                    if (occupyData) {//占用中或不可用
+                    if (occupyData === -1) {//已过期
 
-                        if (occupyData.state === 0) {
+                        return null;
 
-                            return <Button size={"small"} type={"default"} >占用中</Button>
+                    } else if (occupyData === 1) {//占用中或不可用
 
-                        } else {
-                            return <Button size={"small"} type={"primary"} danger onClick={this.setRoomStateCanUse.bind(this,occupyData)}>设置为可用</Button>
-                        }
+                        return <Button size={"small"} type={"primary"}>占用中</Button>
+
                     } else {//空闲中
-                        return <Button size={"small"} type={"primary"} onClick={this.setRoomStateCanNotUse.bind(this,row,hourObj.key.substr(6))}>设置为不可用</Button>
+                        return <span>空闲中</span>
                     }
 
                 }
@@ -200,12 +182,11 @@ class Index extends Component {
                 title: '日期',
                 dataIndex: 'date',
                 render: (text, row) => {
-                    return <div>{DateUtil.format(row.date)}</div>
+                    return <div>{DateUtil.format(row.date)} ({this.getWeekTextByDate(row.date)})</div>
                 }
             }
 
         ]
-
 
 
         columns = columns.concat(optionArray)
@@ -219,14 +200,19 @@ class Index extends Component {
 
     }
 
-    query=(form)=> {
-        let queryDate=form.queryDate
+    getWeekTextByDate = (date) => {
+        let day = date.getDay();
+        return ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][day]
+    }
+
+    query = (form) => {
+        let queryDate = form.queryDate
 
         if (!queryDate) {
             Util.warning("请选择月份！")
-        }else{
-            queryDate=new Date(Util.getDateFromMoment(queryDate))
-            this.date=queryDate
+        } else {
+            queryDate = new Date(Util.getDateFromMoment(queryDate))
+            this.date = queryDate
             this.year = queryDate.getFullYear();
             this.month = queryDate.getMonth();
 
@@ -235,66 +221,28 @@ class Index extends Component {
         }
     }
 
-    back=()=> {
+    back = () => {
         this.props.history.goBack()
     }
 
-
+    /**
+     * 只能选择当前月份和之后月份
+     * @param current
+     * @returns {boolean|boolean}
+     */
+    disabledDate = (current) => {
+        let date = Util.getRealDateFromMoment(current)
+        return date.getFullYear() < new Date().getFullYear() || (date.getFullYear() === new Date().getFullYear() && date.getMonth() < new Date().getMonth());
+    }
 
     render() {
 
-        const columns = [
-            {
-                title: '序号',
-                dataIndex: 'index',
-                render:(text,row,index)=>{
-                    return `${(this.state.data.currentPage-1)*(this.state.data.pageSize)+(index+1)}`
-                }
-            },
-            {
-                title: '房间名',
-                dataIndex: 'name',
-            },
-            {
-                title: '房间位置',
-                dataIndex: 'position',
-            },
-            {
-                title: '状态',
-                dataIndex: 'state',
-                render:(text)=>{
-                    return text===0?'已启用':'已停用'
-                }
-            },
-            {
-                title: '操作',
-                dataIndex: 'action',
-                render: (text, row) => (
-                    <div></div>
-                    // <Space size="middle">
-                    //     <Button size={"small"} type={"primary"} onClick={this.edit.bind(this,row)}>编辑</Button>
-                    //     <Button size={"small"} type={"primary"} danger onClick={this.delete.bind(this,row.room_id)}>删除</Button>
-                    //     <Button size={"small"} type={"primary"} onClick={this.occupy.bind(this,row.room_id)}>使用率</Button>
-                    //     {
-                    //         row.state===0?
-                    //             (
-                    //                 <Button size={"small"} type={"primary"} danger onClick={this.onOff.bind(this,row)}>停用</Button>
-                    //             )
-                    //             :
-                    //             (
-                    //                 <Button size={"small"} type={"primary"} onClick={this.onOff.bind(this,row)}>启用</Button>
-                    //             )
-                    //     }
-                    // </Space>
-                ),
-            },
-        ];
 
         return (
             <div>
                 <Row>
                     <Col span={20}>
-                        <h3>{this.name} / 房间可用设置</h3>
+                        <h3>{this.name} / 房间使用率</h3>
                     </Col>
                 </Row>
                 <Divider/>
@@ -313,7 +261,7 @@ class Index extends Component {
                                 name="queryDate"
                                 format="YYYY-MM-DD"
                             >
-                                <DatePicker style={{width:'10em'}} picker={'month'} />
+                                <DatePicker disabledDate={this.disabledDate} style={{width: '10em'}} picker={'month'}/>
                             </Form.Item>
 
 
@@ -333,7 +281,8 @@ class Index extends Component {
                 <Divider/>
                 <Row>
                     <Col span={24}>
-                        <Table dataSource={this.state.dataSource} columns={this.state.columns} rowKey="date" pagination={false}/>
+                        <Table dataSource={this.state.dataSource} columns={this.state.columns} rowKey="date"
+                               pagination={false}/>
                     </Col>
                 </Row>
             </div>
