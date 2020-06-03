@@ -83,12 +83,10 @@ class Index extends Component {
 
     onOff=(row)=> {
 
-        let url = 'appoint_wx/room/onOff';
-
         onOffRoom(row).then(() => {
 
             Util.success("操作成功！")
-            this.getList()
+            this.getList(this.state.data.currentPage)
 
 
         }).catch(err => {
