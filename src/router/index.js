@@ -29,7 +29,7 @@ import ConsultType from '../views/base/consultType'
 import LevelType from '../views/base/levelType'
 import MannerType from '../views/base/mannerType'
 
-import Appoint_List from '../views/appoint/list'
+
 
 
 import CaseManager_List from '../views/caseManager/list'
@@ -46,6 +46,9 @@ import Therapist_AppointSet from '../views/therapist/appointSet'
 import Therapist_FeeSet from '../views/therapist/feeSet'
 import Therapist_Revenue from '../views/therapist/revenue'
 import Therapist_PeriodSet from '../views/therapist/periodSet'
+import Therapist_Occupy from '../views/therapist/occupy'
+import Therapist_complaint from '../views/therapist/complaint'
+import Therapist_OrderList from '../views/therapist/orderList'
 
 import Room_List from '../views/room/list'
 import Room_Operate from '../views/room/operate'
@@ -87,7 +90,7 @@ const routers = [
     {path: '/base/levelType', component: LevelType},
     {path: '/base/mannerType', component: MannerType},
 
-    {path: '/appoint/list', component: Appoint_List},
+
 
     {path: '/caseManager/list', component: CaseManager_List},
     {path: '/caseManager/operate', component: CaseManager_Operate},
@@ -103,6 +106,9 @@ const routers = [
     {path: '/therapist/feeSet', component: Therapist_FeeSet},
     {path: '/therapist/revenue', component: Therapist_Revenue},
     {path: '/therapist/periodSet', component: Therapist_PeriodSet},
+    {path: '/therapist/occupy', component: Therapist_Occupy},
+    {path: '/therapist/complaint', component: Therapist_complaint},
+    {path: '/therapist/orderList', component: Therapist_OrderList},
 
     {path: '/room/list', component: Room_List},
     {path: '/room/operate', component: Room_Operate},

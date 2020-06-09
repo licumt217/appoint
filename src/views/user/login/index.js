@@ -42,7 +42,7 @@ class Index extends Component {
                 this.props.history.push('/room/list');
                 break;
             case Role.therapist:
-                this.props.history.push('/appoint/list');
+                this.props.history.push('/therapist/orderList');
                 break;
         }
 

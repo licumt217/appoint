@@ -474,7 +474,7 @@ export function updateUseablePeriodSet(params = {}) {
  * @param params
  * @returns {Promise<AxiosResponse<T>>}
  */
-export function getUseablePeriodSet(params = {}) {
+export function getUseablePeriodSetOfTherapist(params = {}) {
 
     return axios.post('therapist/getUseablePeriodSet', params)
 
@@ -630,6 +630,18 @@ export function getUserComplaints(params = {}) {
 }
 
 /**
+ * 添加一条投诉（咨询师投诉客户）
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function addComplaint(params = {}) {
+
+    return axios.post('complaint/add', params)
+
+
+}
+
+/**
  * 查询咨询师投诉用户列表
  * @param params
  * @returns {Promise<AxiosResponse<T>>}
@@ -637,6 +649,18 @@ export function getUserComplaints(params = {}) {
 export function getTherapistComplaints(params = {}) {
 
     return axios.post('complaint/getTherapistComplaints', params)
+
+
+}
+
+/**
+ * 根据咨询师ID查询咨询师投诉用户列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getTherapistComplaintsByTId(params = {}) {
+
+    return axios.post('complaint/getTherapistComplaintsByTId', params)
 
 
 }
@@ -709,6 +733,18 @@ export function getBlackList(params = {}) {
 export function getAppointmentsOfUsingByRoomId(params = {}) {
 
     return axios.post('appointment/getListOfUsingByRoomId', params)
+
+
+}
+
+/**
+ * 根据咨询师ID获取生效中的预约列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getAppointmentsOfUsingByTherapistId(params = {}) {
+
+    return axios.post('appointment/getListOfUsingByTherapistId', params)
 
 
 }

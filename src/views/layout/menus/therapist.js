@@ -24,14 +24,24 @@ class TherapistMenu extends Component {
                     key="therapist-my"
                     title={<span>我的来访</span>}
                 >
-                    <Menu.Item key="appoint-order" icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/appoint/list`}
+                    <Menu.Item key="therapist-order" icon={<MenuUnfoldOutlined/>}>
+                        <Link to={`/therapist/orderList`}
                               style={{color: 'inherit'}}>咨询客观记录</Link>
                     </Menu.Item>
                     <Menu.Item key="therapist-waitlist"
                                icon={<MenuUnfoldOutlined/>}>
                         <Link to={`/therapist/list`}
                               style={{color: 'inherit'}}>等待名单</Link>
+                    </Menu.Item>
+                    <Menu.Item key="therapist-occupy"
+                               icon={<MenuUnfoldOutlined/>}>
+                        <Link to={`/therapist/occupy`}
+                              style={{color: 'inherit'}}>时间使用率</Link>
+                    </Menu.Item>
+                    <Menu.Item key="therapist-complaint"
+                               icon={<MenuUnfoldOutlined/>}>
+                        <Link to={`/therapist/complaint`}
+                              style={{color: 'inherit'}}>投诉用户列表</Link>
                     </Menu.Item>
 
 

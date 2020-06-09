@@ -140,14 +140,14 @@ class Index extends Component {
                         return index + 1;
                     }
                 },
-            {
-                title: '咨询师等级',
-                dataIndex: 'level_type_name',
-            },
-            {
-                title: '分成比例（%）',
-                dataIndex: 'divide_ratio',
-            },
+                {
+                    title: '咨询师等级',
+                    dataIndex: 'level_type_name',
+                },
+                {
+                    title: '分成比例（%）',
+                    dataIndex: 'divide_ratio',
+                },
                 {
                     title: '操作',
                     dataIndex: 'action',
@@ -155,7 +155,8 @@ class Index extends Component {
                         return (
                             <Space size="middle">
                                 <Button size={"small"} type={"primary"} onClick={this.edit.bind(this, row)}>编辑</Button>
-                                <Button size={"small"} type={"primary"} danger onClick={this.delete.bind(this, row)}>删除</Button>
+                                <Button size={"small"} type={"primary"} danger
+                                        onClick={this.delete.bind(this, row)}>删除</Button>
                             </Space>
                         )
 
@@ -201,7 +202,7 @@ class Index extends Component {
                                 max={100}
                                 precision={2}
                                 step={0.01}
-                                style={{width:'100%'}}
+                                style={{width: '100%'}}
                                 // onChange={onChange}
                             />
                         </Form.Item>

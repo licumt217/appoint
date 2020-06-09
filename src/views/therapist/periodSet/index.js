@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Col, Row, Form, Input, Select, InputNumber, Checkbox, Divider, DatePicker, Card} from "antd";
 import {
-    getUseablePeriodSet,
+    getUseablePeriodSetOfTherapist,
     updateUseablePeriodSet,
 } from "../../../http/service";
 import Util from "../../../assets/js/Util";
@@ -45,7 +45,7 @@ class Index extends Component {
 
 
     getUseablePeriodSet = () => {
-        getUseablePeriodSet({
+        getUseablePeriodSetOfTherapist({
             therapist_id: this.therapist_id
         }).then((data) => {
 
