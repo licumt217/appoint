@@ -272,7 +272,6 @@ export function deleteMannerType(params = {}) {
 
 }
 
-//order getOrderListByTherapistId
 
 export function getOrderListByTherapistId(params = {}) {
 
@@ -280,6 +279,33 @@ export function getOrderListByTherapistId(params = {}) {
 
 
 }
+
+/**
+ * 咨询师收益列表（已完结订单）
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getDoneOrderListByTherapistId(params = {}) {
+
+    return axios.post('order/getDoneOrderListByTherapistId', params)
+
+
+}
+
+/**
+ * 查询咨询师收益汇总
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getRevenueSumByTherapistId(params = {}) {
+
+    return axios.post('order/getRevenueSumByTherapistId', params)
+
+
+}
+
+
+
 
 // station
 export function getStationList(params = {}) {
