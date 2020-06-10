@@ -57,7 +57,7 @@ class Index extends Component {
             formItem: Object.assign({therapist_id: this.therapist_id}, this.state.formItem, form)
         })
 
-        if (this.state.formItem.fee_set_id) {
+        if (this.state.formItem.therapist_fee_set_id) {
             updateFeeSet(this.state.formItem).then((data) => {
                 Util.success("操作成功！")
 
