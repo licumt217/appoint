@@ -45,7 +45,6 @@ class Index extends Component {
         getNotRelatedTherapist({
             page,
             pageSize,
-            station_id:this.station_id
         }).then((data) => {
 
             if (data) {

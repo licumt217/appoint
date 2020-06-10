@@ -7,7 +7,7 @@ import Util from "../../../assets/js/Util";
 import Role from "../../../assets/js/Role";
 import DateUtil from "../../../assets/js/DateUtil";
 import store from "../../../store";
-import {  getUseablePeriodSetOfTherapist, getAppointmentsOfUsingByTherapistId} from "../../../http/service";
+import {  getTherapistPeriodSet, getAppointmentsOfUsingByTherapistId} from "../../../http/service";
 
 class Index extends Component {
 
@@ -22,7 +22,7 @@ class Index extends Component {
     }
 
     componentDidMount() {
-        this.getUseablePeriodSetOfTherapist();
+        this.getTherapistPeriodSet();
     }
 
     /**
@@ -120,9 +120,9 @@ class Index extends Component {
 
     }
 
-    getUseablePeriodSetOfTherapist = () => {
+    getTherapistPeriodSet = () => {
 
-        getUseablePeriodSetOfTherapist({
+        getTherapistPeriodSet({
             therapist_id:this.therapist_id
         }).then((data) => {
 

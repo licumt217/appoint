@@ -488,9 +488,9 @@ export function updateFeeSet(params = {}) {
  * @param params
  * @returns {Promise<AxiosResponse<T>>}
  */
-export function updateUseablePeriodSet(params = {}) {
+export function updateTherapistPeriodSet(params = {}) {
 
-    return axios.post('therapist/updateUseablePeriodSet', params)
+    return axios.post('therapistPeriodSet/updateByTherapistId', params)
 
 
 }
@@ -500,9 +500,9 @@ export function updateUseablePeriodSet(params = {}) {
  * @param params
  * @returns {Promise<AxiosResponse<T>>}
  */
-export function getUseablePeriodSetOfTherapist(params = {}) {
+export function getTherapistPeriodSet(params = {}) {
 
-    return axios.post('therapist/getUseablePeriodSet', params)
+    return axios.post('therapistPeriodSet/getByTherapistId', params)
 
 
 }

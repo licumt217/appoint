@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Button, Col, Row, Form, Input, Select, InputNumber, Checkbox, Divider, DatePicker, Card} from "antd";
 import {
-    getUseablePeriodSetOfTherapist,
-    updateUseablePeriodSet,
+    getTherapistPeriodSet,
+    updateTherapistPeriodSet,
 } from "../../../http/service";
 import Util from "../../../assets/js/Util";
 import store from "../../../store";
@@ -45,7 +45,7 @@ class Index extends Component {
 
 
     getUseablePeriodSet = () => {
-        getUseablePeriodSetOfTherapist({
+        getTherapistPeriodSet({
             therapist_id: this.therapist_id
         }).then((data) => {
 
@@ -58,11 +58,11 @@ class Index extends Component {
             Util.error(err)
         })
     }
-    updateUseablePeriodSet = (form) => {
+    updateTherapistPeriodSet = (form) => {
 
         let period=form.period?form.period.join(','):''
 
-        updateUseablePeriodSet({
+        updateTherapistPeriodSet({
             period,
             therapist_id:this.therapist_id
         }).then((data) => {
@@ -91,7 +91,7 @@ class Index extends Component {
                         <Form
                             ref={this.formRef}
                             layout="vertical"
-                            onFinish={this.updateUseablePeriodSet}
+                            onFinish={this.updateTherapistPeriodSet}
                         >
 
 
