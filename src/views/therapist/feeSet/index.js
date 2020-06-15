@@ -100,17 +100,6 @@ class Index extends Component {
                         >
 
 
-                            <Form.Item name="fee_type" label="收费方式" rules={[{required: true, message: '收费方式不能为空!'}]}>
-                                <Select placeholder="请选择收费方式">
-                                    {
-                                        FEE_TYPE_LIST.map((item, index) => {
-                                            return <Option key={index}
-                                                           value={item.key}>{item.desc}</Option>
-                                        })
-                                    }
-                                </Select>
-                            </Form.Item>
-
                             <Form.Item name="fee" label="每个时段费用（元）"
                                        rules={[{required: true, message: '费用不能为空!'}]}>
                                 <InputNumber style={{width:'100%'}} min={0} max={9999} precision={2} placeholder={'请输入费用'}/>
