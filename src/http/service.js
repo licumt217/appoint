@@ -632,6 +632,18 @@ export function updateEthicsnotice(params = {}) {
 }
 
 /**
+ * 启用停用伦理公告
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function onOffEthicsnotice(params = {}) {
+
+    return axios.post('ethicsnotice/onOff', params)
+
+
+}
+
+/**
  * 查询伦理公告列表
  * @param params
  * @returns {Promise<AxiosResponse<T>>}

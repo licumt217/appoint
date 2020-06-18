@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Button, Col, Divider, message, Pagination, Row, Space, Table} from "antd";
 import Util from "../../../assets/js/Util";
-import {getEthicsnoticeList, deleteEthicsnotice} from "../../../http/service";
+import {getEthicsnoticeList, deleteEthicsnotice,onOffEthicsnotice} from "../../../http/service";
+import warning from "react-redux/lib/utils/warning";
 
 
 class Index extends Component {
@@ -57,6 +58,16 @@ class Index extends Component {
             }
         })
     }
+    onOff=(row)=>{
+        onOffEthicsnotice({
+            ethicsnotice_id:row.ethicsnotice_id,
+            state:row.state===0?1:0
+        }).then(data=>{
+            Util.success("操作成功")
+            this.getList()
+        })
+
+    }
     delete = (ethicsnotice_id) => {
 
 
@@ -87,21 +98,25 @@ class Index extends Component {
             {
                 title: '序号',
                 dataIndex: 'index',
+                width:'5em',
                 render: (text, row, index) => {
                     return index + 1;
                 }
             },
             {
                 title: '咨询师姓名',
+                width:'10em',
                 dataIndex: 'name',
             },
             {
                 title: '添加时间',
+                width:'15em',
                 dataIndex: 'add_date',
             },
             {
                 title: '显示方式',
                 dataIndex: 'showManner',
+                width:'15em',
                 render: (text) => {
                     return text === '0' ? '不显示' : text === '1' ? '永久显示' : '一段时间显示'
                 }
@@ -109,6 +124,7 @@ class Index extends Component {
             {
                 title: '显示截止日期',
                 dataIndex: 'end_date',
+                width:'10em',
                 render: (text) => {
 
                     return text?text.split(' ')[0]:text;
@@ -117,15 +133,30 @@ class Index extends Component {
             {
                 title: '公告内容',
                 dataIndex: 'content',
-                width:'20em',
                 ellipsis:true
+            },
+            {
+                title: '状态',
+                dataIndex: 'state',
+                width:'5em',
+                render:(state)=>{
+                    return state===0?'启用':'停用'
+                }
             },
             {
                 title: '操作',
                 dataIndex: 'action',
+                width:'20em',
                 render: (text, row) => (
                     <Space size="middle">
                         <Button size={"small"} type={"primary"} onClick={this.edit.bind(this, row)}>编辑</Button>
+                        {
+                            row.state===0?
+                                <Button size={"small"} type={"primary"} danger onClick={this.onOff.bind(this, row)}>停用</Button>
+                                :
+                                <Button size={"small"} type={"primary"} onClick={this.onOff.bind(this, row)}>启用</Button>
+                        }
+
                         <Button size={"small"} type={"primary"} danger
                                 onClick={this.delete.bind(this, row.ethicsnotice_id)}>删除</Button>
                     </Space>
