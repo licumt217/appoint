@@ -156,12 +156,13 @@ class Util {
         }
     }
 
-    static getAppointPeriodStrFromArray(appoint) {
+    static getAppointmentPeriodStrFromArray(period) {
+
         let str = '';
-        if (!appoint.period) {
+        if(!period){
             return str;
         }
-        appoint.period.split(',').forEach(item => {
+        period.split(',').forEach(item => {
             str += (`${Util.fixZero(item)}:00-${Util.fixZero(item)}:50 `)
         })
 

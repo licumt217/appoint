@@ -105,6 +105,14 @@ class Index extends Component {
                 }
             },
             {
+                title: '客户姓名',
+                dataIndex: 'name',
+            },
+            {
+                title: '客户手机号',
+                dataIndex: 'phone',
+            },
+            {
                 title: '订单日期',
                 dataIndex: 'order_date',
                 render:(text)=>{
@@ -116,20 +124,25 @@ class Index extends Component {
                 dataIndex: 'amount',
             },
             {
+                title: '预约时段',
+                dataIndex: 'period',
+                render:(text)=>{
+                    return Util.getAppointmentPeriodStrFromArray(text)
+                }
+            },
+            {
+                title: '房间',
+                dataIndex: 'room_name',
+            },
+            {
                 title: '订单状态',
                 dataIndex: 'state',
                 render:(text)=>{
                     return ORDER_STATE_DESC[text]
                 }
             },
-            {
-                title: '客户姓名',
-                dataIndex: 'name',
-            },
-            {
-                title: '客户手机号',
-                dataIndex: 'phone',
-            },
+
+
             {
                 title: '操作',
                 dataIndex: 'action',
