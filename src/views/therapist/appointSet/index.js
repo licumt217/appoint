@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card} from "antd";
+import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card,Cascader} from "antd";
 import {
     addAppointSet,
     updateAppointSet,
@@ -12,6 +12,7 @@ import {
 import Util from "../../../assets/js/Util";
 import store from "../../../store";
 import './index.less'
+import {pczOptions} from "../../../assets/js/pcz";
 
 const {Option} = Select;
 
@@ -21,6 +22,7 @@ class Index extends Component {
 
     constructor(props) {
         super(props);
+
 
         this.therapist_id=store.getState().user_id
 
@@ -76,6 +78,7 @@ class Index extends Component {
         }).then((data) => {
 
             if (data) {
+
                 this.setState({
                     formItem: data
                 })
@@ -117,6 +120,9 @@ class Index extends Component {
 
     render() {
 
+        function onChange(value) {
+            console.log(value);
+        }
 
         return (
             <div>
@@ -188,6 +194,10 @@ class Index extends Component {
                                     <Option key={1} value={0}>不接受</Option>
                                     <Option key={2} value={1}>接受</Option>
                                 </Select>
+                            </Form.Item>
+
+                            <Form.Item name="area" label="咨询区域" rules={[{required: true, message: '紧急咨询不能为空!'}]}>
+                                <Cascader options={pczOptions} onChange={onChange} placeholder="请选择区域" />
                             </Form.Item>
 
 

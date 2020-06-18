@@ -27,7 +27,6 @@ class Index extends Component {
         page = page || 1;
 
         let pageSize = Util.pageSize
-        pageSize = 2;
 
         getEthicsnoticeList({
             page,
