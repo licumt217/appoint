@@ -87,25 +87,7 @@ class Index extends Component {
                 title: '序号',
                 dataIndex: 'index',
                 render:(text,row,index)=>{
-                    return index+1;
-                }
-            },
-            {
-                title: '订单日期',
-                dataIndex: 'order_date',
-                render:(text)=>{
-                    return text?(text.split(' ')[0]):text;
-                }
-            },
-            {
-                title: '我的收益',
-                dataIndex: 'amount',
-            },
-            {
-                title: '订单状态',
-                dataIndex: 'state',
-                render:(text)=>{
-                    return ORDER_STATE_DESC[text]
+                    return `${(this.state.data.currentPage-1)*(this.state.data.pageSize)+(index+1)}`
                 }
             },
             {
@@ -116,6 +98,32 @@ class Index extends Component {
                 title: '客户手机号',
                 dataIndex: 'phone',
             },
+            {
+                title: '订单日期',
+                dataIndex: 'order_date',
+                render:(text)=>{
+                    return text?(text.split(' ')[0]):text;
+                }
+            },
+            {
+                title: '订单时段',
+                dataIndex: 'period',
+                render:(text)=>{
+                    return Util.getAppointmentPeriodStr(text)
+                }
+            },
+            {
+                title: '订单金额',
+                dataIndex: 'amount',
+            },
+            {
+                title: '订单状态',
+                dataIndex: 'state',
+                render:(text)=>{
+                    return ORDER_STATE_DESC[text]
+                }
+            },
+
         ];
 
         return (

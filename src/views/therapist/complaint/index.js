@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Col, DatePicker, Divider, Form, Input, Pagination, Row, Modal, Space, Table} from "antd";
 import Util from "../../../assets/js/Util";
 import {getTherapistComplaintsByTId} from "../../../http/service";
-import Complaint_STATE from "../../../assets/js/constants/Complaint_STATE";
+import COMPLAINT_STATE from "../../../assets/js/constants/COMPLAINT_STATE";
 import store from "../../../store";
 
 class Index extends Component {
@@ -52,8 +52,8 @@ class Index extends Component {
                 {
                     title: '序号',
                     dataIndex: 'index',
-                    render: (text, row, index) => {
-                        return index + 1;
+                    render:(text,row,index)=>{
+                        return `${(this.state.data.currentPage-1)*(this.state.data.pageSize)+(index+1)}`
                     }
                 },
                 {
@@ -76,7 +76,7 @@ class Index extends Component {
                     title: '状态',
                     dataIndex: 'state',
                     render: (text) => {
-                        return text === Complaint_STATE.UNHANDLED ? '未处理' : text === Complaint_STATE.REJECTED ? '已驳回' : '已添加黑名单'
+                        return text === COMPLAINT_STATE.UNHANDLED ? '未处理' : text === COMPLAINT_STATE.REJECTED ? '已驳回' : '已添加黑名单'
                     }
                 },
             ]

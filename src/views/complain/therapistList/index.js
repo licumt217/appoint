@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Button, Col, DatePicker, Divider, Form, Input, Pagination, Row, Modal, Space, Table} from "antd";
 import Util from "../../../assets/js/Util";
 import {getTherapistComplaints,saveResearchReport,rejectComplaint,addBlacklist} from "../../../http/service";
-import Complaint_STATE from "../../../assets/js/constants/Complaint_STATE";
+import COMPLAINT_STATE from "../../../assets/js/constants/COMPLAINT_STATE";
+import COMPLAINT_STATE_DESC from "../../../assets/js/constants/COMPLAINT_STATE_DESC";
 
 const {RangePicker} = DatePicker;
 
@@ -161,8 +162,8 @@ class Index extends Component {
                 {
                     title: '序号',
                     dataIndex: 'index',
-                    render: (text, row, index) => {
-                        return index + 1;
+                    render:(text,row,index)=>{
+                        return `${(this.state.data.currentPage-1)*(this.state.data.pageSize)+(index+1)}`
                     }
                 },
                 {
@@ -193,14 +194,14 @@ class Index extends Component {
                     title: '状态',
                     dataIndex: 'state',
                     render: (text) => {
-                        return text === Complaint_STATE.UNHANDLED ? '未处理' : text === Complaint_STATE.REJECTED ? '已驳回' : '已添加黑名单'
+                        return COMPLAINT_STATE_DESC[text]
                     }
                 },
                 {
                     title: '操作',
                     dataIndex: 'action',
                     render: (text, row) => {
-                        return row.state === Complaint_STATE.UNHANDLED ?
+                        return (row.state === COMPLAINT_STATE.UNHANDLED || row.state === COMPLAINT_STATE.REMOVED) ?
                             <Space size="middle">
                                 <Button size={"small"} type={"primary"}
                                         onClick={this.addBlackList.bind(this, row)}>添加黑名单</Button>

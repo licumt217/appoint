@@ -110,8 +110,8 @@ class Index extends Component {
             {
                 title: '序号',
                 dataIndex: 'index',
-                render: (text, row, index) => {
-                    return index + 1;
+                render:(text,row,index)=>{
+                    return index+1;
                 }
             },
             {

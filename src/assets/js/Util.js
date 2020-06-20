@@ -156,7 +156,7 @@ class Util {
         }
     }
 
-    static getAppointmentPeriodStrFromArray(period) {
+    static getAppointmentPeriodStr(period) {
 
         let str = '';
         if(!period){
