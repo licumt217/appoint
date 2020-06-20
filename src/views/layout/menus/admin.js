@@ -9,36 +9,57 @@ import {
 const {SubMenu} = Menu;
 
 class Admin extends Component {
+
+    handleClick = e => {
+        let key = e.key;
+
+        switch (key) {
+            case 'division':
+                this.props.history.push('/division/list')
+                break;
+            case 'ethicsNotice':
+                this.props.history.push('/ethicsNotice/list')
+                break;
+            case 'blacklist':
+                this.props.history.push('/blacklist/list')
+                break;
+
+            case 'complain-user':
+                this.props.history.push('/complain/userList')
+                break;
+            case 'complain-therapist':
+                this.props.history.push('/complain/therapistList')
+                break;
+            case 'blacklist':
+                this.props.history.push('/blacklist/list')
+                break;
+        }
+
+
+    };
+
     render() {
         return (
-            <Menu theme="dark" mode="inline">
+            <Menu theme="dark" mode="inline" onClick={this.handleClick}>
                 <Menu.Item key="division" icon={<MenuUnfoldOutlined/>}>
-                    <Link to={`/division/list`}
-                          style={{color: 'inherit'}}>分部管理</Link>
+                    分部管理
                 </Menu.Item>
                 <Menu.Item key="ethicsNotice" icon={<MenuUnfoldOutlined/>}>
-                    <Link to={`/ethicsNotice/list`}
-                          style={{color: 'inherit'}}>伦理公告</Link>
+                    伦理公告
                 </Menu.Item>
                 <Menu.Item key="blacklist" icon={<MenuUnfoldOutlined/>}>
-                    <Link to={`/blacklist/list`}
-                          style={{color: 'inherit'}}>黑名单管理</Link>
+                    黑名单管理
                 </Menu.Item>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}
                     key="complain"
                     title={<span>投诉管理</span>}
                 >
-                    <Menu.Item key="complain-user"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/complain/userList`}
-                              style={{color: 'inherit'}}>用户投诉</Link>
+                    <Menu.Item key="complain-user" icon={<MenuUnfoldOutlined/>}>
+                        用户投诉
                     </Menu.Item>
-                    <Menu.Item key="complain-therapist"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/complain/therapistList`}
-                              style={{color: 'inherit'}}>咨询师投诉</Link>
-
+                    <Menu.Item key="complain-therapist" icon={<MenuUnfoldOutlined/>}>
+                        咨询师投诉
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu
@@ -85,9 +106,6 @@ class Admin extends Component {
                                icon={<MenuUnfoldOutlined/>}><Link to={`/user/modifypass`}
                                                                   style={{color: 'inherit'}}>修改密码</Link></Menu.Item>
                 </SubMenu>
-
-
-
 
 
             </Menu>

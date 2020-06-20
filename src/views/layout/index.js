@@ -60,7 +60,7 @@ class The_Layout extends React.Component {
 
         switch (store.getState().role) {
             case Role.admin:
-                Current_Menu = <AdminMenu/>
+                Current_Menu = <AdminMenu {...this.props}/>
                 break;
             case Role.divisionManager:
                 Current_Menu = <DivisionManagerMenu/>
