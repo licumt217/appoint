@@ -63,13 +63,13 @@ class The_Layout extends React.Component {
                 Current_Menu = <AdminMenu {...this.props}/>
                 break;
             case Role.divisionManager:
-                Current_Menu = <DivisionManagerMenu/>
+                Current_Menu = <DivisionManagerMenu {...this.props}/>
                 break;
             case Role.caseManager:
-                Current_Menu = <CaseManagerMenu/>
+                Current_Menu = <CaseManagerMenu {...this.props}/>
                 break;
             case Role.therapist:
-                Current_Menu = <TherapistMenu/>
+                Current_Menu = <TherapistMenu {...this.props}/>
                 break;
         }
 

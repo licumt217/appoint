@@ -30,8 +30,26 @@ class Admin extends Component {
             case 'complain-therapist':
                 this.props.history.push('/complain/therapistList')
                 break;
-            case 'blacklist':
-                this.props.history.push('/blacklist/list')
+            case 'base-level':
+                this.props.history.push('/base/levelType')
+                break;
+            case 'base-manner':
+                this.props.history.push('/base/mannerType')
+                break;
+            case 'base-qualification':
+                this.props.history.push('/base/qualificationType')
+                break;
+            case 'base-school':
+                this.props.history.push('/base/schoolType')
+                break;
+            case 'base-consult':
+                this.props.history.push('/base/consultType')
+                break;
+            case 'setting-center':
+                this.props.history.push('/user/center')
+                break;
+            case 'setting-passModify':
+                this.props.history.push('/user/modifypass')
                 break;
         }
 
@@ -67,30 +85,20 @@ class Admin extends Component {
                     key="base"
                     title={<span>基础信息</span>}
                 >
-                    <Menu.Item key="base-level"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/base/levelType`}
-                              style={{color: 'inherit'}}>咨询师等级</Link>
+                    <Menu.Item key="base-level" icon={<MenuUnfoldOutlined/>}>
+                        咨询师等级
                     </Menu.Item>
-                    <Menu.Item key="base-manner"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/base/mannerType`}
-                              style={{color: 'inherit'}}>咨询方式</Link>
+                    <Menu.Item key="base-manner" icon={<MenuUnfoldOutlined/>}>
+                        咨询方式
                     </Menu.Item>
-                    <Menu.Item key="base-qualification"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/base/qualificationType`}
-                              style={{color: 'inherit'}}>资历类型</Link>
+                    <Menu.Item key="base-qualification" icon={<MenuUnfoldOutlined/>}>
+                        资历类型
                     </Menu.Item>
-                    <Menu.Item key="base-school"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/base/schoolType`}
-                              style={{color: 'inherit'}}>咨询师流派</Link>
+                    <Menu.Item key="base-school" icon={<MenuUnfoldOutlined/>}>
+                        咨询师流派
                     </Menu.Item>
-                    <Menu.Item key="base-consult"
-                               icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/base/consultType`}
-                              style={{color: 'inherit'}}>预约类型</Link>
+                    <Menu.Item key="base-consult" icon={<MenuUnfoldOutlined/>}>
+                        预约类型
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu
@@ -99,12 +107,11 @@ class Admin extends Component {
                     title={<span>设置</span>}
                 >
                     <Menu.Item key="setting-center" icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/user/center`}
-                              style={{color: 'inherit'}}>个人中心</Link>
+                        个人中心
                     </Menu.Item>
-                    <Menu.Item key="setting-passModify"
-                               icon={<MenuUnfoldOutlined/>}><Link to={`/user/modifypass`}
-                                                                  style={{color: 'inherit'}}>修改密码</Link></Menu.Item>
+                    <Menu.Item key="setting-passModify" icon={<MenuUnfoldOutlined/>}>
+                        修改密码
+                    </Menu.Item>
                 </SubMenu>
 
 

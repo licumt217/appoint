@@ -9,16 +9,42 @@ import {
 const {SubMenu} = Menu;
 
 class DivisionManagerMenu extends Component {
+
+    handleClick = e => {
+        let key = e.key;
+
+        switch (key) {
+            case 'station-list':
+                this.props.history.push('/station/list')
+                break;
+
+            case 'therapist-revenue':
+                this.props.history.push('/therapist/revenue')
+                break;
+
+            case 'preCheck-list':
+                this.props.history.push('/preCheck/list')
+                break;
+
+            case 'setting-center':
+                this.props.history.push('/user/center')
+                break;
+            case 'setting-passModify':
+                this.props.history.push('/user/modifypass')
+                break;
+        }
+
+
+    };
+
     render() {
         return (
-            <Menu theme="dark" mode="inline">
+            <Menu theme="dark" mode="inline" onClick={this.handleClick}>
                 <Menu.Item key="station-list" icon={<MenuUnfoldOutlined/>}>
-                    <Link to={`/station/list`}
-                          style={{color: 'inherit'}}>工作室管理</Link>
+                    工作室管理
                 </Menu.Item>
                 <Menu.Item key="therapist-revenue" icon={<MenuUnfoldOutlined/>}>
-                    <Link to={`/therapist/revenue`}
-                          style={{color: 'inherit'}}>咨询师收益查看</Link>
+                    咨询师收益查看
                 </Menu.Item>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}
@@ -26,8 +52,7 @@ class DivisionManagerMenu extends Component {
                     title={<span>预检表</span>}
                 >
                     <Menu.Item key="preCheck-list" icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/preCheck/list`}
-                              style={{color: 'inherit'}}>预检表管理</Link>
+                        预检表管理
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu
@@ -37,12 +62,12 @@ class DivisionManagerMenu extends Component {
                 >
                     <Menu.Item key="setting-center"
                                icon={<MenuUnfoldOutlined/>}>
-                        <Link to={`/user/center`}
-                              style={{color: 'inherit'}}>个人中心</Link>
+                        个人中心
                     </Menu.Item>
                     <Menu.Item key="setting-passModify"
-                               icon={<MenuUnfoldOutlined/>}><Link to={`/user/modifypass`}
-                                                                  style={{color: 'inherit'}}>修改密码</Link></Menu.Item>
+                               icon={<MenuUnfoldOutlined/>}>
+                        修改密码
+                    </Menu.Item>
                 </SubMenu>
 
 
