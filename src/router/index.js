@@ -56,6 +56,9 @@ import Room_PeriodSet from '../views/room/periodSet'
 import Room_Occupy from '../views/room/occupy'
 
 
+import Refund_List from '../views/refund/list'
+
+
 
 
 
@@ -114,6 +117,8 @@ const routers = [
     {path: '/room/operate', component: Room_Operate},
     {path: '/room/periodSet', component: Room_PeriodSet},
     {path: '/room/occupy', component: Room_Occupy},
+
+    {path: '/refund/list', component: Refund_List},
 
 
 

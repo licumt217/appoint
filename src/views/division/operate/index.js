@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {Button, Col, Row, Form, Input, Select, Space, message,Divider} from "antd";
+import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker,Radio} from "antd";
 import {addDivision, updateDivision} from "../../../http/service";
+import FUNCTION_LEVEL from "../../../assets/js/constants/FUNCTION_LEVEL";
+import RECEIVE_SIDE from "../../../assets/js/constants/RECEIVE_SIDE";
 
 const {Option} = Select;
 
@@ -57,16 +59,16 @@ class Index extends Component {
     render() {
 
         this.function_level_list = [{
-            value: 0,
+            value: FUNCTION_LEVEL.BASE,
             name: '基础功能'
         }, {
-            value: 1,
+            value: FUNCTION_LEVEL.APPOINT,
             name: '预约管理'
         }, {
-            value: 2,
+            value: FUNCTION_LEVEL.STATISTICS,
             name: '账单生成'
         }, {
-            value: 3,
+            value: FUNCTION_LEVEL.ONLINEPAY,
             name: '线上支付'
         }]
 
@@ -84,6 +86,7 @@ class Index extends Component {
 
                         <Form
                             name="basic"
+                            labelCol={{span: 6}}
                             initialValues={this.state.formItem}
                             onFinish={this.operate}
                         >
@@ -113,6 +116,56 @@ class Index extends Component {
                                     }
 
                                 </Select>
+                            </Form.Item>
+                            <Form.Item
+                                noStyle
+                                shouldUpdate={(prevValues, currentValues) => prevValues.function_level !== currentValues.function_level}
+                            >
+
+                                {({getFieldValue}) => {
+                                    return getFieldValue('function_level') === FUNCTION_LEVEL.ONLINEPAY ? (
+                                        <React.Fragment>
+                                            <Form.Item name="receive_side" label="收款方" rules={[
+                                                {
+                                                    required: true,
+                                                    message: '请选择收款方!',
+                                                },
+                                            ]}>
+                                                <Radio.Group>
+                                                    <Radio.Button value={RECEIVE_SIDE.SYSTEM}>系统代收</Radio.Button>
+                                                    <Radio.Button value={RECEIVE_SIDE.SELF}>自收</Radio.Button>
+                                                </Radio.Group>
+                                            </Form.Item>
+                                        </React.Fragment>
+                                    ) : null
+                                }}
+
+                            </Form.Item>
+
+                            <Form.Item
+                                noStyle
+                                shouldUpdate={true}
+                            >
+
+                                {({getFieldValue}) => {
+                                    return (getFieldValue('receive_side') === RECEIVE_SIDE.SELF  && getFieldValue('function_level') === FUNCTION_LEVEL.ONLINEPAY ) ? (
+                                        <React.Fragment>
+                                            <Form.Item
+                                                label="收款微信商户"
+                                                name="sub_mch_id"
+                                                rules={[
+                                                    {
+                                                        required: true,
+                                                        message: '收款微信商户号不能为空!',
+                                                    },
+                                                ]}
+                                            >
+                                                <Input placeholder={'请输入收款微信商户号'}/>
+                                            </Form.Item>
+                                        </React.Fragment>
+                                    ) : null
+                                }}
+
                             </Form.Item>
 
 

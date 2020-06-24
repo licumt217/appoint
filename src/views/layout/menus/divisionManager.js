@@ -21,6 +21,9 @@ class DivisionManagerMenu extends Component {
             case 'therapist-revenue':
                 this.props.history.push('/therapist/revenue')
                 break;
+            case 'refund-list':
+                this.props.history.push('/refund/list')
+                break;
 
             case 'preCheck-list':
                 this.props.history.push('/preCheck/list')
@@ -43,8 +46,12 @@ class DivisionManagerMenu extends Component {
                 <Menu.Item key="station-list" icon={<MenuUnfoldOutlined/>}>
                     工作室管理
                 </Menu.Item>
+
                 <Menu.Item key="therapist-revenue" icon={<MenuUnfoldOutlined/>}>
                     咨询师收益查看
+                </Menu.Item>
+                <Menu.Item key="refund-list" icon={<MenuUnfoldOutlined/>}>
+                    退款管理
                 </Menu.Item>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}

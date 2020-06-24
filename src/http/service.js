@@ -280,6 +280,13 @@ export function getOrderListByTherapistId(params = {}) {
 
 }
 
+export function getOrderListByDivisionAdminId(params = {}) {
+
+    return axios.post('order/getOrderListByDivisionAdminId', params)
+
+
+}
+
 /**
  * 咨询师收益列表（已完结订单）
  * @param params
@@ -300,6 +307,18 @@ export function getDoneOrderListByTherapistId(params = {}) {
 export function getRevenueSumByTherapistId(params = {}) {
 
     return axios.post('order/getRevenueSumByTherapistId', params)
+
+
+}
+
+/**
+ * 订单退款
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function refund(params = {}) {
+
+    return axios.post('order/refund', params)
 
 
 }
