@@ -58,6 +58,8 @@ import Room_Occupy from '../views/room/occupy'
 
 import Refund_List from '../views/refund/list'
 
+import Measure_List from '../views/measure/list'
+
 
 
 
@@ -119,6 +121,8 @@ const routers = [
     {path: '/room/occupy', component: Room_Occupy},
 
     {path: '/refund/list', component: Refund_List},
+
+    {path: '/measure/list', component: Measure_List},
 
 
 

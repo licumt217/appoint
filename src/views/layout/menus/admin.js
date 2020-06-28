@@ -30,6 +30,13 @@ class Admin extends Component {
             case 'complain-therapist':
                 this.props.history.push('/complain/therapistList')
                 break;
+
+
+            case 'measure-list':
+                this.props.history.push('/measure/list')
+                break;
+
+
             case 'base-level':
                 this.props.history.push('/base/levelType')
                 break;
@@ -80,6 +87,9 @@ class Admin extends Component {
                         咨询师投诉
                     </Menu.Item>
                 </SubMenu>
+                <Menu.Item key="measure-list" icon={<MenuUnfoldOutlined/>}>
+                    量表管理
+                </Menu.Item>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}
                     key="base"
