@@ -818,6 +818,42 @@ export function getMeasureList(params = {}) {
 
 }
 
+export function addMeasure(params = {}) {
+
+    return axios.post('measure/add', params)
+
+
+}
+
+export function deleteMeasure(params = {}) {
+
+    return axios.post('measure/delete', params)
+
+
+}
+
+export function updateMeasure(params = {}) {
+
+    return axios.post('measure/update', params)
+
+
+}
+
+
+export function getMeasureById(params = {}) {
+
+    return axios.post('measure/getById', params)
+
+
+}
+
+export function getQuestionList(params = {}) {
+
+    return axios.post('question/list', params)
+
+
+}
+
 
 
 

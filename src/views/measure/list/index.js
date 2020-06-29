@@ -6,7 +6,7 @@ import Util from "../../../assets/js/Util";
 
 import Role from "../../../assets/js/Role";
 
-import {getMeasureList,deleteDivision} from "../../../http/service";
+import {getMeasureList,deleteMeasure} from "../../../http/service";
 
 import store from "../../../store";
 
@@ -21,31 +21,25 @@ class Index extends Component {
     }
 
     componentDidMount() {
-        this.getList(1)
+        this.getList()
     }
 
 
-    getList=(page)=> {
-
-        page=page||1;
-
-        let pageSize=Util.pageSize
+    getList=()=> {
 
         getMeasureList( {
         }).then((data) => {
 
-            debugger
-
-            if(data&&data.data.length>0){
-                this.setState({
-                    dataList:data.data
-                })
-
-            }else{
+            if(data.data.length===0){
                 this.setState({
                     isAdd:true
                 })
             }
+
+            this.setState({
+                dataList:data.data
+            })
+
             if(data.roleData&&data.roleData.length>0){
 
                 let list=this.state.dataList;
@@ -55,30 +49,20 @@ class Index extends Component {
                 })
             }
 
-
-
         }).catch(err => {
             message.warning(err)
         })
     }
     add=()=> {
-        this.props.history.push('/division/operate')
-    }
-    adminList=(division_id)=>{
-
-        this.props.history.push({
-            pathname:'/division/adminList',
-            state:{
-                division_id
-            }
-        })
+        this.props.history.push('/measure/operate')
     }
     edit=(row)=>{
 
         this.props.history.push({
-            pathname:'/division/operate',
+            pathname:'/measure/operate',
             state:{
                 opType:'edit',
+                from:'/measure/list',
                 formItem:row
             }
         })
@@ -86,20 +70,19 @@ class Index extends Component {
     detail=(row)=>{
 
         this.props.history.push({
-            pathname:'/division/operate',
+            pathname:'/measure/detail',
             state:{
-                opType:'edit',
-                formItem:row
+                measureId:row.id,
             }
         })
     }
-    delete=(division_id)=>{
+    delete=(id)=>{
 
         Util.confirm({
             title:'您确认删除吗？',
             onOk:()=>{
-                deleteDivision({
-                    division_id
+                deleteMeasure({
+                    id
                 }).then(()=>{
                     message.success("删除成功")
                     this.getList()
@@ -161,13 +144,13 @@ class Index extends Component {
                         {
                             store.getState().role===row.role?
                                 <React.Fragment>
-                                    <Button type={"primary"} size={"small"} onClick={this.edit.bind(this,row.division_id)}>修改名称</Button>
-                                    <Button type={"primary"} size={"small"} danger onClick={this.delete.bind(this,row.division_id)}>删除</Button>
-                                    <Button type={"primary"} size={"small"} onClick={this.detail.bind(this,row.division_id)}>编辑</Button>
+                                    <Button type={"primary"} size={"small"} onClick={this.edit.bind(this,row)}>修改名称</Button>
+                                    <Button type={"primary"} size={"small"} danger onClick={this.delete.bind(this,row.id)}>删除</Button>
+                                    <Button type={"primary"} size={"small"} onClick={this.detail.bind(this,row)}>编辑</Button>
                                 </React.Fragment>
                                 :
                                 <React.Fragment>
-                                    <Button type={"primary"} size={"small"} onClick={this.detail.bind(this,row.division_id)}>查看</Button>
+                                    <Button type={"primary"} size={"small"} onClick={this.detail.bind(this,row)}>查看</Button>
                                 </React.Fragment>
                         }
                     </Space>
@@ -193,7 +176,7 @@ class Index extends Component {
                 <Divider/>
                 <Row>
                     <Col span={24}>
-                        <Table dataSource={this.state.datalist} columns={columns} rowKey="division_id" pagination={false}/>
+                        <Table dataSource={this.state.dataList} columns={columns} rowKey="id" pagination={false}/>
                     </Col>
                 </Row>
             </div>
