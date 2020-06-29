@@ -6,7 +6,7 @@ import Util from "../../../assets/js/Util";
 
 import Role from "../../../assets/js/Role";
 
-import {getDivisionList,deleteDivision} from "../../../http/service";
+import {getMeasureList,deleteDivision} from "../../../http/service";
 
 import store from "../../../store";
 
@@ -15,7 +15,8 @@ class Index extends Component {
     constructor() {
         super();
         this.state={
-            datalist:[]
+            dataList:[],
+            isAdd:false
         }
     }
 
@@ -30,16 +31,31 @@ class Index extends Component {
 
         let pageSize=Util.pageSize
 
-        getDivisionList( {
-            role:Role.divisionManager,
-            page,
-            pageSize
-
+        getMeasureList( {
         }).then((data) => {
 
-            this.setState({
-                datalist:data
-            })
+            debugger
+
+            if(data&&data.data.length>0){
+                this.setState({
+                    dataList:data.data
+                })
+
+            }else{
+                this.setState({
+                    isAdd:true
+                })
+            }
+            if(data.roleData&&data.roleData.length>0){
+
+                let list=this.state.dataList;
+                list.unshift(data.roleData[0])
+                this.setState({
+                    dataList:list
+                })
+            }
+
+
 
         }).catch(err => {
             message.warning(err)
@@ -165,9 +181,14 @@ class Index extends Component {
                     <Col span={22}>
                         <h3>量表管理</h3>
                     </Col>
-                    <Col span={2}>
-                        <Button type={"primary"} onClick={this.add}>新增</Button>
-                    </Col>
+                    {
+                        this.state.isAdd?
+                            <Col span={2}>
+                                <Button type={"primary"} onClick={this.add}>新增</Button>
+                            </Col>
+                            :
+                            null
+                    }
                 </Row>
                 <Divider/>
                 <Row>

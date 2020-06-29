@@ -809,6 +809,14 @@ export function getAppointmentsOfUsingByTherapistId(params = {}) {
 
 
 
+// 预检表量表
+
+export function getMeasureList(params = {}) {
+
+    return axios.post('measure/list', params)
+
+
+}
 
 
 
