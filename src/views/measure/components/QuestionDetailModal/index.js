@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
-import {Button, Col, Form, Input, Modal, Row, Select, Space} from "antd";
+import {Button, Col, Form, Input, Modal, Row, Select, Checkbox} from "antd";
 import store from "../../../../store";
 import Util from "../../../../assets/js/Util";
-import {updateMeasure} from "../../../../http/service";
-
+import {addQuestion, updateQuestion, updateBatchQuestion,addBatchQuestion} from "../../../../http/service";
+import Wenda from "./questions/Wenda";
+import Zhidaoyu from "./questions/Zhidaoyu";
+import Xuanzheti from "./questions/Xuanzheti";
+import Matrix from "./questions/Matrix";
+import Huang from "./questions/Huang";
 
 class Index extends Component {
     modalRef = React.createRef();
@@ -11,37 +15,100 @@ class Index extends Component {
     constructor(props) {
         super(props);
 
+
         this.position = ''
         this.state = {
-            isShow: false,
             itemModalType: 0,
-            isEdit: false,
-            questionList: [],
-            formItem:{
-
-            }
+            formItem: {},
+            questionType: this.props.questionType,
+            questionList: this.props.questionList,
+            isEdit: this.props.isEdit,
+            measureId: this.props.measureId,
+            data: this.props.data,
         }
+
+
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (nextProps.isQuery !== this.state.isQuery) {
-            this.setState({
-                isQuery: nextProps.isQuery
+    resetItemModalInfo = () => {
+        this.file = null;
+        this.tiaomu = {
+            name: '',
+            answer: [{
+                name: '',
+                value: 0
+            }],
+            children: [],
+            rule: {
+                questionNum: '',
+                questionType: '',
+                ruleValue: '',
+                realValue: '',
+                falseValue: ''
+            },
+            measureId: this.state.measureId
+
+
+        }
+
+
+    }
+    show = (obj) => {
+        this.resetItemModalInfo()
+        //测谎
+        if (obj.type === '5') {
+            this.tiaomu.answer.push({
+                name: '',
+                value: 0
             })
         }
 
-        return true;
+        //多媒体
+        if (obj.type === '4') {
+
+            this.radioObject = obj.data ? obj.data : {
+                id: '',
+                tableId: '',//量表id
+                type: 0,
+                name: '',//描述
+                answer: [{//条目的选项
+                    key: '',
+                    value: 0
+                }],
+                parentId: '',
+                children: [{
+                    name: '',//描述
+                    answer: [{//条目的选项
+                        key: '',
+                        value: 0
+                    }],
+                }],
+                sort: 0,
+                isChild: false,//是否矩阵中的子条目
+                ruleSwitch: false,
+                rule: ''
+            };
+            this.fileUrl = this.radioObject ? this.radioObject.url : ''
+        } else {
+            this.tiaomu = obj.data ? obj.data : this.tiaomu;
+        }
+
+        this.itemModalType = obj.type
+        this.position = ''
+    }
+
+    componentDidMount() {
+        this.show({
+            type: this.state.questionType,
+            isEdit: this.state.isEdit,
+            data: this.state.data,
+
+        })
     }
 
 
     back = () => {
         this.props.history.goBack()
-    }
-
-    close = () => {
-        this.setState({
-            isShow: false,
-        })
     }
 
     check = () => {
@@ -51,28 +118,176 @@ class Index extends Component {
 
     }
 
-    addItem = (type) => {
-
-        let url = "question/add"
-
-        if (this.isEdit) {
-            url = "question/update"
+    success = () => {
+        if (this.state.isEdit) {
+            Util.success("修改成功！")
+        } else {
+            Util.success("新增成功！")
         }
-        this.tiaomu.measureId = this.measureId;
+
+        this.freshParent()
+    }
+
+    freshParent = (data) => {
+        this.props.onClose();
+    }
+
+    hasNoQuestionIndexFromPosition2Bottom = (position) => {
+        let flag = false;
+        let questionList = this.state.questionList
+        for (let i = position; i < questionList.length - 1; i++) {
+            if (questionList[i].type === '2' || questionList[i].type === '3' || questionList[i].type === '4' || questionList[i].type === '5') {
+                flag = true;
+                break;
+            }
+        }
+
+        return !flag;
+    }
+    handleOnlyHaveIndexSort = (position) => {
+        let temp = Util.clone(this.state.questionList[position + 1]).indexSort;
+        for (let i = position + 1; i < this.state.questionList.length - 1; i++) {
+            this.state.questionList[i].indexSort = Util.clone(this.state.questionList[i + 1]).indexSort;
+        }
+
+        let questionList = this.state.questionList
+
+        questionList[questionList.length - 1].indexSort = temp;
+
+        this.setState({
+            questionList
+        })
+    }
+
+    moveFromBottom2GivenPosition = async (position, callback) => {
+
+        let bottomData = this.state.questionList[this.state.questionList.length - 1]
+        let questionList = this.state.questionList;
+        if ((bottomData.type === '0' || bottomData.type === '1') || this.hasNoQuestionIndexFromPosition2Bottom(position + 1)) {//只需要换indexSort
+            this.handleOnlyHaveIndexSort(position)
+        } else {
+            this.handleOnlyHaveIndexSort(position)
+
+
+            let newList = []
+            for (let i = position + 1; i < questionList.length; i++) {
+                if (questionList[i].type === '2' || questionList[i].type === '3' || questionList[i].type === '4' || questionList[i].type === '5') {
+                    newList.push(questionList[i])
+                }
+
+            }
+            if (newList.length > 0) {
+
+                let temp = Util.clone(newList[0]).questionIndex;
+
+                for (let i = 0; i < newList.length - 1; i++) {
+                    newList[i].questionIndex = Util.clone(newList[i + 1]).questionIndex;
+                }
+
+                newList[newList.length - 1].questionIndex = temp;
+
+            }
+        }
+
+        let last = questionList.pop()
+        questionList.splice(position + 1, 0, last)
+
+        this.setState({
+            questionList
+        })
+
+
+        if (callback) {
+            let list = [];
+
+            for (let i = position + 1; i < (this.state.questionList.length); i++) {
+                let temp = {
+                    id: this.state.questionList[i].id,
+                    indexSort: this.state.questionList[i].indexSort,
+                    questionIndex: this.state.questionList[i].questionIndex
+                }
+                list.push(temp);
+            }
+
+            updateBatchQuestion({
+                values: JSON.stringify(list),
+            }).then(data => {
+                callback()
+            }).catch(error => {
+                Util.error(error)
+            })
+
+        }
+
+
+    }
+
+
+    handleAfterAdd = (data, callback) => {
+        if (this.position || this.position === 0) {
+            let questionList = this.state.questionList;
+            questionList.push(data)
+            this.setState({
+                questionList
+            })
+            this.moveFromBottom2GivenPosition(this.position, callback)
+        } else {
+            callback()
+        }
+    }
+
+    getNextQuestionIndex=()=> {
+        let maxIndex = 0;
+        for (let i = 0; i < this.state.questionList.length; i++) {
+            let q = this.state.questionList[i];
+            if (q.questionIndex) {
+                maxIndex++;
+            }
+        }
+
+        return maxIndex + 1;
+    }
+
+
+    hasSameValue=(array)=> {
+        let set = new Set();
+        array.forEach(item => {
+            set.add(item.value)
+        })
+
+        return set.size < array.length;
+    }
+
+    addItem = (values) => {
+
+
+        this.position=values.position;
+
+        this.tiaomu = Object.assign(this.tiaomu, values)
+
+        let type = this.state.questionType
+
         this.tiaomu.type = type;
+
+        let isEdit=this.state.isEdit
+
+        let method = isEdit ? updateQuestion : addQuestion
+
+        // this.tiaomu.measureId = this.measureId;
+        // this.tiaomu.type = type;
 
 
         if (type === '0') {//问答
 
             if (!this.tiaomu.name) {
-                this.$Message.warning("请输入问答标题！");
+                Util.warning("请输入问答标题！");
                 return;
             }
 
-            this.$Message.warning("操作中，请稍等！")
-            this.http.post(url, this.tiaomu).then((data) => {
+            Util.warning("操作中，请稍等！")
+            method(this.tiaomu).then((data) => {
 
-                if (this.isEdit) {
+                if (isEdit) {
                     this.success()
                 } else {
                     this.handleAfterAdd(data.data[0], this.success)
@@ -80,54 +295,38 @@ class Index extends Component {
 
 
             }).catch(error => {
-                this.$Message.error(error)
+                Util.error(error)
             })
 
 
         } else if (type === '1') { //指导语
 
             if (!this.tiaomu.name) {
-                this.$Message.warning("请输入指导语！");
+                Util.warning("请输入指导语！");
                 return
             }
-            this.$Message.warning("操作中，请稍等！")
-            this.http.post(url, this.tiaomu).then((data) => {
-                if (this.isEdit) {
+            Util.warning("操作中，请稍等！")
+            method(this.tiaomu).then((data) => {
+                if (isEdit) {
                     this.success()
                 } else {
                     this.handleAfterAdd(data.data[0], this.success)
                 }
             }).catch(error => {
-                this.$Message.error(error)
+                Util.error(error)
             })
 
         } else if (type === '2') {//条目
 
-            //
-            if (this.isEdit) {
-                if (!this.tiaomu.name) {
-                    this.$Message.warning("请输入选择题标题！");
-                    return
-                }
-                this.tiaomu.name = this.tiaomu.name
-            } else {
-                if (!this.tiaomu.name) {
-                    this.$Message.warning("请输入选择题标题！");
-                    return
-                }
-
-            }
-
-
-            if (this.tiaomu.answer.length === 0) {
-                this.$Message.warning("请至少添加一条选项！");
+            if (!this.tiaomu.answer || this.tiaomu.answer.length === 0) {
+                Util.warning("请至少添加一条选项！");
                 return
             }
 
             let answer = []
             for (let i = 0; i < this.tiaomu.answer.length; i++) {
                 if (!this.tiaomu.answer[i].key) {
-                    this.$Message.warning("有选项文字未填写，请检查！！");
+                    Util.warning("有选项文字未填写，请检查！！");
                     return
                 }
 
@@ -147,11 +346,11 @@ class Index extends Component {
                 data.answer = JSON.stringify(answer)
 
 
-                if (this.isEdit) {
-                    this.http.post(url, data).then(() => {
+                if (isEdit) {
+                    method(data).then(() => {
                         this.success()
                     }).catch(error => {
-                        this.$Message.error(error)
+                        Util.error(error)
                     });
                 } else {
 
@@ -176,8 +375,9 @@ class Index extends Component {
                         values.push(temp)
                     }
 
-                    this.$Message.warning("操作中，请稍等！")
-                    this.http.post('question/addBatch', {
+                    Util.warning("操作中，请稍等！")
+
+                    addBatchQuestion( {
                         values: JSON.stringify(values)
                     }).then((data) => {
                         data = data.data;
@@ -194,22 +394,19 @@ class Index extends Component {
                             this.success()
                         }
                     }).catch(error => {
-                        this.$Message.error(error)
+                        Util.error(error)
                     });
                 }
 
 
-                this.hide()
             }
 
             if (this.hasSameValue(this.tiaomu.answer)) {
-                this.$Modal.confirm({
+                Util.confirm({
                     title: '分数值有相同项，确认添加吗？',
                     content: '',
                     onOk: () => {
                         next()
-
-
                     },
                     onCancel: () => {
                     }
@@ -221,36 +418,19 @@ class Index extends Component {
 
         } else if (type === '3') {//矩阵
 
-            if (!this.tiaomu.name) {
-                this.$Message.warning("请输入矩阵标题！");
+            if (!this.tiaomu.children || this.tiaomu.children.length === 0) {
+                Util.warning("请至少添加一条子条目！");
                 return
             }
 
-            if (this.tiaomu.children.length === 0) {
-                this.$Message.warning("请至少添加一条子条目！");
-                return
-            }
-
-            for (let i = 0; i < this.tiaomu.children.length; i++) {
-                if (!this.tiaomu.children[i].name) {
-                    this.$Message.warning("有子条目标题未填写，请检查！！");
-                    return
-                }
-            }
-
-
-            if (this.tiaomu.answer.length === 0) {
-                this.$Message.warning("请至少添加一条选项！");
+            if (!this.tiaomu.answer || this.tiaomu.answer.length === 0) {
+                Util.warning("请至少添加一条选项！");
                 return
             }
 
             let childrenAnswer = []
 
             for (let i = 0; i < this.tiaomu.answer.length; i++) {
-                if (!this.tiaomu.answer[i].key) {
-                    this.$Message.warning("有选项文字未填写，请检查！！");
-                    return
-                }
 
                 let key = this.tiaomu.answer[i].key
                 let value = this.tiaomu.answer[i].value
@@ -268,30 +448,28 @@ class Index extends Component {
 
                 if (this.tiaomu.ruleSwitch) {
                     if (!this.tiaomu.rule.questionNum) {
-                        this.$Message.warning("请选择子条目个数！");
+                        Util.warning("请选择子条目个数！");
                         return
                     }
                     if (!this.tiaomu.rule.questionType) {
-                        this.$Message.warning("请选择操作符！");
+                        Util.warning("请选择操作符！");
                         return
                     }
                     if (!this.tiaomu.rule.ruleValue) {
-                        this.$Message.warning("请选择分数值！");
+                        Util.warning("请选择分数值！");
                         return
                     }
                     if (!this.tiaomu.rule.realValue) {
-                        this.$Message.warning("请选择符合条件真值！");
+                        Util.warning("请选择符合条件真值！");
                         return
                     }
                     if (!this.tiaomu.rule.falseValue) {
-                        this.$Message.warning("请选择符合条件假值！");
+                        Util.warning("请选择符合条件假值！");
                         return
                     }
                     rule = JSON.stringify(this.tiaomu.rule)
                 }
 
-
-                this.hide()
 
                 let children = this.tiaomu.children;
                 for (let i = 0; i < children.length; i++) {
@@ -307,31 +485,29 @@ class Index extends Component {
                 data.rule = rule;
 
 
-                if (!this.isEdit) {
+                if (!isEdit) {
                     data.questionIndex = this.getNextQuestionIndex();
                 }
-                this.$Message.warning("操作中，请稍等！")
+                Util.warning("操作中，请稍等！")
 
-                this.http.post(url, data).then((data) => {
+                method(data).then((data) => {
                     if (this.isEdit) {
                         this.success()
                     } else {
                         this.handleAfterAdd(data.data[0], this.success)
                     }
                 }).catch(error => {
-                    this.$Message.error(error)
+                    Util.error(error)
                 });
             }
 
 
             if (this.hasSameValue(this.tiaomu.answer)) {
-                this.$Modal.confirm({
+                Util.confirm({
                     title: '分数值有相同项，确认添加吗？',
                     content: '',
                     onOk: () => {
                         next()
-
-
                     },
                     onCancel: () => {
                     }
@@ -348,23 +524,23 @@ class Index extends Component {
             this.tiaomu.measureId = this.measureId;
             this.tiaomu.type = type;
             if (!this.tiaomu.name) {
-                this.$Message.warning("请输入多媒体矩阵标题！");
+                Util.warning("请输入多媒体矩阵标题！");
                 return
             }
 
             if (!this.file) {
-                this.$Message.warning("请上传多媒体！");
+                Util.warning("请上传多媒体！");
                 return
             }
 
             if (this.tiaomu.children.length === 0) {
-                this.$Message.warning("请至少添加一条子条目！");
+                Util.warning("请至少添加一条子条目！");
                 return
             }
 
             for (let i = 0; i < this.tiaomu.children.length; i++) {
                 if (!this.tiaomu.children[i].name) {
-                    this.$Message.warning("有子条目标题未填写，请检查！！");
+                    Util.warning("有子条目标题未填写，请检查！！");
                     return
                 }
             }
@@ -377,13 +553,13 @@ class Index extends Component {
                 let answerArray = theChildren.answer;
 
                 if (answerArray.length === 0) {
-                    this.$Message.warning("有子条目选项为空，请检查！！");
+                    Util.warning("有子条目选项为空，请检查！！");
                     return
                 }
 
                 for (let j = 0; j < answerArray.length; j++) {
                     if (!answerArray[j].key) {
-                        this.$Message.warning("有子条目选项文字为空，请检查！！");
+                        Util.warning("有子条目选项文字为空，请检查！！");
                         return
                     }
                 }
@@ -410,15 +586,15 @@ class Index extends Component {
                 if (!this.isEdit) {
                     data.questionIndex = this.getNextQuestionIndex();
                 }
-                this.$Message.warning("操作中，请稍等！")
-                this.http.post(url, data).then((data) => {
+                Util.warning("操作中，请稍等！")
+                method(data).then((data) => {
                     if (this.isEdit) {
                         this.success()
                     } else {
                         this.handleAfterAdd(data.data[0], this.success)
                     }
                 }).catch(error => {
-                    this.$Message.error(error)
+                    Util.error(error)
                 });
             }
 
@@ -431,7 +607,7 @@ class Index extends Component {
             }
 
             if (sameCount > 0) {
-                this.$Modal.confirm({
+                Util.confirm({
                     title: '分数值有相同项，确认添加吗？',
                     content: '',
                     onOk: () => {
@@ -448,33 +624,16 @@ class Index extends Component {
 
         } else if (type === '5') {//测谎
 
-            //
-            if (this.isEdit) {
-                if (!this.tiaomu.name) {
-                    this.$Message.warning("请输入测谎选择题标题！");
-                    return
-                }
-                this.tiaomu.name = this.tiaomu.name
-            } else {
-                if (!this.tiaomu.name) {
-                    this.$Message.warning("请输入测谎选择题标题！");
-                    return
-                }
 
+
+            if(!this.tiaomu.answer || this.tiaomu.answer.length!==2){
+                Util.warning('有且只能有两条选项')
+                return;
             }
-
-            if (!this.tiaomu.lieRule) {
-                this.$Message.warning("请选择计分规则！");
-                return
-            }
-
 
             let answer = []
             for (let i = 0; i < this.tiaomu.answer.length; i++) {
-                if (!this.tiaomu.answer[i].key) {
-                    this.$Message.warning("有选项文字未填写，请检查！！");
-                    return
-                }
+
 
                 let key = this.tiaomu.answer[i].key
                 let value = this.tiaomu.answer[i].value
@@ -496,7 +655,7 @@ class Index extends Component {
                     this.http.post(url, data).then(() => {
                         this.success()
                     }).catch(error => {
-                        this.$Message.error(error)
+                        Util.error(error)
                     });
                 } else {
 
@@ -515,7 +674,7 @@ class Index extends Component {
                     }
 
                     if (nameArray.length !== 2) {
-                        this.$Message.warning("只能输入两条标题！！！")
+                        Util.warning("只能输入两条标题！！！")
                         return;
                     }
 
@@ -528,8 +687,8 @@ class Index extends Component {
                         values.push(temp)
                     }
 
-                    this.$Message.warning("操作中，请稍等！")
-                    this.http.post('question/addBatch', {
+                    Util.warning("操作中，请稍等！")
+                    addBatchQuestion({
                         values: JSON.stringify(values)
                     }).then((data) => {
                         data = data.data;
@@ -546,7 +705,7 @@ class Index extends Component {
                             this.success()
                         }
                     }).catch(error => {
-                        this.$Message.error(error)
+                        Util.error(error)
                     });
                 }
 
@@ -555,7 +714,7 @@ class Index extends Component {
             }
 
             if (this.hasSameValue(this.tiaomu.answer)) {
-                this.$Modal.confirm({
+                Util.confirm({
                     title: '分数值有相同项，确认添加吗？',
                     content: '',
                     onOk: () => {
@@ -575,58 +734,70 @@ class Index extends Component {
     }
 
     render() {
+
+        let Question=null;
+        let title=null;
+        switch (this.state.questionType) {
+            case "0":
+                Question=Wenda;
+                title="问答";
+                break;
+            case "1":
+                Question=Zhidaoyu;
+                title="指导语";
+                break;
+            case "2":
+                Question=Xuanzheti;
+                title="选择题";
+                break;
+            case "3":
+                Question=Matrix;
+                title="矩阵";
+                break;
+            case "4":
+                Question=Zhidaoyu;
+                title="多媒体矩阵";
+                break;
+            case "5":
+                Question=Huang;
+                title="测谎选择题";
+                break;
+
+        }
+
         return (
             <Modal
-                title={this.state.itemModalType === '1' ? '指导语' : this.state.itemModalType === '0' ? '问答' : this.state.itemModalType === '2' ? '选择题' : this.state.itemModalType === '3' ? '矩阵' : this.state.itemModalType === '4' ? '多媒体矩阵' : '测谎选择题'}
-                visible={this.state.isShow}
+                title={title}
+                width={800}
+                visible={true}
                 onOk={this.check}
-                onCancel={this.close}
+                onCancel={this.freshParent}
             >
                 <Form ref={this.modalRef}
+                      labelCol={{span: 6}}
                       onFinish={this.addItem}
 
                 >
                     {
                         !this.state.isEdit ?
-                            <Row>
-                                <Col span="2" offset="2">
-                                    <p title="在所选题目后边添加">添加位置：</p>
-                                </Col>
-                                <Col span="20">
-                                    <Form.Item name="position" label="添加位置">
-                                        <Select
-                                            value={this.state.formItem.position}
-                                        >
-                                            {
-                                                this.state.questionList.map((item, index) => {
-                                                    return <Option key={index}
-                                                                   value={index}>{(index + 1) + '、' + item.name}</Option>
-                                                })
-                                            }
+                            <Form.Item name="position" label="添加位置">
+                                <Select
+                                    value={this.state.formItem.position}
+                                >
+                                    {
+                                        this.state.questionList.map((item, index) => {
+                                            return <Select.Option key={index}
+                                                           value={index}>{(index + 1) + '、' + item.name}</Select.Option>
+                                        })
+                                    }
 
-                                        </Select>
-                                    </Form.Item>
-
-                                </Col>
-                            </Row>
-                            :
-                            null
-                    }
-
-                    {
-                        this.state.itemModalType==='0'?
-                            <Form.Item name={'name'} label="请输入问答标题" rules={[
-                                {
-                                    required: true,
-                                    message: '标题不能为空!',
-                                },
-                            ]}>
-                                <Input.TextArea rows={5} placeholder={'请输入问答标题'}></Input.TextArea>
+                                </Select>
                             </Form.Item>
                             :
                             null
                     }
 
+                    <Question/>
 
 
                 </Form>

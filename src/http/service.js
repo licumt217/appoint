@@ -854,6 +854,34 @@ export function getQuestionList(params = {}) {
 
 }
 
+export function addQuestion(params = {}) {
+
+    return axios.post('question/add', params)
+
+
+}
+
+export function updateQuestion(params = {}) {
+
+    return axios.post('question/update', params)
+
+
+}
+
+export function updateBatchQuestion(params = {}) {
+
+    return axios.post('question/updateBatch', params)
+
+
+}
+
+export function addBatchQuestion(params = {}) {
+
+    return axios.post('question/addBatch', params)
+
+
+}
+
 
 
 

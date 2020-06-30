@@ -205,11 +205,43 @@ class Util {
         return moment(dateStr).format('yyyy-MM-DD HH:MM:SS');
     }
 
+    static clone(obj) {
+
+        if(!obj){
+            return obj;
+        }else if (typeof obj === 'object') {
+            let returnObj = null
+            if (Array.isArray(obj)) {
+                returnObj = []
+                for (let i = 0; i < obj.length; i++) returnObj.push(obj[i])
+            }else if(obj instanceof Date){
+                returnObj=new Date(obj.getTime())
+            }else {
+                returnObj = {}
+                for (let key in obj) {
+                    returnObj[key] = Util.clone(obj[key])
+                }
+            }
+            return returnObj
+        }
+        return obj
+    }
+
+
+
 
 
 
 
 }
+Util.questionScoreArray = [0, 1, 2, 3, 4, 5, 6, 7]
+
+Util.suffixArrayOfMusic = ["mp3", "wave"]
+
+Util.suffixArrayOfPicture = ["jpg", "jpeg", "png"]
+
+Util.backendUrl = location.href.indexOf("localhost") > -1 ? 'http://www.zhuancaiqian.com:8360' : 'http://' + location.hostname + ':8360'
+
 
 Util.genderOptions = [
     {
