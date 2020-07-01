@@ -8,14 +8,15 @@ import Zhidaoyu from "./questions/Zhidaoyu";
 import Xuanzheti from "./questions/Xuanzheti";
 import Matrix from "./questions/Matrix";
 import Huang from "./questions/Huang";
+import Multi from "./questions/Multi";
 
 class Index extends Component {
-    modalRef = React.createRef();
+
 
     constructor(props) {
         super(props);
 
-
+        this.modalRef = React.createRef();
         this.position = ''
         this.state = {
             itemModalType: 0,
@@ -259,7 +260,7 @@ class Index extends Component {
     }
 
     addItem = (values) => {
-
+        debugger
 
         this.position=values.position;
 
@@ -520,13 +521,9 @@ class Index extends Component {
 
 
         } else if (type === '4') {
-            this.tiaomu = JSON.parse(JSON.stringify(this.radioObject))
+            // this.tiaomu = JSON.parse(JSON.stringify(this.radioObject))
             this.tiaomu.measureId = this.measureId;
             this.tiaomu.type = type;
-            if (!this.tiaomu.name) {
-                Util.warning("请输入多媒体矩阵标题！");
-                return
-            }
 
             if (!this.file) {
                 Util.warning("请上传多媒体！");
@@ -539,14 +536,6 @@ class Index extends Component {
             }
 
             for (let i = 0; i < this.tiaomu.children.length; i++) {
-                if (!this.tiaomu.children[i].name) {
-                    Util.warning("有子条目标题未填写，请检查！！");
-                    return
-                }
-            }
-
-
-            for (let i = 0; i < this.tiaomu.children.length; i++) {
 
                 let theChildren = this.tiaomu.children[i];
 
@@ -557,12 +546,7 @@ class Index extends Component {
                     return
                 }
 
-                for (let j = 0; j < answerArray.length; j++) {
-                    if (!answerArray[j].key) {
-                        Util.warning("有子条目选项文字为空，请检查！！");
-                        return
-                    }
-                }
+
             }
 
 
@@ -735,8 +719,10 @@ class Index extends Component {
 
     render() {
 
+
         let Question=null;
         let title=null;
+
         switch (this.state.questionType) {
             case "0":
                 Question=Wenda;
@@ -755,7 +741,7 @@ class Index extends Component {
                 title="矩阵";
                 break;
             case "4":
-                Question=Zhidaoyu;
+                Question=Multi;
                 title="多媒体矩阵";
                 break;
             case "5":
@@ -797,7 +783,7 @@ class Index extends Component {
                             null
                     }
 
-                    <Question/>
+                    <Question form={this.modalRef}/>
 
 
                 </Form>

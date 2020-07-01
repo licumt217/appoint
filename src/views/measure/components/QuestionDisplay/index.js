@@ -58,7 +58,7 @@ class Index extends Component {
                                                 <Radio.Group>
                                                     {
                                                         this.state.item.answer.map((item, index) => {
-                                                            return <Radio style={radioStyle} value={index}>
+                                                            return <Radio key={index} style={radioStyle} value={index}>
                                                                 {item.key}
                                                             </Radio>
                                                         })
@@ -83,12 +83,12 @@ class Index extends Component {
                                                         </div>
                                                         {
                                                             this.state.item.children.map((child, childIndex) => {
-                                                                return <div style={{marginLeft:'1em'}}>
+                                                                return <div key={childIndex} style={{marginLeft:'1em'}}>
                                                                     <p>{((childIndex + 1)) + '、' + child.name}</p>
                                                                     <Radio.Group>
                                                                         {
                                                                             this.state.item.answer.map((item, index) => {
-                                                                                return <Radio style={radioStyle}
+                                                                                return <Radio key={index} style={radioStyle}
                                                                                               value={index}>
                                                                                     {item.key}
                                                                                 </Radio>
@@ -106,8 +106,8 @@ class Index extends Component {
                                                 :
                                                 (
 
-                                                    // 矩阵
-                                                    this.state.item.type === '3' ?
+                                                    // 多媒体
+                                                    this.state.item.type === '4' ?
                                                         (
                                                             <Col span={16} offset={4} style={{marginBottom: '20px'}}>
                                                                 <div style={{marginBottom: "2px"}}>
@@ -115,12 +115,12 @@ class Index extends Component {
                                                                 </div>
                                                                 {
                                                                     this.state.item.children.map((child, childIndex) => {
-                                                                        return <div style={{marginLeft:'1em'}}>
+                                                                        return <div key={childIndex} style={{marginLeft:'1em'}}>
                                                                             <p>{((childIndex + 1)) + '、' + child.name}</p>
                                                                             <Radio.Group>
                                                                                 {
                                                                                     this.state.item.answer.map((item, index) => {
-                                                                                        return <Radio style={radioStyle}
+                                                                                        return <Radio key={index} style={radioStyle}
                                                                                                       value={index}>
                                                                                             {item.key}
                                                                                         </Radio>
@@ -138,7 +138,7 @@ class Index extends Component {
                                                         :
                                                         (
 
-                                                            // 矩阵
+                                                            // 测谎
                                                             this.state.item.type === '5' ?
                                                                 (
                                                                     <Col span={16} offset={4} style={{marginBottom: '20px'}}>
@@ -148,7 +148,7 @@ class Index extends Component {
                                                                         <Radio.Group>
                                                                             {
                                                                                 this.state.item.answer.map((item, index) => {
-                                                                                    return <Radio style={radioStyle} value={index}>
+                                                                                    return <Radio key={index} style={radioStyle} value={index}>
                                                                                         {item.key}
                                                                                     </Radio>
                                                                                 })

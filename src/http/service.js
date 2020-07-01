@@ -882,6 +882,13 @@ export function addBatchQuestion(params = {}) {
 
 }
 
+export function upLoadFile(params = {}) {
+
+    return axios.post('question/upLoadFile', params)
+
+
+}
+
 
 
 

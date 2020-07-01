@@ -184,11 +184,8 @@ class Index extends Component {
 
                     <div>
                         {
-                            this.state.questionList.length
-                        }
-                        {
                             this.state.questionList.map((item, index) => {
-                                return <Row>
+                                return <Row key={index}>
                                     <Col span={15}>
                                         <QuestionDisplay key={item.id} lieObjIndex={this.state.lieObjIndex} item={item}/>
                                     </Col>

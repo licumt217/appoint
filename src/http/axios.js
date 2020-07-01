@@ -24,7 +24,10 @@ axios.interceptors.request.use(
 
         }
 
-        config.data=Object.assign(commonObj,config.data);
+        //文件上传因为是FormData对象，不添加此信息
+        if (Object.prototype.toString.call(config.data) !== '[object FormData]') {
+            config.data=Object.assign(commonObj,config.data);
+        }
 
         return config;
     },
