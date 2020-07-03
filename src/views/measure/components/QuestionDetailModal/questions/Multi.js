@@ -24,7 +24,10 @@ class Wenda extends Component {
     componentDidMount() {
         setTimeout(()=>{
             this.form.current.setFieldsValue({
-                mediaType:'picture'
+                mediaType:'picture',
+                children:[{
+                    answer:[{}]
+                }]
             })
         },0)
     }
@@ -216,7 +219,6 @@ class Wenda extends Component {
                                                                     </Col>
                                                                     <Col span={3} offset={1}>
                                                                         <Form.Item
-                                                                            noStyle
                                                                             name={[field.name, 'value']}
                                                                             fieldKey={[field.fieldKey, 'value']}
                                                                             rules={[{
@@ -238,11 +240,16 @@ class Wenda extends Component {
                                                                         </Form.Item>
                                                                     </Col>
                                                                     <Col span={2} offset={1}>
-                                                                        <MinusCircleOutlined
-                                                                            onClick={() => {
-                                                                                remove(field.name);
-                                                                            }}
-                                                                        />
+                                                                        {
+                                                                            fields.length>1?
+                                                                                <MinusCircleOutlined
+                                                                                    onClick={() => {
+                                                                                        remove(field.name);
+                                                                                    }}
+                                                                                />
+                                                                                :
+                                                                                null
+                                                                        }
                                                                     </Col>
                                                                 </Row>
                                                             ))}
@@ -251,7 +258,9 @@ class Wenda extends Component {
                                                                 <Button
                                                                     type="dashed"
                                                                     onClick={() => {
-                                                                        add();
+                                                                        add({
+                                                                            answer:[{},{}]
+                                                                        });
                                                                     }}
                                                                     key={Math.random()}
                                                                     block
@@ -266,11 +275,17 @@ class Wenda extends Component {
 
                                         </Col>
                                         <Col span={2} offset={1}>
-                                            <MinusCircleOutlined
-                                                onClick={() => {
-                                                    remove(field.name);
-                                                }}
-                                            />
+                                            {
+                                                fields.length>1?
+                                                    <MinusCircleOutlined
+                                                        onClick={() => {
+                                                            remove(field.name);
+                                                        }}
+                                                    />
+                                                    :
+                                                    null
+                                            }
+
                                         </Col>
                                     </Row>
                                 ))}
@@ -279,7 +294,9 @@ class Wenda extends Component {
                                     <Button
                                         type="dashed"
                                         onClick={() => {
-                                            add();
+                                            add({
+                                                answer:[{}]
+                                            });
                                         }}
                                         block
                                     >

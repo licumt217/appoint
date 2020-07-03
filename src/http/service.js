@@ -889,6 +889,13 @@ export function upLoadFile(params = {}) {
 
 }
 
+export function deleteQuestion(params = {}) {
+
+    return axios.post('question/delete', params)
+
+
+}
+
 
 
 

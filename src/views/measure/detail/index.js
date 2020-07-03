@@ -5,6 +5,9 @@ import {Button, Col, Row, Space} from "antd";
 import Header from '../components/Header'
 import QuestionDetailModal from '../components/QuestionDetailModal'
 import QuestionDisplay from '../components/QuestionDisplay'
+import QuestionOperate from '../components/QuestionOperate'
+import GivenAnswer from '../components/GivenAnswer'
+import SetLieTeam from '../components/SetLieTeam'
 
 class Index extends Component {
 
@@ -27,10 +30,15 @@ class Index extends Component {
                 },
                 role: '',
                 isShowQuestionDetailModal: false,
+                isShowGivenAnswerModal: false,
+                isShowLieTeamModal: false,
+                givenAnswerItem:{},
                 questionType: 0,
-                isEdit: false
+                isEdit: false,
+                currentItem:{}
             }
     }
+
 
     componentDidMount() {
         this.init()
@@ -149,6 +157,42 @@ class Index extends Component {
         this.init()
     }
 
+    showSetGivenAnswerModal = (item) => {
+
+        this.setState({
+            isShowGivenAnswerModal: true,
+            givenAnswerItem:item
+        })
+
+    }
+
+    closeSetGivenAnswerModal=()=>{
+        this.setState({
+            isShowGivenAnswerModal:false
+        })
+        this.init()
+    }
+
+    showSetLieTeamModal = (item) => {
+
+        this.setState({
+            isShowLieTeamModal: true,
+            currentItem:item
+        })
+
+    }
+
+    closeSetLineTeamModal=()=>{
+        this.setState({
+            isShowLieTeamModal:false
+        })
+        this.init()
+    }
+
+
+
+
+
     back = () => {
         this.props.history.goBack()
     }
@@ -168,6 +212,32 @@ class Index extends Component {
                         :
                         null
                 }
+
+                {
+                    this.state.isShowGivenAnswerModal?
+                        <GivenAnswer
+                            item={this.state.givenAnswerItem}
+                            onClose={this.closeSetGivenAnswerModal}
+                            measureId={this.measureId}
+                        />
+                        :
+                        null
+
+                }
+
+                {
+                    this.state.isShowLieTeamModal?
+                        <SetLieTeam
+                            item={this.state.currentItem}
+                            questionList={this.state.questionList}
+                            onClose={this.closeSetLineTeamModal}
+                            measureId={this.measureId}
+                        />
+                        :
+                        null
+
+                }
+
 
                 <Header
                     role={this.state.role}
@@ -190,7 +260,22 @@ class Index extends Component {
                                         <QuestionDisplay key={item.id} lieObjIndex={this.state.lieObjIndex} item={item}/>
                                     </Col>
                                     <Col span={9}>
-                                        9999
+                                        {
+                                            this.state.isOperator?
+                                                <QuestionOperate
+                                                    measureId={this.state.measureId}
+                                                    questionList={this.state.questionList}
+                                                    originalQuestionList={this.state.originalQuestionList}
+                                                    item={item}
+                                                    index={index}
+                                                    editQuestion={this.editQuestion}
+                                                    init={this.init}
+                                                    showSetLieTeamModal={this.showSetLieTeamModal}
+                                                    showSetGivenAnswerModal={this.showSetGivenAnswerModal}
+                                                />
+                                                :null
+                                        }
+
                                     </Col>
                                 </Row>
                             })

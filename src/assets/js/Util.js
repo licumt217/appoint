@@ -91,6 +91,18 @@ class Util {
         return re.test(p)
     }
 
+    static isValidNum(value) {
+
+        var str = /^(-|\+)?\d+$/
+        var flag = false
+        if (str.test(value)) {
+            flag = true
+        }
+        return flag
+
+
+    }
+
     /**
      * 验证邮箱地址合法性
      * @param temp

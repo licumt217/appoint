@@ -260,7 +260,6 @@ class Index extends Component {
     }
 
     addItem = (values) => {
-        debugger
 
         this.position=values.position;
 
@@ -522,18 +521,14 @@ class Index extends Component {
 
         } else if (type === '4') {
             // this.tiaomu = JSON.parse(JSON.stringify(this.radioObject))
-            this.tiaomu.measureId = this.measureId;
             this.tiaomu.type = type;
 
-            if (!this.file) {
+
+            if (!this.tiaomu.url) {
                 Util.warning("请上传多媒体！");
                 return
             }
 
-            if (this.tiaomu.children.length === 0) {
-                Util.warning("请至少添加一条子条目！");
-                return
-            }
 
             for (let i = 0; i < this.tiaomu.children.length; i++) {
 
@@ -541,18 +536,10 @@ class Index extends Component {
 
                 let answerArray = theChildren.answer;
 
-                if (answerArray.length === 0) {
-                    Util.warning("有子条目选项为空，请检查！！");
-                    return
-                }
-
-
             }
 
 
             let next = () => {
-
-                this.hide()
 
                 let children = this.tiaomu.children;
                 for (let i = 0; i < children.length; i++) {
@@ -565,7 +552,6 @@ class Index extends Component {
 
                 data.isParent = 1;
                 data.children = JSON.stringify(children);
-                data.url = this.fileUrl;
 
                 if (!this.isEdit) {
                     data.questionIndex = this.getNextQuestionIndex();

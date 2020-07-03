@@ -114,6 +114,14 @@ class Index extends Component {
                                                                     {(this.state.item.questionIndex) + '、' + this.state.item.name}
                                                                 </div>
                                                                 {
+                                                                    Util.suffixArrayOfMusic.indexOf(this.state.item.url.split('.')[this.state.item.url.split('.').length-1])>-1?
+                                                                        <audio controls src={Util.backendUrl+this.state.item.url}>
+                                                                            您的浏览器不支持 audio 标签。
+                                                                        </audio>
+                                                                        :
+                                                                        <img style={{maxHeight: "10em"}} src={Util.backendUrl+this.state.item.url}/>
+                                                                }
+                                                                {
                                                                     this.state.item.children.map((child, childIndex) => {
                                                                         return <div key={childIndex} style={{marginLeft:'1em'}}>
                                                                             <p>{((childIndex + 1)) + '、' + child.name}</p>
@@ -132,7 +140,6 @@ class Index extends Component {
                                                                     })
                                                                 }
 
-                                                                <Input.TextArea rows={3}/>
                                                             </Col>
                                                         )
                                                         :
