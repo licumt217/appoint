@@ -1,35 +1,36 @@
 import React, {Component} from 'react';
 import {Form, Input, Row, Col, Button, Select, Radio} from "antd";
 import Util from "../../../../../assets/js/Util";
-import DeleteFilled from "@ant-design/icons/lib/icons/DeleteFilled";
-import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
-import MinusCircleOutlined from "@ant-design/icons/lib/icons/MinusCircleOutlined";
+import {PlusOutlined,MinusCircleOutlined} from "@ant-design/icons";
 
 class Wenda extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            isEdit: false,
-            tiaomu: {
-                answer: []
-            }
         }
 
     }
 
-    addOption = () => {
-        let tiaomu = this.state.tiaomu;
-
-        tiaomu.answer.push({
-            name: '',
-            value: 0
-        })
-
-        this.setState({
-            tiaomu
-        })
+    componentDidMount() {
+        if(this.props.isEdit){
+            setTimeout(()=>{
+                let data=this.props.data;
+                this.props.form.current.setFieldsValue({
+                    name:data.name,
+                    lieRule:data.lieRule,
+                    answer:data.answer
+                })
+            },1)
+        }else{
+            setTimeout(()=>{
+                this.props.form.current.setFieldsValue({
+                    answer:[{}]
+                })
+            },1)
+        }
     }
+
 
     render() {
         return (
@@ -112,11 +113,16 @@ class Wenda extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={2} offset={1}>
-                                            <MinusCircleOutlined
-                                                onClick={() => {
-                                                    remove(field.name);
-                                                }}
-                                            />
+                                            {
+                                                fields.length>1?
+                                                    <MinusCircleOutlined
+                                                        onClick={() => {
+                                                            remove(field.name);
+                                                        }}
+                                                    />
+                                                    :
+                                                    null
+                                            }
                                         </Col>
                                     </Row>
                                 ))}

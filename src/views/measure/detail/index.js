@@ -139,13 +139,23 @@ class Index extends Component {
         })
     }
 
-    showQuestionDetailModal = (type) => {
+    editQuestion=(question)=>{
+        this.setState({
+            isShowQuestionDetailModal: true,
+            questionType: question.type,
+            isEdit: true,
+            currentItem:question
+        })
+    }
 
-        // this.$emit('showQuestionDetailModal', type)
+    showQuestionDetailModal = (type) => {
+        debugger
+
         this.setState({
             isShowQuestionDetailModal: true,
             questionType: type,
-            isEdit: false
+            isEdit: false,
+            currentItem:null
         })
 
     }
@@ -206,6 +216,7 @@ class Index extends Component {
                             questionType={this.state.questionType}
                             questionList={this.state.questionList}
                             isEdit={this.state.isEdit}
+                            data={this.state.currentItem}
                             onClose={this.closeQuestionDetailModal}
                             measureId={this.measureId}
                         />
@@ -228,6 +239,7 @@ class Index extends Component {
                 {
                     this.state.isShowLieTeamModal?
                         <SetLieTeam
+                            isShow={this.state.isShowLieTeamModal}
                             item={this.state.currentItem}
                             questionList={this.state.questionList}
                             onClose={this.closeSetLineTeamModal}
@@ -245,10 +257,11 @@ class Index extends Component {
                     measureId={this.state.measureId}
                     isQuery={this.state.isQuery}
                     onCommit={this.commit}
+                    onBack={this.back}
                     onShowQuestionDetailModal={this.showQuestionDetailModal}
                 />
                 <div>
-                    <div style={{textAlign: 'center'}}>
+                    <div style={{textAlign: 'center',margin:'1.2em auto'}}>
                         <h1>{this.state.formItem.name}</h1>
                     </div>
 
@@ -256,10 +269,10 @@ class Index extends Component {
                         {
                             this.state.questionList.map((item, index) => {
                                 return <Row key={index}>
-                                    <Col span={15}>
+                                    <Col span={11}>
                                         <QuestionDisplay key={item.id} lieObjIndex={this.state.lieObjIndex} item={item}/>
                                     </Col>
-                                    <Col span={9}>
+                                    <Col span={13}>
                                         {
                                             this.state.isOperator?
                                                 <QuestionOperate

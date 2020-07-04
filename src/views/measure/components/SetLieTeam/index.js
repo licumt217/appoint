@@ -14,6 +14,7 @@ class Index extends Component {
         this.state = {
             measureId: this.props.measureId,
             item: this.props.item,
+            isShow:this.props.isShow,
             filtedQuestionList:this.getFiltedQuestionList(this.props.item,this.props.questionList)
         }
 
@@ -33,7 +34,13 @@ class Index extends Component {
         return []
     }
 
-
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.isShow !== prevProps.isShow) {
+            this.setState({
+                isShow: this.props.isShow
+            })
+        }
+    }
 
 
     back = () => {
@@ -81,9 +88,9 @@ class Index extends Component {
             <Modal
                 title="设置测谎对"
                 width={800}
-                visible={true}
+                visible={this.state.isShow}
                 onOk={this.check}
-                onCancel={this.freshParent}
+                onCancel={this.props.onClose}
             >
                 <Form ref={this.modalRef}
                       labelCol={{span: 6}}

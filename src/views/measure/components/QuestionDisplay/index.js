@@ -30,7 +30,7 @@ class Index extends Component {
                     // 问答
                     this.state.item.type === '0' ?
                         (
-                            <Col span={16} offset={4} style={{marginBottom: '20px'}}>
+                            <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                 <div>{this.state.item.name}</div>
                                 <Input.TextArea rows={3}/>
                             </Col>
@@ -40,7 +40,7 @@ class Index extends Component {
                             // 指导语
                             this.state.item.type === '1' ?
                                 (
-                                    <Col span={16} offset={4} style={{marginBottom: '20px'}}>
+                                    <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                         <div>
                                             <Input.TextArea rows={3} value={this.state.item.name}/>
                                         </div>
@@ -51,7 +51,7 @@ class Index extends Component {
                                     // 条目
                                     this.state.item.type === '2' ?
                                         (
-                                            <Col span={16} offset={4} style={{marginBottom: '20px'}}>
+                                            <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                                 <div style={{marginBottom: "2px"}}>
                                                     {(this.state.item.questionIndex) + '、' + this.state.item.name}
                                                 </div>
@@ -67,9 +67,6 @@ class Index extends Component {
                                                 </Radio.Group>
 
 
-                                                <div>
-                                                    <Input.TextArea rows={3} value={this.state.name}/>
-                                                </div>
                                             </Col>
                                         )
                                         :
@@ -77,7 +74,7 @@ class Index extends Component {
                                             // 矩阵
                                             this.state.item.type === '3' ?
                                                 (
-                                                    <Col span={16} offset={4} style={{marginBottom: '20px'}}>
+                                                    <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                                         <div style={{marginBottom: "2px"}}>
                                                             {(this.state.item.questionIndex) + '、' + this.state.item.name}
                                                         </div>
@@ -100,7 +97,6 @@ class Index extends Component {
                                                             })
                                                         }
 
-                                                        <Input.TextArea rows={3}/>
                                                     </Col>
                                                 )
                                                 :
@@ -109,7 +105,7 @@ class Index extends Component {
                                                     // 多媒体
                                                     this.state.item.type === '4' ?
                                                         (
-                                                            <Col span={16} offset={4} style={{marginBottom: '20px'}}>
+                                                            <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                                                 <div style={{marginBottom: "2px"}}>
                                                                     {(this.state.item.questionIndex) + '、' + this.state.item.name}
                                                                 </div>
@@ -148,7 +144,7 @@ class Index extends Component {
                                                             // 测谎
                                                             this.state.item.type === '5' ?
                                                                 (
-                                                                    <Col span={16} offset={4} style={{marginBottom: '20px'}}>
+                                                                    <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                                                         <div style={{marginBottom: "2px"}}>
                                                                             {(this.state.item.questionIndex)+'、'+this.state.item.name}<span style={{color:'#19be6b'}}>(与条目{this.state.lieObjIndex[this.state.item.id]["questionIndex"]}为测谎对)</span>
                                                                         </div>

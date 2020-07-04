@@ -19,8 +19,7 @@ class Index extends Component {
         this.modalRef = React.createRef();
         this.position = ''
         this.state = {
-            itemModalType: 0,
-            formItem: {},
+            tiaomu:{},
             questionType: this.props.questionType,
             questionList: this.props.questionList,
             isEdit: this.props.isEdit,
@@ -29,73 +28,8 @@ class Index extends Component {
         }
 
 
-    }
-
-    resetItemModalInfo = () => {
-        this.file = null;
-        this.tiaomu = {
-            name: '',
-            answer: [{
-                name: '',
-                value: 0
-            }],
-            children: [],
-            rule: {
-                questionNum: '',
-                questionType: '',
-                ruleValue: '',
-                realValue: '',
-                falseValue: ''
-            },
-            measureId: this.state.measureId
 
 
-        }
-
-
-    }
-    show = (obj) => {
-        this.resetItemModalInfo()
-        //测谎
-        if (obj.type === '5') {
-            this.tiaomu.answer.push({
-                name: '',
-                value: 0
-            })
-        }
-
-        //多媒体
-        if (obj.type === '4') {
-
-            this.radioObject = obj.data ? obj.data : {
-                id: '',
-                tableId: '',//量表id
-                type: 0,
-                name: '',//描述
-                answer: [{//条目的选项
-                    key: '',
-                    value: 0
-                }],
-                parentId: '',
-                children: [{
-                    name: '',//描述
-                    answer: [{//条目的选项
-                        key: '',
-                        value: 0
-                    }],
-                }],
-                sort: 0,
-                isChild: false,//是否矩阵中的子条目
-                ruleSwitch: false,
-                rule: ''
-            };
-            this.fileUrl = this.radioObject ? this.radioObject.url : ''
-        } else {
-            this.tiaomu = obj.data ? obj.data : this.tiaomu;
-        }
-
-        this.itemModalType = obj.type
-        this.position = ''
     }
 
     componentDidMount() {
@@ -105,7 +39,43 @@ class Index extends Component {
             data: this.state.data,
 
         })
+
     }
+
+    show = (obj) => {
+
+        this.resetItemModalInfo()
+
+        if(obj.data){
+            this.setState({
+                tiaomu:obj.data
+            })
+        }
+
+        this.position = ''
+    }
+
+    resetItemModalInfo = () => {
+        this.file = null;
+        this.setState({
+            tiaomu:{
+                name: '',
+                answer: [{
+                    name: '',
+                    value: 0
+                }],
+                children: [],
+                measureId: this.state.measureId
+
+
+            }
+        })
+
+
+    }
+
+
+
 
 
     back = () => {
@@ -263,29 +233,27 @@ class Index extends Component {
 
         this.position=values.position;
 
-        this.tiaomu = Object.assign(this.tiaomu, values)
+
 
         let type = this.state.questionType
 
-        this.tiaomu.type = type;
+        this.setState({
+            tiaomu:Object.assign(this.state.tiaomu, values,{type})
+        })
 
         let isEdit=this.state.isEdit
 
         let method = isEdit ? updateQuestion : addQuestion
 
-        // this.tiaomu.measureId = this.measureId;
-        // this.tiaomu.type = type;
-
-
         if (type === '0') {//问答
 
-            if (!this.tiaomu.name) {
+            if (!this.state.tiaomu.name) {
                 Util.warning("请输入问答标题！");
                 return;
             }
 
             Util.warning("操作中，请稍等！")
-            method(this.tiaomu).then((data) => {
+            method(this.state.tiaomu).then((data) => {
 
                 if (isEdit) {
                     this.success()
@@ -301,12 +269,12 @@ class Index extends Component {
 
         } else if (type === '1') { //指导语
 
-            if (!this.tiaomu.name) {
+            if (!this.state.tiaomu.name) {
                 Util.warning("请输入指导语！");
                 return
             }
             Util.warning("操作中，请稍等！")
-            method(this.tiaomu).then((data) => {
+            method(this.state.tiaomu).then((data) => {
                 if (isEdit) {
                     this.success()
                 } else {
@@ -318,20 +286,20 @@ class Index extends Component {
 
         } else if (type === '2') {//条目
 
-            if (!this.tiaomu.answer || this.tiaomu.answer.length === 0) {
+            if (!this.state.tiaomu.answer || this.state.tiaomu.answer.length === 0) {
                 Util.warning("请至少添加一条选项！");
                 return
             }
 
             let answer = []
-            for (let i = 0; i < this.tiaomu.answer.length; i++) {
-                if (!this.tiaomu.answer[i].key) {
+            for (let i = 0; i < this.state.tiaomu.answer.length; i++) {
+                if (!this.state.tiaomu.answer[i].key) {
                     Util.warning("有选项文字未填写，请检查！！");
                     return
                 }
 
-                let key = this.tiaomu.answer[i].key
-                let value = this.tiaomu.answer[i].value
+                let key = this.state.tiaomu.answer[i].key
+                let value = this.state.tiaomu.answer[i].value
                 answer.push({
                     key: key,
                     value: value
@@ -342,7 +310,7 @@ class Index extends Component {
 
             let next = () => {
                 //此处直接给this.tiaomu.answer赋值，会报错；暂不清楚原因。
-                let data = JSON.parse(JSON.stringify(this.tiaomu))
+                let data = JSON.parse(JSON.stringify(this.state.tiaomu))
                 data.answer = JSON.stringify(answer)
 
 
@@ -358,7 +326,7 @@ class Index extends Component {
 
                     let values = []
 
-                    let tempNameArray = this.tiaomu.name.split('\n')
+                    let tempNameArray = this.state.tiaomu.name.split('\n')
 
                     let nameArray = []
 
@@ -401,7 +369,7 @@ class Index extends Component {
 
             }
 
-            if (this.hasSameValue(this.tiaomu.answer)) {
+            if (this.hasSameValue(this.state.tiaomu.answer)) {
                 Util.confirm({
                     title: '分数值有相同项，确认添加吗？',
                     content: '',
@@ -418,22 +386,13 @@ class Index extends Component {
 
         } else if (type === '3') {//矩阵
 
-            if (!this.tiaomu.children || this.tiaomu.children.length === 0) {
-                Util.warning("请至少添加一条子条目！");
-                return
-            }
-
-            if (!this.tiaomu.answer || this.tiaomu.answer.length === 0) {
-                Util.warning("请至少添加一条选项！");
-                return
-            }
 
             let childrenAnswer = []
 
-            for (let i = 0; i < this.tiaomu.answer.length; i++) {
+            for (let i = 0; i < this.state.tiaomu.answer.length; i++) {
 
-                let key = this.tiaomu.answer[i].key
-                let value = this.tiaomu.answer[i].value
+                let key = this.state.tiaomu.answer[i].key
+                let value = this.state.tiaomu.answer[i].value
                 childrenAnswer.push({
                     key: key,
                     value: value
@@ -446,39 +405,16 @@ class Index extends Component {
 
                 let rule = ''
 
-                if (this.tiaomu.ruleSwitch) {
-                    if (!this.tiaomu.rule.questionNum) {
-                        Util.warning("请选择子条目个数！");
-                        return
-                    }
-                    if (!this.tiaomu.rule.questionType) {
-                        Util.warning("请选择操作符！");
-                        return
-                    }
-                    if (!this.tiaomu.rule.ruleValue) {
-                        Util.warning("请选择分数值！");
-                        return
-                    }
-                    if (!this.tiaomu.rule.realValue) {
-                        Util.warning("请选择符合条件真值！");
-                        return
-                    }
-                    if (!this.tiaomu.rule.falseValue) {
-                        Util.warning("请选择符合条件假值！");
-                        return
-                    }
-                    rule = JSON.stringify(this.tiaomu.rule)
-                }
 
-
-                let children = this.tiaomu.children;
+                let children = this.state.tiaomu.children;
                 for (let i = 0; i < children.length; i++) {
                     children[i].type = '2'
                     children[i].answer = JSON.stringify(childrenAnswer)
+                    children[i].isReverse = children[i].isReverse?1:0
 
                 }
 
-                let data = JSON.parse(JSON.stringify(this.tiaomu))
+                let data = JSON.parse(JSON.stringify(this.state.tiaomu))
 
                 data.isParent = 1;
                 data.children = JSON.stringify(children);
@@ -491,7 +427,7 @@ class Index extends Component {
                 Util.warning("操作中，请稍等！")
 
                 method(data).then((data) => {
-                    if (this.isEdit) {
+                    if (isEdit) {
                         this.success()
                     } else {
                         this.handleAfterAdd(data.data[0], this.success)
@@ -502,7 +438,7 @@ class Index extends Component {
             }
 
 
-            if (this.hasSameValue(this.tiaomu.answer)) {
+            if (this.hasSameValue(this.state.tiaomu.answer)) {
                 Util.confirm({
                     title: '分数值有相同项，确认添加吗？',
                     content: '',
@@ -520,45 +456,39 @@ class Index extends Component {
 
 
         } else if (type === '4') {
-            // this.tiaomu = JSON.parse(JSON.stringify(this.radioObject))
-            this.tiaomu.type = type;
 
+            let tiaomu=this.state.tiaomu;
+            tiaomu.type=type;
 
-            if (!this.tiaomu.url) {
+            this.setState({
+                tiaomu:tiaomu
+            })
+
+            if (!this.state.tiaomu.url) {
                 Util.warning("请上传多媒体！");
                 return
             }
 
-
-            for (let i = 0; i < this.tiaomu.children.length; i++) {
-
-                let theChildren = this.tiaomu.children[i];
-
-                let answerArray = theChildren.answer;
-
-            }
-
-
             let next = () => {
 
-                let children = this.tiaomu.children;
+                let children = this.state.tiaomu.children;
                 for (let i = 0; i < children.length; i++) {
                     children[i].type = '2'
                     children[i].answer = JSON.stringify(children[i].answer)
 
                 }
 
-                let data = JSON.parse(JSON.stringify(this.tiaomu))
+                let data = JSON.parse(JSON.stringify(this.state.tiaomu))
 
                 data.isParent = 1;
                 data.children = JSON.stringify(children);
 
-                if (!this.isEdit) {
+                if (!isEdit) {
                     data.questionIndex = this.getNextQuestionIndex();
                 }
                 Util.warning("操作中，请稍等！")
                 method(data).then((data) => {
-                    if (this.isEdit) {
+                    if (isEdit) {
                         this.success()
                     } else {
                         this.handleAfterAdd(data.data[0], this.success)
@@ -570,8 +500,8 @@ class Index extends Component {
 
 
             let sameCount = 0
-            for (let i = 0; i < this.tiaomu.children.length; i++) {
-                if (this.hasSameValue(this.tiaomu.children[i].answer)) {
+            for (let i = 0; i < this.state.tiaomu.children.length; i++) {
+                if (this.hasSameValue(this.state.tiaomu.children[i].answer)) {
                     sameCount++;
                 }
             }
@@ -596,17 +526,17 @@ class Index extends Component {
 
 
 
-            if(!this.tiaomu.answer || this.tiaomu.answer.length!==2){
+            if(!this.state.tiaomu.answer || this.state.tiaomu.answer.length!==2){
                 Util.warning('有且只能有两条选项')
                 return;
             }
 
             let answer = []
-            for (let i = 0; i < this.tiaomu.answer.length; i++) {
+            for (let i = 0; i < this.state.tiaomu.answer.length; i++) {
 
 
-                let key = this.tiaomu.answer[i].key
-                let value = this.tiaomu.answer[i].value
+                let key = this.state.tiaomu.answer[i].key
+                let value = this.state.tiaomu.answer[i].value
                 answer.push({
                     key: key,
                     value: value
@@ -617,12 +547,12 @@ class Index extends Component {
 
             let next = () => {
                 //此处直接给this.tiaomu.answer赋值，会报错；暂不清楚原因。
-                let data = JSON.parse(JSON.stringify(this.tiaomu))
+                let data = JSON.parse(JSON.stringify(this.state.tiaomu))
                 data.answer = JSON.stringify(answer)
 
 
-                if (this.isEdit) {
-                    this.http.post(url, data).then(() => {
+                if (isEdit) {
+                    updateQuestion(data).then(() => {
                         this.success()
                     }).catch(error => {
                         Util.error(error)
@@ -633,7 +563,7 @@ class Index extends Component {
 
                     let values = []
 
-                    let tempNameArray = this.tiaomu.name.split('\n')
+                    let tempNameArray = this.state.tiaomu.name.split('\n')
 
                     let nameArray = []
 
@@ -683,7 +613,7 @@ class Index extends Component {
                 this.hide()
             }
 
-            if (this.hasSameValue(this.tiaomu.answer)) {
+            if (this.hasSameValue(this.state.tiaomu.answer)) {
                 Util.confirm({
                     title: '分数值有相同项，确认添加吗？',
                     content: '',
@@ -753,9 +683,7 @@ class Index extends Component {
                     {
                         !this.state.isEdit ?
                             <Form.Item name="position" label="添加位置">
-                                <Select
-                                    value={this.state.formItem.position}
-                                >
+                                <Select >
                                     {
                                         this.state.questionList.map((item, index) => {
                                             return <Select.Option key={index}
@@ -769,8 +697,7 @@ class Index extends Component {
                             null
                     }
 
-                    <Question form={this.modalRef}/>
-
+                    <Question data={this.state.tiaomu} isEdit={this.props.isEdit} form={this.modalRef}/>
 
                 </Form>
             </Modal>

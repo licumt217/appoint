@@ -18,17 +18,29 @@ class Wenda extends Component {
 
     }
 
-    addOption = () => {
-        let tiaomu = this.state.tiaomu;
-
-        tiaomu.answer.push({
-            name: '',
-            value: 0
-        })
-
-        this.setState({
-            tiaomu
-        })
+    componentDidMount() {
+        if(this.props.isEdit){
+            setTimeout(()=>{
+                let data=this.props.data;
+                debugger
+                data.children.forEach(item=>{
+                    item.isReverse=item.isReverse===1?'checked':''
+                })
+                this.props.form.current.setFieldsValue({
+                    name:data.name,
+                    answer:data.answer,
+                    children:data.children
+                })
+            },1)
+        }else{
+            setTimeout(()=>{
+                this.props.form.current.setFieldsValue({
+                    answer:[{}],
+                    children:[{
+                    }]
+                })
+            },1)
+        }
     }
 
     render() {
@@ -79,19 +91,24 @@ class Wenda extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={3} offset={1}>
-                                            <Form.Item {...field}
+                                            <Form.Item {...field} valuePropName="checked"
                                                        name={[field.name, 'isReverse']}
                                                        fieldKey={[field.fieldKey, 'isReverse']}>
-                                                <Checkbox/>
+                                                <Checkbox />
                                             </Form.Item>
 
                                         </Col>
                                         <Col span={2} offset={1}>
-                                            <MinusCircleOutlined
-                                                onClick={() => {
-                                                    remove(field.name);
-                                                }}
-                                            />
+                                            {
+                                                fields.length>1?
+                                                    <MinusCircleOutlined
+                                                        onClick={() => {
+                                                            remove(field.name);
+                                                        }}
+                                                    />
+                                                    :
+                                                    null
+                                            }
                                         </Col>
                                     </Row>
                                 ))}
@@ -167,11 +184,16 @@ class Wenda extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={2} offset={1}>
-                                            <MinusCircleOutlined
-                                                onClick={() => {
-                                                    remove(field.name);
-                                                }}
-                                            />
+                                            {
+                                                fields.length>1?
+                                                    <MinusCircleOutlined
+                                                        onClick={() => {
+                                                            remove(field.name);
+                                                        }}
+                                                    />
+                                                    :
+                                                    null
+                                            }
                                         </Col>
                                     </Row>
                                 ))}

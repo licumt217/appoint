@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {Form, Input, Row, Col, Button, Select, Checkbox, Radio, Upload} from "antd";
 import Util from "../../../../../assets/js/Util";
-import DeleteFilled from "@ant-design/icons/lib/icons/DeleteFilled";
-import MinusCircleOutlined from "@ant-design/icons/lib/icons/MinusCircleOutlined";
 import {upLoadFile} from "../../../../../http/service";
-import {LoadingOutlined, PlusOutlined, UploadOutlined} from '@ant-design/icons';
+import {MinusCircleOutlined, PlusOutlined, UploadOutlined} from '@ant-design/icons';
 
 class Wenda extends Component {
     constructor(props) {
@@ -13,37 +11,33 @@ class Wenda extends Component {
         this.suffixArrayOfMusic = ["mp3", "wave"]
         this.suffixArrayOfPicture = ["jpg", "jpeg", "png"]
         this.state = {
-            isEdit: false,
-            tiaomu: {
-                answer: []
-            }
         }
 
     }
 
+
     componentDidMount() {
-        setTimeout(()=>{
-            this.form.current.setFieldsValue({
-                mediaType:'picture',
-                children:[{
-                    answer:[{}]
-                }]
-            })
-        },0)
+        if(this.props.isEdit){
+            setTimeout(()=>{
+                let data=this.props.data;
+                this.props.form.current.setFieldsValue({
+                    name:data.name,
+                    mediaType:'picture',
+                    children:data.children
+                })
+            },1)
+        }else{
+            setTimeout(()=>{
+                this.props.form.current.setFieldsValue({
+                    mediaType:'picture',
+                    children:[{
+                        answer:[{}]
+                    }]
+                })
+            },1)
+        }
     }
 
-    addOption = () => {
-        let tiaomu = this.state.tiaomu;
-
-        tiaomu.answer.push({
-            name: '',
-            value: 0
-        })
-
-        this.setState({
-            tiaomu
-        })
-    }
 
     beforeUpload = (file) => {
         let size = file / 1000 / 1000;//M

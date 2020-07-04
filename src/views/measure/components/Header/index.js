@@ -48,9 +48,7 @@ class Index extends Component {
 
     }
 
-    back=()=>{
-        this.props.history.goBack()
-    }
+
 
     //提交后量表状态设置为完成，只有完成了才能设置计算规则
     commit=()=>{
@@ -77,7 +75,7 @@ class Index extends Component {
         return (
             <Row>
                 <Col span={6}>
-                    <Button type="default" onClick={this.back}>返回</Button>
+                    <Button type="default" onClick={this.props.onBack}>返回</Button>
                 </Col>
                 {
                     this.state.role===store.getState().role ?

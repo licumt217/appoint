@@ -154,10 +154,10 @@ class Index extends Component {
             item.must = '0'
         }
 
-        updateQuestion( {
+        updateQuestion({
             id: item.id,
             must: item.must,
-            measureId:this.state.measureId
+            measureId: this.state.measureId
         }).then(data => {
             Util.success("修改成功")
             this.freshParent()
@@ -379,7 +379,7 @@ class Index extends Component {
     hasQuestionIndexAfterIndex = (index) => {
         let flag = false;
         for (let i = (index + 1); i < this.state.questionList.length; i++) {
-            let type=this.state.questionList[i].type
+            let type = this.state.questionList[i].type
             if (this.sortArray.includes(type)) {
                 flag = true;
                 break
@@ -391,7 +391,7 @@ class Index extends Component {
 
     bottom = (item, index) => {
 
-        let questionList=this.state.questionList
+        let questionList = this.state.questionList
 
         Util.warning("操作中，请稍等。。")
         //首先indexSort，index之前都变为他们后边的，缓存第一个。将第一个赋值给当前要移动的。
@@ -405,12 +405,12 @@ class Index extends Component {
         questionList[index].indexSort = bottomIndexsort;
 
         //当前是2、3且当前上边有2、3时才需要操作questionIndex
-        let type=questionList[index].type
+        let type = questionList[index].type
         if (this.hasQuestionIndexAfterIndex(index) && this.sortArray.includes(type)) {
             let newList = []
 
             for (let i = (questionList.length - 1); i >= index; i--) {
-                let type=questionList[i].type
+                let type = questionList[i].type
                 if (this.sortArray.includes(type)) {
                     newList.push(questionList[i])
                 }
@@ -466,59 +466,71 @@ class Index extends Component {
                             onClick={this.cloneQuestion.bind(this, this.state.item)}>复制</Button>
                 </Space>
 
-                {
-                    this.state.item.type !== '1' ?
-                        <Button style={{marginRight:'1em'}} size={"small"} type={"primary"} onClick={this.setMust.bind(this, this.state.item)}>
-                            {
-                                this.state.item.must === '0' ? '设为非必填' : '设为必填'
-                            }
-                        </Button>
-                        : null
-                }
-
+                <div style={{display:'inline-block',width:'7em'}}>
+                    {
+                        this.state.item.type !== '1' ?
+                            <Button style={{marginRight: '1em'}} size={"small"} type={"primary"} onClick={this.setMust.bind(this, this.state.item)}>
+                                {
+                                    this.state.item.must === '0' ? '设为非必填' : '设为必填'
+                                }
+                            </Button>
+                            : null
+                    }
+                </div>
+                <div style={{display:'inline-block',width:'8em'}}>
                 {
                     (this.state.item.type === '2' || this.state.item.type === '3' || this.state.item.type === '4') ?
-                        <Button style={{marginRight:'1em'}}  size={"small"} type={"primary"}
+                        <Button style={{marginRight: '1em'}} size={"small"} type={"primary"}
                                 onClick={this.showSetGivenAnswerModal.bind(this, this.state.item)}>
                             设置特定答案
                         </Button>
                         : null
                 }
-
+                </div>
+                    <div style={{display:'inline-block',width:'7em'}}>
                 {
                     (this.state.item.type === '2') ?
-                        <Button style={{marginRight:'1em'}}  size={"small"} type={"primary"}
+                        <Button style={{marginRight: '1em'}} size={"small"} type={"primary"}
                                 onClick={this.showSetLieTeamModal.bind(this, this.state.item)}>
                             设置测谎对
                         </Button>
                         : null
                 }
+                    </div>
 
-                {
-                    (this.state.index > 0) ?
-                        <UpCircleFilled className='icon-common'
-                                        onClick={this.upOrDown.bind(this, this.state.item, this.state.index, 'up')}/> : null
-                }
+                <div className='icon-wrapper'>
+                    {
+                        (this.state.index > 0) ?
+                            <UpCircleFilled
+                                onClick={this.upOrDown.bind(this, this.state.item, this.state.index, 'up')}/> : null
+                    }
 
-                {
-                    (this.state.index < (this.state.questionList.length - 1)) ?
-                        <DownCircleFilled className='icon-common'
-                                          onClick={this.upOrDown.bind(this, this.state.item, this.state.index)}/> : null
-                }
+                </div>
+                <div className='icon-wrapper'>
+                    {
+                        (this.state.index < (this.state.questionList.length - 1)) ?
+                            <DownCircleFilled
+                                onClick={this.upOrDown.bind(this, this.state.item, this.state.index)}/> : null
+                    }
+                </div>
+                <div className='icon-wrapper'>
+                    {
+                        (this.state.index > 0 && this.state.questionList.length > 2) ?
+                            <StepBackwardFilled rotate={90}
+                                                onClick={this.top.bind(this, this.state.item, this.state.index)}/> : null
+                    }
+                </div>
+                <div className='icon-wrapper'>
+                    {
+                        (this.state.index < (this.state.questionList.length - 1) && this.state.questionList.length > 2) ?
+                            <StepForwardFilled rotate={90}
+                                               onClick={this.bottom.bind(this, this.state.item, this.state.index)}/> : null
+                    }
+                </div>
 
-                {
-                    (this.state.index > 0 && this.state.questionList.length > 2) ?
-                        <StepBackwardFilled className='icon-common' rotate={90}
-                                            onClick={this.top.bind(this, this.state.item, this.state.index)}/> : null
-                }
-
-                {
-                    (this.state.index < (this.state.questionList.length - 1) && this.state.questionList.length > 2) ?
-                        <StepForwardFilled className='icon-common' rotate={90}
-                                           onClick={this.bottom.bind(this, this.state.item, this.state.index)}/> : null
-                }
-
-                <DeleteFilled className='icon-common' onClick={this.deleteQuestion.bind(this, this.state.item)}/>
+                <div className='icon-wrapper'>
+                    <DeleteFilled className='icon-common' onClick={this.deleteQuestion.bind(this, this.state.item)}/>
+                </div>
 
 
             </div>
