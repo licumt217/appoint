@@ -15,6 +15,16 @@ class Index extends Component {
     }
 
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if(JSON.stringify(this.props.item)!==JSON.stringify(nextProps.item)){
+            this.setState({
+                item:nextProps.item,
+                lieObjIndex:nextProps.lieObjIndex||{}
+            })
+        }
+        return true;
+    }
+
     render() {
 
         const radioStyle = {
@@ -32,7 +42,7 @@ class Index extends Component {
                         (
                             <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                 <div>{this.state.item.name}</div>
-                                <Input.TextArea rows={3}/>
+                                <Input.TextArea rows={2}/>
                             </Col>
                         )
                         :
@@ -42,7 +52,7 @@ class Index extends Component {
                                 (
                                     <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                         <div>
-                                            <Input.TextArea rows={3} value={this.state.item.name}/>
+                                            <Input.TextArea autoSize value={this.state.item.name}/>
                                         </div>
                                     </Col>
                                 )
@@ -146,7 +156,8 @@ class Index extends Component {
                                                                 (
                                                                     <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                                                         <div style={{marginBottom: "2px"}}>
-                                                                            {(this.state.item.questionIndex)+'、'+this.state.item.name}<span style={{color:'#19be6b'}}>(与条目{this.state.lieObjIndex[this.state.item.id]["questionIndex"]}为测谎对)</span>
+                                                                            {(this.state.item.questionIndex)+'、'+this.state.item.name}
+                                                                            <span style={{color:'#19be6b'}}>(与条目{this.state.lieObjIndex[this.state.item.id]["questionIndex"]}为测谎对)</span>
                                                                         </div>
                                                                         <Radio.Group>
                                                                             {

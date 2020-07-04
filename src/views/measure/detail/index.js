@@ -269,10 +269,10 @@ class Index extends Component {
                         {
                             this.state.questionList.map((item, index) => {
                                 return <Row key={index}>
-                                    <Col span={11}>
+                                    <Col span={13}>
                                         <QuestionDisplay key={item.id} lieObjIndex={this.state.lieObjIndex} item={item}/>
                                     </Col>
-                                    <Col span={13}>
+                                    <Col span={11}>
                                         {
                                             this.state.isOperator?
                                                 <QuestionOperate

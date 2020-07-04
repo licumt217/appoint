@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Input, Row, Col, Button, Select} from "antd";
 import Util from "../../../../../assets/js/Util";
-import {PlusOutlined,MinusCircleOutlined} from "@ant-design/icons";
+import {PlusOutlined,DeleteFilled} from "@ant-design/icons";
 
 class Wenda extends Component {
     constructor(props) {
@@ -58,10 +58,10 @@ class Wenda extends Component {
                     <Col span="16">
                         选项文字
                     </Col>
-                    <Col span="3" offset="1">
+                    <Col span="4" offset="1">
                         分数
                     </Col>
-                    <Col span="3" offset="1">
+                    <Col span="2" offset="1">
                         移除
                     </Col>
                 </Row>
@@ -75,7 +75,7 @@ class Wenda extends Component {
                                     <Row key={index}>
 
 
-                                        <Col span="15">
+                                        <Col span="16">
                                             <Form.Item
                                                 {...field}
                                                 fieldKey={[field.fieldKey, 'key']}
@@ -88,7 +88,7 @@ class Wenda extends Component {
                                                 <Input maxLength={200} placeholder={'请输入选项文字'}></Input>
                                             </Form.Item>
                                         </Col>
-                                        <Col span={3} offset={1}>
+                                        <Col span={4} offset={1}>
                                             <Form.Item
                                                 {...field}
                                                 name={[field.name, 'value']}
@@ -109,7 +109,7 @@ class Wenda extends Component {
                                             </Form.Item>
                                         </Col>
                                         <Col span={2} offset={1}>
-                                            <MinusCircleOutlined
+                                            <DeleteFilled  style={{fontSize:'1.2em',marginTop:'0.4em'}}
                                                 onClick={() => {
                                                     remove(field.name);
                                                 }}

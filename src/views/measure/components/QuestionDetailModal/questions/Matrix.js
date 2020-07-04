@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Input, Row, Col, Button, Select,Checkbox} from "antd";
 import Util from "../../../../../assets/js/Util";
-import DeleteFilled from "@ant-design/icons/lib/icons/DeleteFilled";
-import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
-import MinusCircleOutlined from "@ant-design/icons/lib/icons/MinusCircleOutlined";
+import {PlusOutlined,DeleteFilled} from "@ant-design/icons";
 
 class Wenda extends Component {
     constructor(props) {
@@ -60,10 +58,10 @@ class Wenda extends Component {
                     <Col span="16">
                         子条目标题
                     </Col>
-                    <Col span="3" offset="1">
+                    <Col span="4" offset="1">
                         反向
                     </Col>
-                    <Col span="3" offset="1">
+                    <Col span="2" offset="1">
                         移除
                     </Col>
                 </Row>
@@ -77,7 +75,7 @@ class Wenda extends Component {
                                     <Row key={index}>
 
 
-                                        <Col span="15">
+                                        <Col span="16">
                                             <Form.Item
                                                 {...field}
                                                 fieldKey={[field.fieldKey, 'name']}
@@ -90,7 +88,7 @@ class Wenda extends Component {
                                                 <Input maxLength={200} placeholder={'请输入子条目标题'}></Input>
                                             </Form.Item>
                                         </Col>
-                                        <Col span={3} offset={1}>
+                                        <Col span={4} offset={1}>
                                             <Form.Item {...field} valuePropName="checked"
                                                        name={[field.name, 'isReverse']}
                                                        fieldKey={[field.fieldKey, 'isReverse']}>
@@ -101,7 +99,7 @@ class Wenda extends Component {
                                         <Col span={2} offset={1}>
                                             {
                                                 fields.length>1?
-                                                    <MinusCircleOutlined
+                                                    <DeleteFilled  style={{fontSize:'1.2em',marginTop:'0.4em'}}
                                                         onClick={() => {
                                                             remove(field.name);
                                                         }}
@@ -133,10 +131,10 @@ class Wenda extends Component {
                     <Col span="16">
                         选项文字
                     </Col>
-                    <Col span="3" offset="1">
+                    <Col span="4" offset="1">
                         分数
                     </Col>
-                    <Col span="3" offset="1">
+                    <Col span="2" offset="1">
                         移除
                     </Col>
                 </Row>
@@ -150,7 +148,7 @@ class Wenda extends Component {
                                     <Row key={index}>
 
 
-                                        <Col span="15">
+                                        <Col span="16">
                                             <Form.Item
                                                 {...field}
                                                 fieldKey={[field.fieldKey, 'key']}
@@ -163,7 +161,7 @@ class Wenda extends Component {
                                                 <Input maxLength={200} placeholder={'请输入选项文字'}></Input>
                                             </Form.Item>
                                         </Col>
-                                        <Col span={3} offset={1}>
+                                        <Col span={4} offset={1}>
                                             <Form.Item
                                                 {...field}
                                                 name={[field.name, 'value']}
@@ -186,7 +184,7 @@ class Wenda extends Component {
                                         <Col span={2} offset={1}>
                                             {
                                                 fields.length>1?
-                                                    <MinusCircleOutlined
+                                                    <DeleteFilled style={{fontSize:'1.2em',marginTop:'0.4em'}}
                                                         onClick={() => {
                                                             remove(field.name);
                                                         }}

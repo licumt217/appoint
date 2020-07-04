@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Form, Input, Row, Col, Button, Select, Checkbox, Radio, Upload} from "antd";
 import Util from "../../../../../assets/js/Util";
 import {upLoadFile} from "../../../../../http/service";
-import {MinusCircleOutlined, PlusOutlined, UploadOutlined} from '@ant-design/icons';
+import {DeleteFilled, PlusOutlined, UploadOutlined} from '@ant-design/icons';
 
 class Wenda extends Component {
     constructor(props) {
@@ -119,7 +119,7 @@ class Wenda extends Component {
                     </Radio.Group>
                 </Form.Item>
 
-                <Form.Item >
+                <Form.Item label='文件上传'>
                     <Upload
                         showUploadList={false}
                         beforeUpload={this.beforeUpload}
@@ -142,10 +142,10 @@ class Wenda extends Component {
 
 
                 <Row style={{marginTop: "10px", fontSize: "1em", fontWeight: "bold"}}>
-                    <Col span="16">
+                    <Col span={15} offset={6}>
                         子条目标题
                     </Col>
-                    <Col span="3" offset="1">
+                    <Col span="2" offset="1">
                         移除
                     </Col>
                 </Row>
@@ -156,147 +156,161 @@ class Wenda extends Component {
                             <div>
 
                                 {fields.map((field, index) => (
-                                    <Row key={index}>
+                                    <Row key={index} >
+
+                                        <Col span={6}></Col>
+
+                                        <Col span={18}>
+
+                                            <Row >
+
+                                                <Col span={20} >
+                                                    <Form.Item
+                                                        {...field}
+                                                        fieldKey={[field.fieldKey, 'name']}
+                                                        name={[field.name, 'name']} rules={[
+                                                        {
+                                                            required: true,
+                                                            message: '标题不能为空!',
+                                                        },
+                                                    ]}>
+                                                        <Input maxLength={200} placeholder={'请输入子条目标题'}></Input>
 
 
-                                        <Col span="15">
-                                            <Form.Item
-                                                {...field}
-                                                fieldKey={[field.fieldKey, 'name']}
-                                                name={[field.name, 'name']} rules={[
-                                                {
-                                                    required: true,
-                                                    message: '标题不能为空!',
-                                                },
-                                            ]}>
-                                                <Input maxLength={200} placeholder={'请输入子条目标题'}></Input>
+                                                    </Form.Item>
 
 
-                                            </Form.Item>
+                                                    <Row style={{marginTop: "10px", fontSize: "1em", fontWeight: "bold"}}>
+                                                        <Col span="15">
+                                                            选项文字
+                                                        </Col>
+                                                        <Col span="5" offset="1">
+                                                            分数
+                                                        </Col>
+                                                        <Col span="2" offset="1">
+                                                            移除
+                                                        </Col>
+                                                    </Row>
+                                                    <Form.List
+                                                        fieldKey={[field.fieldKey, 'answer']}
+                                                        name={[field.name, 'answer']}>
+                                                        {(fields, {add, remove}) => {
+                                                            return (
+                                                                <div>
+
+                                                                    {fields.map((field, index) => (
+                                                                        <Row key={index}>
 
 
-                                            <Row style={{marginTop: "10px", fontSize: "1em", fontWeight: "bold"}}>
-                                                <Col span="16">
-                                                    选项文字
+                                                                            <Col span="15">
+                                                                                <Form.Item
+                                                                                    {...field}
+                                                                                    fieldKey={[field.fieldKey, 'key']}
+                                                                                    name={[field.key, 'key']} rules={[
+                                                                                    {
+                                                                                        required: true,
+                                                                                        message: '选项文字不能为空!',
+                                                                                    },
+                                                                                ]}>
+                                                                                    <Input maxLength={200}
+                                                                                           placeholder={'请输入选项文字'}></Input>
+                                                                                </Form.Item>
+                                                                            </Col>
+                                                                            <Col span={5} offset={1}>
+                                                                                <Form.Item
+                                                                                    name={[field.name, 'value']}
+                                                                                    fieldKey={[field.fieldKey, 'value']}
+                                                                                    rules={[{
+                                                                                        required: true,
+                                                                                        message: '分数不能为空!'
+                                                                                    }]}>
+                                                                                    <Select
+                                                                                        placeholder="请选择分数"
+                                                                                        value={field.value}
+                                                                                    >
+                                                                                        {
+                                                                                            Util.questionScoreArray.map((item, index) => {
+                                                                                                return <Select.Option key={item}
+                                                                                                                      value={item}>{item}</Select.Option>
+                                                                                            })
+                                                                                        }
+
+                                                                                    </Select>
+                                                                                </Form.Item>
+                                                                            </Col>
+                                                                            <Col span={2} offset={1} style={{textAlign:'center'}}>
+                                                                                {
+                                                                                    fields.length>1?
+                                                                                        <DeleteFilled  style={{fontSize:'1.2em',marginTop:'0.4em'}}
+                                                                                                       onClick={() => {
+                                                                                                           remove(field.name);
+                                                                                                       }}
+                                                                                        />
+                                                                                        :
+                                                                                        null
+                                                                                }
+                                                                            </Col>
+                                                                        </Row>
+                                                                    ))}
+
+                                                                    <Form.Item>
+                                                                        <Button
+                                                                            type="dashed"
+                                                                            onClick={() => {
+                                                                                add({
+                                                                                    answer:[{},{}]
+                                                                                });
+                                                                            }}
+                                                                            key={Math.random()}
+                                                                            block
+                                                                        >
+                                                                            <PlusOutlined/> 新增选项
+                                                                        </Button>
+                                                                    </Form.Item>
+                                                                </div>
+                                                            );
+                                                        }}
+                                                    </Form.List>
+
                                                 </Col>
-                                                <Col span="3" offset="1">
-                                                    分数
-                                                </Col>
-                                                <Col span="3" offset="1">
-                                                    移除
+                                                <Col span={2} offset={1} style={{textAlign:'center'}}>
+                                                    {
+                                                        fields.length>1?
+                                                            <DeleteFilled  style={{fontSize:'1.2em',marginTop:'0.4em'}}
+                                                                           onClick={() => {
+                                                                               remove(field.name);
+                                                                           }}
+                                                            />
+                                                            :
+                                                            null
+                                                    }
+
                                                 </Col>
                                             </Row>
-                                            <Form.List
-                                                       fieldKey={[field.fieldKey, 'answer']}
-                                                       name={[field.name, 'answer']}>
-                                                {(fields, {add, remove}) => {
-                                                    return (
-                                                        <div>
-
-                                                            {fields.map((field, index) => (
-                                                                <Row key={index}>
-
-
-                                                                    <Col span="15">
-                                                                        <Form.Item
-                                                                            {...field}
-                                                                            fieldKey={[field.fieldKey, 'key']}
-                                                                            name={[field.key, 'key']} rules={[
-                                                                            {
-                                                                                required: true,
-                                                                                message: '选项文字不能为空!',
-                                                                            },
-                                                                        ]}>
-                                                                            <Input maxLength={200}
-                                                                                   placeholder={'请输入选项文字'}></Input>
-                                                                        </Form.Item>
-                                                                    </Col>
-                                                                    <Col span={3} offset={1}>
-                                                                        <Form.Item
-                                                                            name={[field.name, 'value']}
-                                                                            fieldKey={[field.fieldKey, 'value']}
-                                                                            rules={[{
-                                                                                required: true,
-                                                                                message: '分数不能为空!'
-                                                                            }]}>
-                                                                            <Select
-                                                                                placeholder="请选择分数"
-                                                                                value={field.value}
-                                                                            >
-                                                                                {
-                                                                                    Util.questionScoreArray.map((item, index) => {
-                                                                                        return <Select.Option key={item}
-                                                                                                              value={item}>{item}</Select.Option>
-                                                                                    })
-                                                                                }
-
-                                                                            </Select>
-                                                                        </Form.Item>
-                                                                    </Col>
-                                                                    <Col span={2} offset={1}>
-                                                                        {
-                                                                            fields.length>1?
-                                                                                <MinusCircleOutlined
-                                                                                    onClick={() => {
-                                                                                        remove(field.name);
-                                                                                    }}
-                                                                                />
-                                                                                :
-                                                                                null
-                                                                        }
-                                                                    </Col>
-                                                                </Row>
-                                                            ))}
-
-                                                            <Form.Item>
-                                                                <Button
-                                                                    type="dashed"
-                                                                    onClick={() => {
-                                                                        add({
-                                                                            answer:[{},{}]
-                                                                        });
-                                                                    }}
-                                                                    key={Math.random()}
-                                                                    block
-                                                                >
-                                                                    <PlusOutlined/> 新增选项
-                                                                </Button>
-                                                            </Form.Item>
-                                                        </div>
-                                                    );
-                                                }}
-                                            </Form.List>
 
                                         </Col>
-                                        <Col span={2} offset={1}>
-                                            {
-                                                fields.length>1?
-                                                    <MinusCircleOutlined
-                                                        onClick={() => {
-                                                            remove(field.name);
-                                                        }}
-                                                    />
-                                                    :
-                                                    null
-                                            }
 
-                                        </Col>
+
                                     </Row>
                                 ))}
 
-                                <Form.Item>
-                                    <Button
-                                        type="dashed"
-                                        onClick={() => {
-                                            add({
-                                                answer:[{}]
-                                            });
-                                        }}
-                                        block
-                                    >
-                                        <PlusOutlined/> 新增子条目
-                                    </Button>
-                                </Form.Item>
+                                <Row>
+                                    <Col span={15} offset={6}>
+                                        <Form.Item>
+                                            <Button
+                                                type="dashed"
+                                                onClick={() => {
+                                                    add({
+                                                        answer:[{}]
+                                                    });
+                                                }}
+                                                block
+                                            >
+                                                <PlusOutlined/> 新增子条目
+                                            </Button>
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
                             </div>
                         );
                     }}

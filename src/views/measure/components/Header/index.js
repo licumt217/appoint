@@ -73,13 +73,13 @@ class Index extends Component {
 
     render() {
         return (
-            <Row>
-                <Col span={6}>
+            <Row >
+                <Col span={4}>
                     <Button type="default" onClick={this.props.onBack}>返回</Button>
                 </Col>
                 {
                     this.state.role===store.getState().role ?
-                        <Col span={18}>
+                        <Col span={20} style={{textAlign:'right'}}>
                             {
                                 this.state.isQuery ?
                                     <Space>
