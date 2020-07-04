@@ -677,12 +677,13 @@ class Index extends Component {
             >
                 <Form ref={this.modalRef}
                       labelCol={{span: 6}}
+                      wrapperCol={{span: 18}}
                       onFinish={this.addItem}
 
                 >
                     {
                         !this.state.isEdit ?
-                            <Form.Item name="position" label="添加位置">
+                            <Form.Item name="position" label="添加位置" >
                                 <Select >
                                     {
                                         this.state.questionList.map((item, index) => {

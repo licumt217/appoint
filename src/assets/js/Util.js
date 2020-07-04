@@ -252,7 +252,7 @@ Util.suffixArrayOfMusic = ["mp3", "wave"]
 
 Util.suffixArrayOfPicture = ["jpg", "jpeg", "png"]
 
-Util.backendUrl = location.href.indexOf("localhost") > -1 ? 'http://www.zhuancaiqian.com' : 'http://' + location.hostname
+Util.backendUrl = location.href.indexOf("localhost") > -1 ? 'http://127.0.0.1:8350' : 'http://' + location.hostname+'/appoint_wx'
 
 
 Util.genderOptions = [
