@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Col, Form, Input, Modal, Row, Select, Checkbox} from "antd";
-import store from "../../../../store";
+import { Form, Modal, Select} from "antd";
 import Util from "../../../../assets/js/Util";
 import {addQuestion, updateQuestion, updateBatchQuestion,addBatchQuestion} from "../../../../http/service";
 import Wenda from "./questions/Wenda";

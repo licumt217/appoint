@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {getQuestionList, getMeasureById} from "../../../http/service";
 import store from "../../../store";
-import {Button, Col, Row, Space} from "antd";
+import {Col, Row} from "antd";
 import Header from '../components/Header'
 import QuestionDetailModal from '../components/QuestionDetailModal'
 import QuestionDisplay from '../components/QuestionDisplay'
@@ -22,8 +22,7 @@ class Index extends Component {
                 originalQuestionList: [],
                 lieObjIndex: {},
                 measureId: this.props.location.state.measureId,
-                // isQuery:(this.props.location.state && this.props.location.state.isQuery==='true')?true:false,
-                isQuery: true,
+                isQuery: (this.props.location.state && this.props.location.state.isQuery === 'true') ? true : false,
                 formItem: {
                     title: '',
                     items: []
@@ -32,10 +31,10 @@ class Index extends Component {
                 isShowQuestionDetailModal: false,
                 isShowGivenAnswerModal: false,
                 isShowLieTeamModal: false,
-                givenAnswerItem:{},
+                givenAnswerItem: {},
                 questionType: 0,
                 isEdit: false,
-                currentItem:{}
+                currentItem: {}
             }
     }
 
@@ -139,30 +138,29 @@ class Index extends Component {
         })
     }
 
-    editQuestion=(question)=>{
+    editQuestion = (question) => {
         this.setState({
             isShowQuestionDetailModal: true,
             questionType: question.type,
             isEdit: true,
-            currentItem:question
+            currentItem: question
         })
     }
 
     showQuestionDetailModal = (type) => {
-        debugger
 
         this.setState({
             isShowQuestionDetailModal: true,
             questionType: type,
             isEdit: false,
-            currentItem:null
+            currentItem: null
         })
 
     }
 
-    closeQuestionDetailModal=()=>{
+    closeQuestionDetailModal = () => {
         this.setState({
-            isShowQuestionDetailModal:false
+            isShowQuestionDetailModal: false
         })
         this.init()
     }
@@ -171,14 +169,14 @@ class Index extends Component {
 
         this.setState({
             isShowGivenAnswerModal: true,
-            givenAnswerItem:item
+            givenAnswerItem: item
         })
 
     }
 
-    closeSetGivenAnswerModal=()=>{
+    closeSetGivenAnswerModal = () => {
         this.setState({
-            isShowGivenAnswerModal:false
+            isShowGivenAnswerModal: false
         })
         this.init()
     }
@@ -187,20 +185,17 @@ class Index extends Component {
 
         this.setState({
             isShowLieTeamModal: true,
-            currentItem:item
+            currentItem: item
         })
 
     }
 
-    closeSetLineTeamModal=()=>{
+    closeSetLineTeamModal = () => {
         this.setState({
-            isShowLieTeamModal:false
+            isShowLieTeamModal: false
         })
         this.init()
     }
-
-
-
 
 
     back = () => {
@@ -211,7 +206,7 @@ class Index extends Component {
         return (
             <div>
                 {
-                    this.state.isShowQuestionDetailModal?
+                    this.state.isShowQuestionDetailModal ?
                         <QuestionDetailModal
                             questionType={this.state.questionType}
                             questionList={this.state.questionList}
@@ -225,7 +220,7 @@ class Index extends Component {
                 }
 
                 {
-                    this.state.isShowGivenAnswerModal?
+                    this.state.isShowGivenAnswerModal ?
                         <GivenAnswer
                             item={this.state.givenAnswerItem}
                             onClose={this.closeSetGivenAnswerModal}
@@ -237,7 +232,7 @@ class Index extends Component {
                 }
 
                 {
-                    this.state.isShowLieTeamModal?
+                    this.state.isShowLieTeamModal ?
                         <SetLieTeam
                             isShow={this.state.isShowLieTeamModal}
                             item={this.state.currentItem}
@@ -256,12 +251,12 @@ class Index extends Component {
                     status={this.state.formItem.status}
                     measureId={this.state.measureId}
                     isQuery={this.state.isQuery}
-                    onCommit={this.commit}
+                    onCommit={this.init}
                     onBack={this.back}
                     onShowQuestionDetailModal={this.showQuestionDetailModal}
                 />
                 <div>
-                    <div style={{textAlign: 'center',margin:'1.2em auto'}}>
+                    <div style={{textAlign: 'center', margin: '1.2em auto'}}>
                         <h1>{this.state.formItem.name}</h1>
                     </div>
 
@@ -274,7 +269,7 @@ class Index extends Component {
                                     </Col>
                                     <Col span={11}>
                                         {
-                                            this.state.isOperator?
+                                            this.state.isOperator ?
                                                 <QuestionOperate
                                                     measureId={this.state.measureId}
                                                     questionList={this.state.questionList}
@@ -286,14 +281,13 @@ class Index extends Component {
                                                     showSetLieTeamModal={this.showSetLieTeamModal}
                                                     showSetGivenAnswerModal={this.showSetGivenAnswerModal}
                                                 />
-                                                :null
+                                                : null
                                         }
 
                                     </Col>
                                 </Row>
                             })
                         }
-
 
 
                     </div>

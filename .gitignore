@@ -6,3 +6,5 @@ test/unit/coverage
 .json
 .idea
 appoint/
+build/
+/build

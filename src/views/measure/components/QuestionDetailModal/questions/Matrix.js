@@ -20,7 +20,6 @@ class Wenda extends Component {
         if(this.props.isEdit){
             setTimeout(()=>{
                 let data=this.props.data;
-                debugger
                 data.children.forEach(item=>{
                     item.isReverse=item.isReverse===1?'checked':''
                 })

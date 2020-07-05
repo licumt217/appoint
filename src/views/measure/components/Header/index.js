@@ -81,7 +81,7 @@ class Index extends Component {
                     this.state.role===store.getState().role ?
                         <Col span={20} style={{textAlign:'right'}}>
                             {
-                                this.state.isQuery ?
+                                !this.state.isQuery ?
                                     <Space>
                                         <Button type="primary"
                                                 onClick={this.showQuestionDetailModal.bind(this, '1')}>指导语</Button>
@@ -99,12 +99,19 @@ class Index extends Component {
                                             this.state.status !== '1' ?
                                                 <Button type="dashed" onClick={this.commit}>提交</Button>
                                                 :
-                                                null
+                                                <Button type={'dashed'} >已完成</Button>
                                         }
-                                        <Button type="danger">已完成</Button>
                                     </Space>
                                     :
-                                    null
+                                    <Space>
+                                        {
+                                            this.state.status === '1' ?
+                                                <Button type={'dashed'} >已完成</Button>
+                                                :
+                                                null
+
+                                        }
+                                    </Space>
                             }
                         </Col>
                         :

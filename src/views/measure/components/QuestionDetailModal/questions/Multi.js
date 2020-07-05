@@ -181,10 +181,10 @@ class Wenda extends Component {
 
 
                                                     <Row style={{marginTop: "10px", fontSize: "1em", fontWeight: "bold"}}>
-                                                        <Col span="15">
+                                                        <Col span="14">
                                                             选项文字
                                                         </Col>
-                                                        <Col span="5" offset="1">
+                                                        <Col span="7" >
                                                             分数
                                                         </Col>
                                                         <Col span="2" offset="1">
@@ -202,7 +202,7 @@ class Wenda extends Component {
                                                                         <Row key={index}>
 
 
-                                                                            <Col span="15">
+                                                                            <Col span="14">
                                                                                 <Form.Item
                                                                                     {...field}
                                                                                     fieldKey={[field.fieldKey, 'key']}
@@ -216,7 +216,7 @@ class Wenda extends Component {
                                                                                            placeholder={'请输入选项文字'}></Input>
                                                                                 </Form.Item>
                                                                             </Col>
-                                                                            <Col span={5} offset={1}>
+                                                                            <Col span={7}>
                                                                                 <Form.Item
                                                                                     name={[field.name, 'value']}
                                                                                     fieldKey={[field.fieldKey, 'value']}

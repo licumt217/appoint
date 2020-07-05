@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 
-import {Row,Col,Button,Table,Space,message,Modal,Divider} from "antd";
+import {Row,Col,Button,Table,Space,message,Divider} from "antd";
 
 import Util from "../../../assets/js/Util";
-
-import Role from "../../../assets/js/Role";
 
 import {getMeasureList,deleteMeasure} from "../../../http/service";
 

@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Button, Col, Form, Input, Modal, Row, Select, Checkbox} from "antd";
-import store from "../../../../store";
+import { Form, Input, Modal} from "antd";
 import Util from "../../../../assets/js/Util";
-import {addQuestion, updateQuestion, updateBatchQuestion,addBatchQuestion} from "../../../../http/service";
+import { updateQuestion} from "../../../../http/service";
 
 class Index extends Component {
 
