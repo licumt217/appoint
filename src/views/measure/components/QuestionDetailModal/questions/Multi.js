@@ -95,7 +95,7 @@ class Wenda extends Component {
         return (
             <React.Fragment>
 
-                <Form.Item name={'name'} label="请输入矩阵标题" rules={[
+                <Form.Item name={'name'} label="多媒体矩阵标题" rules={[
                     {
                         required: true,
                         message: '标题不能为空!',

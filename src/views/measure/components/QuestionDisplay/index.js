@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Util from "../../../../assets/js/Util";
 import {Input, Row, Col, Radio} from "antd";
-
+import QUESTION_TYPE from "../../../../assets/js/constants/QUESTION_TYPE";
 
 class Index extends Component {
 
@@ -38,7 +38,7 @@ class Index extends Component {
 
                 {
                     // 问答
-                    this.state.item.type === '0' ?
+                    this.state.item.type ===QUESTION_TYPE.Wenda ?
                         (
                             <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                 <div>{this.state.item.name}</div>
@@ -48,7 +48,7 @@ class Index extends Component {
                         :
                         (
                             // 指导语
-                            this.state.item.type === '1' ?
+                            this.state.item.type === QUESTION_TYPE.Zhidaoyu ?
                                 (
                                     <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                         <div>
@@ -59,7 +59,7 @@ class Index extends Component {
                                 :
                                 (
                                     // 条目
-                                    this.state.item.type === '2' ?
+                                    this.state.item.type === QUESTION_TYPE.Xuanzheti ?
                                         (
                                             <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                                 <div style={{marginBottom: "2px"}}>
@@ -82,7 +82,7 @@ class Index extends Component {
                                         :
                                         (
                                             // 矩阵
-                                            this.state.item.type === '3' ?
+                                            this.state.item.type === QUESTION_TYPE.Matrix ?
                                                 (
                                                     <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                                         <div style={{marginBottom: "2px"}}>
@@ -113,7 +113,7 @@ class Index extends Component {
                                                 (
 
                                                     // 多媒体
-                                                    this.state.item.type === '4' ?
+                                                    this.state.item.type === QUESTION_TYPE.Multi ?
                                                         (
                                                             <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                                                 <div style={{marginBottom: "2px"}}>
@@ -152,7 +152,7 @@ class Index extends Component {
                                                         (
 
                                                             // 测谎
-                                                            this.state.item.type === '5' ?
+                                                            this.state.item.type === QUESTION_TYPE.Huang ?
                                                                 (
                                                                     <Col span={20} offset={1} style={{marginBottom: '20px'}}>
                                                                         <div style={{marginBottom: "2px"}}>

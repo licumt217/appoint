@@ -17,17 +17,15 @@ class Index extends Component {
 
         this.measureId = this.props.location.state.measureId,
             this.state = {
-                isOperator: false,
                 questionList: [],
                 originalQuestionList: [],
                 lieObjIndex: {},
                 measureId: this.props.location.state.measureId,
-                isQuery: (this.props.location.state && this.props.location.state.isQuery === 'true') ? true : false,
+                user_id: this.props.location.state.user_id,
                 formItem: {
                     title: '',
                     items: []
                 },
-                role: '',
                 isShowQuestionDetailModal: false,
                 isShowGivenAnswerModal: false,
                 isShowLieTeamModal: false,
@@ -52,12 +50,6 @@ class Index extends Component {
         getQuestionList({
             measureId: this.measureId
         }).then(data => {
-            if (store.getState().role === data.role) {
-                this.setState({
-                    isOperator: true
-                })
-            }
-
 
             //获取测谎对
             let lieObj = {}
@@ -113,7 +105,6 @@ class Index extends Component {
             this.setState({
                 questionList: questionList,
                 originalQuestionList: data.data,
-                role: data.role
             })
 
             console.log(this.state.questionList.length)
@@ -247,11 +238,7 @@ class Index extends Component {
 
 
                 <Header
-                    role={this.state.role}
-                    status={this.state.formItem.status}
-                    measureId={this.state.measureId}
-                    isQuery={this.state.isQuery}
-                    onCommit={this.init}
+                    user_id={this.state.user_id}
                     onBack={this.back}
                     onShowQuestionDetailModal={this.showQuestionDetailModal}
                 />
@@ -265,11 +252,15 @@ class Index extends Component {
                             this.state.questionList.map((item, index) => {
                                 return <Row key={index}>
                                     <Col span={13}>
-                                        <QuestionDisplay key={item.id} lieObjIndex={this.state.lieObjIndex} item={item}/>
+                                        <QuestionDisplay
+                                            key={item.id}
+                                            lieObjIndex={this.state.lieObjIndex}
+                                            item={item}
+                                        />
                                     </Col>
                                     <Col span={11}>
                                         {
-                                            this.state.isOperator ?
+                                            this.state.user_id===store.getState().user_id ?
                                                 <QuestionOperate
                                                     measureId={this.state.measureId}
                                                     questionList={this.state.questionList}

@@ -35,6 +35,10 @@ class DivisionManagerMenu extends Component {
             case 'setting-passModify':
                 this.props.history.push('/user/modifypass')
                 break;
+
+            case 'measure-list':
+                this.props.history.push('/measure/list')
+                break;
         }
 
 
@@ -62,6 +66,9 @@ class DivisionManagerMenu extends Component {
                         预检表管理
                     </Menu.Item>
                 </SubMenu>
+                <Menu.Item key="measure-list" icon={<MenuUnfoldOutlined/>}>
+                    量表管理
+                </Menu.Item>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}
                     key="setting"

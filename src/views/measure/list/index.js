@@ -1,20 +1,22 @@
 import React, {Component} from 'react';
 
-import {Row,Col,Button,Table,Space,message,Divider} from "antd";
+import {Row, Col, Button, Table, Space, Divider} from "antd";
 
 import Util from "../../../assets/js/Util";
 
-import {getMeasureList,deleteMeasure} from "../../../http/service";
+import {getMeasureList, deleteMeasure} from "../../../http/service";
 
 import store from "../../../store";
+
+import IS_MEASURE_PUBLIC from "../../../assets/js/constants/IS_MEASURE_PUBLIC";
 
 class Index extends Component {
 
     constructor() {
         super();
-        this.state={
-            dataList:[],
-            isAdd:false
+        this.state = {
+            dataList: [],
+            isShowAddBtn: false
         }
     }
 
@@ -23,75 +25,69 @@ class Index extends Component {
     }
 
 
-    getList=()=> {
+    getList = () => {
 
-        getMeasureList( {
-        }).then((data) => {
+        getMeasureList().then((data) => {
 
-            if(data.data.length===0){
-                this.setState({
-                    isAdd:true
-                })
+            let isShowAddBtn=data.data.length === 0
+
+            let list=data.data;
+
+            if (data.roleData && data.roleData.length > 0) {
+
+                list.unshift(data.roleData[0])
+
             }
 
             this.setState({
-                dataList:data.data
+                dataList: list,
+                isShowAddBtn
             })
 
-            if(data.roleData&&data.roleData.length>0){
-
-                let list=this.state.dataList;
-                list.unshift(data.roleData[0])
-                this.setState({
-                    dataList:list
-                })
-            }
-
         }).catch(err => {
-            message.warning(err)
+            Util.warning(err)
         })
     }
-    add=()=> {
+    add = () => {
         this.props.history.push('/measure/operate')
     }
-    edit=(row)=>{
+    edit = (row) => {
 
         this.props.history.push({
-            pathname:'/measure/operate',
-            state:{
-                opType:'edit',
-                from:'/measure/list',
-                formItem:row
+            pathname: '/measure/operate',
+            state: {
+                opType: 'edit',
+                formItem: row
             }
         })
     }
-    detail=(row)=>{
+    detail = (row) => {
 
         this.props.history.push({
-            pathname:'/measure/detail',
-            state:{
-                measureId:row.id,
+            pathname: '/measure/detail',
+            state: {
+                measureId: row.id,
+                user_id:row.user_id
             }
         })
     }
-    delete=(id)=>{
+    delete = (id) => {
 
         Util.confirm({
-            title:'您确认删除吗？',
-            onOk:()=>{
+            title: '您确认删除吗？',
+            onOk: () => {
                 deleteMeasure({
                     id
-                }).then(()=>{
-                    message.success("删除成功")
+                }).then(() => {
+                    Util.success("删除成功")
                     this.getList()
-                }).catch(err=>{
-                    message.warning(err)
+                }).catch(err => {
+                    Util.warning(err)
                 })
             }
         })
 
     }
-
 
 
     render() {
@@ -100,8 +96,8 @@ class Index extends Component {
             {
                 title: '序号',
                 dataIndex: 'index',
-                render:(text,row,index)=>{
-                    return index+1;
+                render: (text, row, index) => {
+                    return index + 1;
                 }
             },
             {
@@ -115,23 +111,18 @@ class Index extends Component {
             {
                 title: '量表描述',
                 dataIndex: 'description',
+                ellipsis:true
             },
             {
                 title: '创建时间',
                 dataIndex: 'createtime',
+                ellipsis:true
             },
             {
                 title: '是否公用',
                 dataIndex: 'role',
-                render:(role)=>{
-                    return role===0?'是':'否';
-                }
-            },
-            {
-                title: '状态',
-                dataIndex: 'status',
-                render:(status)=>{
-                    return status===1?'已完成':'未完成';
+                render: (value) => {
+                    return value === IS_MEASURE_PUBLIC.YES ? '是' : '否';
                 }
             },
             {
@@ -140,15 +131,19 @@ class Index extends Component {
                 render: (text, row) => (
                     <Space size="middle">
                         {
-                            store.getState().role===row.role?
+                            store.getState().role === row.role ?
                                 <React.Fragment>
-                                    <Button type={"primary"} size={"small"} onClick={this.edit.bind(this,row)}>修改名称</Button>
-                                    <Button type={"primary"} size={"small"} danger onClick={this.delete.bind(this,row.id)}>删除</Button>
-                                    <Button type={"primary"} size={"small"} onClick={this.detail.bind(this,row)}>编辑</Button>
+                                    <Button type={"primary"} size={"small"}
+                                            onClick={this.edit.bind(this, row)}>修改名称</Button>
+                                    <Button type={"primary"} size={"small"} danger
+                                            onClick={this.delete.bind(this, row.id)}>删除</Button>
+                                    <Button type={"primary"} size={"small"}
+                                            onClick={this.detail.bind(this, row)}>编辑</Button>
                                 </React.Fragment>
                                 :
                                 <React.Fragment>
-                                    <Button type={"primary"} size={"small"} onClick={this.detail.bind(this,row)}>查看</Button>
+                                    <Button type={"primary"} size={"small"}
+                                            onClick={this.detail.bind(this, row)}>查看</Button>
                                 </React.Fragment>
                         }
                     </Space>
@@ -163,7 +158,7 @@ class Index extends Component {
                         <h3>量表管理</h3>
                     </Col>
                     {
-                        this.state.isAdd?
+                        this.state.isShowAddBtn ?
                             <Col span={2}>
                                 <Button type={"primary"} onClick={this.add}>新增</Button>
                             </Col>

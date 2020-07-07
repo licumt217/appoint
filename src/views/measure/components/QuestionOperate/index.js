@@ -449,12 +449,6 @@ class Index extends Component {
 
     render() {
 
-        const radioStyle = {
-            display: 'block',
-            height: '30px',
-            lineHeight: '30px',
-        };
-
         return (
             <div>
 
@@ -476,26 +470,6 @@ class Index extends Component {
                             : null
                     }
                 </div>
-                {/*<div style={{display:'inline-block',width:'8em'}}>*/}
-                {/*{*/}
-                {/*    (this.state.item.type === '2' || this.state.item.type === '3' || this.state.item.type === '4') ?*/}
-                {/*        <Button style={{marginRight: '1em'}} size={"small"} type={"primary"}*/}
-                {/*                onClick={this.showSetGivenAnswerModal.bind(this, this.state.item)}>*/}
-                {/*            设置特定答案*/}
-                {/*        </Button>*/}
-                {/*        : null*/}
-                {/*}*/}
-                {/*</div>*/}
-                {/*    <div style={{display:'inline-block',width:'7em'}}>*/}
-                {/*{*/}
-                {/*    (this.state.item.type === '2') ?*/}
-                {/*        <Button style={{marginRight: '1em'}} size={"small"} type={"primary"}*/}
-                {/*                onClick={this.showSetLieTeamModal.bind(this, this.state.item)}>*/}
-                {/*            设置测谎对*/}
-                {/*        </Button>*/}
-                {/*        : null*/}
-                {/*}*/}
-                {/*    </div>*/}
 
                 <div className='icon-wrapper'>
                     {

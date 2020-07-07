@@ -5,6 +5,8 @@ import {addMeasure, updateMeasure} from "../../../http/service";
 const {Option} = Select;
 const {TextArea} = Input;
 
+import Util from "../../../assets/js/Util";
+
 class Index extends Component {
 
     constructor(props) {
@@ -43,21 +45,21 @@ class Index extends Component {
 
             updateMeasure(this.state.formItem).then((data) => {
 
-                message.success("修改成功！")
+                Util.success("修改成功！")
                 this.props.history.push('/measure/list')
 
             }).catch(err => {
-                message.error(err)
+                Util.error(err)
             })
         } else {
 
             addMeasure(this.state.formItem).then((data) => {
 
-                message.success("新增成功！")
+                Util.success("新增成功！")
                 this.props.history.push('/measure/list')
 
             }).catch(err => {
-                message.error(err)
+                Util.error(err)
             })
         }
 
@@ -132,7 +134,7 @@ class Index extends Component {
                                     },
                                 ]}
                             >
-                                <TextArea rows={3} placeholder={'请输入量表反馈报告描述'}/>
+                                <TextArea rows={3} placeholder={'请输入反馈报告描述'}/>
                             </Form.Item>
 
                             <Form.Item name="chartType" label="反馈报告图表类型"
