@@ -66,12 +66,12 @@ class Index extends Component {
                 </Row>
                 <Divider/>
                 <Row>
-                    <Col span={8} offset={8}>
+                    <Col span={10} offset={6}>
                         <Form
                             ref={this.formRef}
                             layout="horizontal"
-                            labelCol={{span: 4}}
-                            wrapperCol={{span: 20}}
+                            labelCol={{span: 6}}
+                            wrapperCol={{span: 18}}
                             onFinish={this.operate}
                         >
                             <Form.Item name={'password'} label={'原密码'} rules={[

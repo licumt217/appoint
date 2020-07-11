@@ -165,13 +165,13 @@ class Index extends Component {
         return (
             <div>
                 <Row>
-                    <Col span={20}>
+                    <Col span={19}>
                         <h3>房间管理</h3>
                     </Col>
                     <Col span={2}>
                         <Button type={"primary"} onClick={this.add}>新增</Button>
                     </Col>
-                    <Col span={2}>
+                    <Col span={3}>
                         <Button type={"primary"} onClick={this.go2UseablePeriodSet}>可用时段设置</Button>
                     </Col>
                 </Row>

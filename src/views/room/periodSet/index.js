@@ -12,11 +12,11 @@ class Index extends Component {
     formRef = React.createRef();
 
 
-
     constructor(props) {
         super(props);
 
-        this.options =this.getOptions()
+        this.options = this.getOptions()
+        this.weekOptions = this.getWeekOptions();
 
         this.state = {
             formItem: {},
@@ -29,30 +29,62 @@ class Index extends Component {
 
     }
 
-    back=()=>{
+    back = () => {
         this.props.history.goBack()
     }
 
-    getOptions=()=>{
-        let array=[]
-        for(let i=0;i<24;i++){
+    getOptions = () => {
+        let array = []
+        for (let i = 0; i < 24; i++) {
             array.push({
-                label:`${i}:00-${i}:50`,
-                value:String(i)
+                label: `${i}:00-${i}:50`,
+                value: String(i)
             })
         }
         return array;
     }
 
+    getWeekOptions = () => {
+        let array = [
+            {
+                label: '周日',
+                value: "0"
+            },
+            {
+                label: '周一',
+                value: "1"
+            }, {
+                label: '周二',
+                value: "2"
+            },
+            {
+                label: '周三',
+                value: "3"
+            },
+            {
+                label: '周四',
+                value: "4"
+            },
+            {
+                label: '周五',
+                value: "5"
+            },
+            {
+                label: '周六',
+                value: "6"
+            }]
+        return array;
+    }
 
 
     getUseablePeriodSet = () => {
-        getRoomPeriodSet({
-        }).then((data) => {
+        getRoomPeriodSet({}).then((data) => {
 
-            let period=data.period.split(',')
+            let period = data.period.split(',')
+            let weeks = data.weeks.split(',')
             this.formRef.current.setFieldsValue({
-                period
+                period,
+                weeks
             })
 
         }).catch(err => {
@@ -61,10 +93,22 @@ class Index extends Component {
     }
     updateUseablePeriodSet = (form) => {
 
-        let period=form.period?form.period.join(','):''
+        let period = form.period ? form.period.join(',') : ''
+        let weeks = form.weeks ? form.weeks.join(',') : ''
+
+        if(!weeks){
+            Util.info('周次不能为空！')
+            return;
+        }
+
+        if(!period){
+            Util.info('可用时段不能为空！')
+            return;
+        }
 
         updateRoomPeriodSet({
             period,
+            weeks
         }).then((data) => {
             Util.success("操作成功！")
 
@@ -87,7 +131,7 @@ class Index extends Component {
                 </Row>
                 <Divider/>
                 <Row justify={'center'}>
-                    <Col span={18}  >
+                    <Col span={18}>
                         <Form
                             ref={this.formRef}
                             layout="vertical"
@@ -95,15 +139,30 @@ class Index extends Component {
                         >
 
 
+                            <Form.Item name="weeks" label="请设置周次">
+                                <Checkbox.Group style={{width:'100%'}}>
+                                    <Row>
+                                        {
+                                            this.weekOptions.map((item, index) => {
+                                                return (
+                                                    <Col span={3} key={index}>
+                                                        <Checkbox value={item.value} style={{marginBottom: '.5em'}}>{item.label}</Checkbox>
+                                                    </Col>
+                                                )
+                                            })
+                                        }
+                                    </Row>
+                                </Checkbox.Group>
+                            </Form.Item>
 
                             <Form.Item name="period" label="请设置可用时段">
                                 <Checkbox.Group>
                                     <Row>
                                         {
-                                            this.options.map((item,index)=>{
+                                            this.options.map((item, index) => {
                                                 return (
                                                     <Col span={4} key={index}>
-                                                        <Checkbox value={item.value} style={{marginBottom:'.5em'}}>{item.label}</Checkbox>
+                                                        <Checkbox value={item.value} style={{marginBottom: '.5em'}}>{item.label}</Checkbox>
                                                     </Col>
                                                 )
                                             })

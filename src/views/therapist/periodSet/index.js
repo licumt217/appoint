@@ -6,6 +6,7 @@ import {
 } from "../../../http/service";
 import Util from "../../../assets/js/Util";
 import store from "../../../store";
+import moment from 'moment'
 
 class Index extends Component {
 
@@ -17,6 +18,8 @@ class Index extends Component {
         super(props);
 
         this.options =this.getOptions()
+
+        this.weekOptions = this.getWeekOptions();
 
         this.therapist_id=store.getState().user_id
 
@@ -42,6 +45,38 @@ class Index extends Component {
         return array;
     }
 
+    getWeekOptions = () => {
+        let array = [
+            {
+                label: '周日',
+                value: "0"
+            },
+            {
+                label: '周一',
+                value: "1"
+            }, {
+                label: '周二',
+                value: "2"
+            },
+            {
+                label: '周三',
+                value: "3"
+            },
+            {
+                label: '周四',
+                value: "4"
+            },
+            {
+                label: '周五',
+                value: "5"
+            },
+            {
+                label: '周六',
+                value: "6"
+            }]
+        return array;
+    }
+
 
 
     getUseablePeriodSet = () => {
@@ -50,9 +85,17 @@ class Index extends Component {
         }).then((data) => {
 
             let period=data.period.split(',')
+            let weeks=data.weeks.split(',')
             this.formRef.current.setFieldsValue({
-                period
+                period,
+                weeks
             })
+            if(data.end_date){
+                let end_date=moment(data.end_date)
+                this.formRef.current.setFieldsValue({
+                    end_date,
+                })
+            }
 
         }).catch(err => {
             Util.error(err)
@@ -60,10 +103,14 @@ class Index extends Component {
     }
     updateTherapistPeriodSet = (form) => {
 
+        let weeks=form.weeks?form.weeks.join(','):''
         let period=form.period?form.period.join(','):''
 
+        let end_date=Util.getDateFromMoment(form.end_date)
         updateTherapistPeriodSet({
+            weeks,
             period,
+            end_date,
             therapist_id:this.therapist_id
         }).then((data) => {
             Util.success("操作成功！")
@@ -87,16 +134,61 @@ class Index extends Component {
                 </Row>
                 <Divider/>
                 <Row justify={'center'}>
-                    <Col span={18}  >
+                    <Col span={24}  >
                         <Form
                             ref={this.formRef}
-                            layout="vertical"
+                            // layout="vertical"
+                            labelCol={{span:4}}
                             onFinish={this.updateTherapistPeriodSet}
                         >
 
+                            <Form.Item
+                                label="有效期（北京时间）"
+                                name="end_date"
+                                format="YYYY-MM-DD"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: '有效期不能为空!',
+                                    },
+                                ]}
+                            >
+                                <DatePicker/>
+                            </Form.Item>
 
+                            <Form.Item name="weeks"
+                                       label="请设置周次"
+                                       rules={[
+                                           {
+                                               required: true,
+                                               message: '周次不能为空!',
+                                           },
+                                       ]}
+                            >
+                                <Checkbox.Group style={{width:'100%'}}>
+                                    <Row>
+                                        {
+                                            this.weekOptions.map((item, index) => {
+                                                return (
+                                                    <Col span={3} key={index}>
+                                                        <Checkbox value={item.value} style={{marginBottom: '.5em'}}>{item.label}</Checkbox>
+                                                    </Col>
+                                                )
+                                            })
+                                        }
+                                    </Row>
+                                </Checkbox.Group>
+                            </Form.Item>
 
-                            <Form.Item name="period" label="请设置可用时段">
+                            <Form.Item name="period"
+                                       label="请设置可用时段"
+                                       rules={[
+                                           {
+                                               required: true,
+                                               message: '可用时段不能为空!',
+                                           },
+                                       ]}
+                            >
                                 <Checkbox.Group>
                                     <Row>
                                         {
