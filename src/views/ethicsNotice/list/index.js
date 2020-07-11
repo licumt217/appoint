@@ -105,18 +105,18 @@ class Index extends Component {
             },
             {
                 title: '咨询师姓名',
-                width:'10em',
+                width:'8em',
                 dataIndex: 'name',
             },
             {
                 title: '添加时间',
-                width:'15em',
+                width:'8em',
                 dataIndex: 'add_date',
             },
             {
                 title: '显示方式',
                 dataIndex: 'showManner',
-                width:'15em',
+                width:'8em',
                 render: (text) => {
                     return text === '0' ? '不显示' : text === '1' ? '永久显示' : '一段时间显示'
                 }
@@ -124,7 +124,7 @@ class Index extends Component {
             {
                 title: '显示截止日期',
                 dataIndex: 'end_date',
-                width:'10em',
+                width:'8em',
                 render: (text) => {
 
                     return text?text.split(' ')[0]:text;
@@ -133,12 +133,13 @@ class Index extends Component {
             {
                 title: '公告内容',
                 dataIndex: 'content',
+                width:'15em',
                 ellipsis:true
             },
             {
                 title: '状态',
                 dataIndex: 'state',
-                width:'5em',
+                width:'4em',
                 render:(state)=>{
                     return state===0?'启用':'停用'
                 }

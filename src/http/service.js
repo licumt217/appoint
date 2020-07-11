@@ -292,9 +292,9 @@ export function getOrderListByDivisionAdminId(params = {}) {
  * @param params
  * @returns {Promise<AxiosResponse<T>>}
  */
-export function getDoneOrderListByTherapistId(params = {}) {
+export function getDoneOrderList(params = {}) {
 
-    return axios.post('order/getDoneOrderListByTherapistId', params)
+    return axios.post('order/getDoneOrderList', params)
 
 
 }
@@ -304,9 +304,9 @@ export function getDoneOrderListByTherapistId(params = {}) {
  * @param params
  * @returns {Promise<AxiosResponse<T>>}
  */
-export function getRevenueSumByTherapistId(params = {}) {
+export function getRevenueSum(params = {}) {
 
-    return axios.post('order/getRevenueSumByTherapistId', params)
+    return axios.post('order/getRevenueSum', params)
 
 
 }

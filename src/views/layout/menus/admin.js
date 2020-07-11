@@ -88,7 +88,7 @@ class Admin extends Component {
                     </Menu.Item>
                 </SubMenu>
                 <Menu.Item key="measure-list" icon={<MenuUnfoldOutlined/>}>
-                    量表管理
+                    预检表管理
                 </Menu.Item>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}

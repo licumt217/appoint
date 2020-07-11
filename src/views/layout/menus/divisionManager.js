@@ -39,6 +39,12 @@ class DivisionManagerMenu extends Component {
             case 'measure-list':
                 this.props.history.push('/measure/list')
                 break;
+            case 'complain-user':
+                this.props.history.push('/complain/userList')
+                break;
+            case 'complain-therapist':
+                this.props.history.push('/complain/therapistList')
+                break;
         }
 
 
@@ -54,20 +60,23 @@ class DivisionManagerMenu extends Component {
                 <Menu.Item key="therapist-revenue" icon={<MenuUnfoldOutlined/>}>
                     咨询师收益查看
                 </Menu.Item>
+                <SubMenu
+                    icon={<MenuUnfoldOutlined/>}
+                    key="complain"
+                    title={<span>投诉管理</span>}
+                >
+                    <Menu.Item key="complain-user" icon={<MenuUnfoldOutlined/>}>
+                        用户投诉
+                    </Menu.Item>
+                    <Menu.Item key="complain-therapist" icon={<MenuUnfoldOutlined/>}>
+                        咨询师投诉
+                    </Menu.Item>
+                </SubMenu>
                 <Menu.Item key="refund-list" icon={<MenuUnfoldOutlined/>}>
                     退款管理
                 </Menu.Item>
-                <SubMenu
-                    icon={<MenuUnfoldOutlined/>}
-                    key="preCheck"
-                    title={<span>预检表</span>}
-                >
-                    <Menu.Item key="preCheck-list" icon={<MenuUnfoldOutlined/>}>
-                        预检表管理
-                    </Menu.Item>
-                </SubMenu>
                 <Menu.Item key="measure-list" icon={<MenuUnfoldOutlined/>}>
-                    量表管理
+                    预检表管理
                 </Menu.Item>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}

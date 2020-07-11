@@ -96,6 +96,7 @@ class Index extends Component {
             {
                 title: '序号',
                 dataIndex: 'index',
+                width:'5em',
                 render: (text, row, index) => {
                     return index + 1;
                 }
@@ -116,11 +117,13 @@ class Index extends Component {
             {
                 title: '创建时间',
                 dataIndex: 'createtime',
+                width:'14em',
                 ellipsis:true
             },
             {
                 title: '是否公用',
                 dataIndex: 'role',
+                width:'8em',
                 render: (value) => {
                     return value === IS_MEASURE_PUBLIC.YES ? '是' : '否';
                 }

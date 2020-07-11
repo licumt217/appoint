@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Util from "../../../assets/js/Util";
 import Role from "../../../assets/js/Role";
 
-import {getDoneOrderListByTherapistId, getRevenueSumByTherapistId} from "../../../http/service";
+import {getDoneOrderList, getRevenueSum} from "../../../http/service";
 import {Statistic, Col, Row, Divider, Table, Space, Pagination, Form, Input, Modal} from "antd";
 import store from "../../../store";
 import ORDER_STATE_DESC from "../../../assets/js/constants/ORDER_STATE_DESC";
@@ -38,8 +38,7 @@ class Index extends Component {
      * 汇总类收益
      */
     getRevenueSum=()=>{
-        getRevenueSumByTherapistId({
-            therapist_id:this.therapist_id,
+        getRevenueSum({
 
         }).then((data) => {
 
@@ -60,8 +59,7 @@ class Index extends Component {
 
         let pageSize = Util.pageSize
 
-        getDoneOrderListByTherapistId({
-            therapist_id:this.therapist_id,
+        getDoneOrderList({
             page,
             pageSize
 

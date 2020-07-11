@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 import Util from "../../../assets/js/Util";
-import Role from "../../../assets/js/Role";
 
 import {getOrderListByDivisionAdminId, addComplaint, deleteLevelType,refund} from "../../../http/service";
 import {Button, Col, Row, Divider, Table, Space, Pagination, Form, Input, Modal} from "antd";
@@ -56,31 +55,6 @@ class Index extends Component {
         })
     }
 
-    close=()=>{
-        this.setState({
-            visible:false,
-        })
-    }
-
-    check = () => {
-
-        this.modalRef.current.submit();
-
-
-    }
-
-    realComplain=(form)=>{
-        addComplaint({
-            order_id:this.currentRow.order_id,
-            content:form.content
-        }).then(data => {
-            Util.success(`投诉成功！`)
-            this.close()
-            this.getList(this.state.data.currentPage)
-        }).catch(err => {
-            Util.error(err)
-        })
-    }
 
     refund=(row)=>{
         Util.confirm({
@@ -180,30 +154,10 @@ class Index extends Component {
 
         return (
             <div>
-                <Modal
-                    title="投诉客户"
-                    visible={this.state.visible}
-                    onOk={this.check}
-                    onCancel={this.close}
-                >
-                    <Form ref={this.modalRef}
-                          onFinish={this.realComplain}
-
-                    >
-                        <Form.Item name={'content'} rules={[
-                            {
-                                required: true,
-                                message: '投诉内容不能为空!',
-                            },
-                        ]}>
-                            <Input.TextArea rows={5} placeholder={'请输入投诉内容'}></Input.TextArea>
-                        </Form.Item>
-                    </Form>
-                </Modal>
 
                 <Row>
                     <Col span={20}>
-                        <h3>咨询客观记录</h3>
+                        <h3>退款管理</h3>
                     </Col>
                 </Row>
                 <Divider/>

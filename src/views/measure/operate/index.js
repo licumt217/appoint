@@ -77,11 +77,11 @@ class Index extends Component {
                 </Row>
                 <Divider/>
                 <Row>
-                    <Col offset={8} span={8}>
+                    <Col offset={6} span={10}>
 
                         <Form
                             name="basic"
-                            labelCol={{span: 6}}
+                            labelCol={{span: 8}}
                             initialValues={this.state.formItem}
                             onFinish={this.operate}
                         >

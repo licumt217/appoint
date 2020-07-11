@@ -144,7 +144,7 @@ class Index extends Component {
                 title: '序号',
                 dataIndex: 'index',
                 render:(text,row,index)=>{
-                    return `${(this.state.data.currentPage-1)*(this.state.data.pageSize)+(index+1)}`
+                    return `${(this.state.therapistListData.currentPage-1)*(this.state.therapistListData.pageSize)+(index+1)}`
                 }
             },
             {
@@ -186,7 +186,7 @@ class Index extends Component {
         return (
             <div>
                 <Modal
-                    width='50vw'
+                    width='70vw'
                     visible={this.state.visible}
                     title="选择咨询师"
                     onCancel={()=>{
@@ -219,7 +219,7 @@ class Index extends Component {
                 </Row>
                 <Divider/>
                 <Row>
-                    <Col offset={8} span={8}>
+                    <Col offset={7} span={10}>
 
                         <Form
                             ref={this.formRef}
