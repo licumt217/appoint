@@ -22,12 +22,25 @@ class CaseManagerMenu extends Component {
                 this.props.history.push('/station/relateTherapist')
                 break;
 
+            case 'therapist-revenue':
+                this.props.history.push('/therapist/revenue')
+                break;
+
+            case 'complain-user':
+                this.props.history.push('/complain/userList')
+                break;
+            case 'complain-therapist':
+                this.props.history.push('/complain/therapistList')
+                break;
+
             case 'setting-center':
                 this.props.history.push('/user/center')
                 break;
             case 'setting-passModify':
                 this.props.history.push('/user/modifypass')
                 break;
+
+
         }
 
 
@@ -44,6 +57,21 @@ class CaseManagerMenu extends Component {
                 <Menu.Item key="station-relateTherapist" icon={<MenuUnfoldOutlined/>}>
                     咨询师管理
                 </Menu.Item>
+                <Menu.Item key="therapist-revenue" icon={<MenuUnfoldOutlined/>}>
+                    咨询师收益查看
+                </Menu.Item>
+                <SubMenu
+                    icon={<MenuUnfoldOutlined/>}
+                    key="complain"
+                    title={<span>投诉管理</span>}
+                >
+                    <Menu.Item key="complain-user" icon={<MenuUnfoldOutlined/>}>
+                        用户投诉
+                    </Menu.Item>
+                    <Menu.Item key="complain-therapist" icon={<MenuUnfoldOutlined/>}>
+                        咨询师投诉
+                    </Menu.Item>
+                </SubMenu>
 
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import Util from "../../../assets/js/Util";
 import Role from "../../../assets/js/Role";
 
-import {getDoneOrderList, getRevenueSum} from "../../../http/service";
+import {getRevenueList, getRevenueSum} from "../../../http/service";
 import {Statistic, Col, Row, Divider, Table, Space, Pagination, Form, Input, Modal} from "antd";
 import store from "../../../store";
 import ORDER_STATE_DESC from "../../../assets/js/constants/ORDER_STATE_DESC";
@@ -30,7 +30,7 @@ class Index extends Component {
 
     componentDidMount() {
         this.getRevenueSum();
-        this.getList(1)
+        this.getRevenueList(1)
     }
 
 
@@ -52,14 +52,14 @@ class Index extends Component {
         })
     }
 
-    getList = (page) => {
+    getRevenueList = (page) => {
 
 
         page = page || 1;
 
         let pageSize = Util.pageSize
 
-        getDoneOrderList({
+        getRevenueList({
             page,
             pageSize
 
@@ -128,7 +128,7 @@ class Index extends Component {
             <div>
                 <Row>
                     <Col span={20}>
-                        <h3>我的收益</h3>
+                        <h3>收益总览</h3>
                     </Col>
                 </Row>
                 <Divider/>

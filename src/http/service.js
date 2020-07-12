@@ -292,9 +292,9 @@ export function getOrderListByDivisionAdminId(params = {}) {
  * @param params
  * @returns {Promise<AxiosResponse<T>>}
  */
-export function getDoneOrderList(params = {}) {
+export function getRevenueList(params = {}) {
 
-    return axios.post('order/getDoneOrderList', params)
+    return axios.post('order/getRevenueList', params)
 
 
 }
@@ -892,6 +892,55 @@ export function upLoadFile(params = {}) {
 export function deleteQuestion(params = {}) {
 
     return axios.post('question/delete', params)
+
+
+}
+
+
+/**
+ * 获取用户协议列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getAgreementList(params = {}) {
+
+    return axios.post('agreement/getList', params)
+
+
+}
+
+/**
+ * 新增用户协议
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function addAgreement(params = {}) {
+
+    return axios.post('agreement/add', params)
+
+
+}
+
+/**
+ * 删除用户协议
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function deleteAgreement(params = {}) {
+
+    return axios.post('agreement/delete', params)
+
+
+}
+
+/**
+ * 修改用户协议
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function updateAgreement(params = {}) {
+
+    return axios.post('agreement/update', params)
 
 
 }

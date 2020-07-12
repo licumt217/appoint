@@ -52,6 +52,9 @@ class Admin extends Component {
             case 'base-consult':
                 this.props.history.push('/base/consultType')
                 break;
+            case 'base-agreement':
+                this.props.history.push('/base/agreement')
+                break;
             case 'setting-center':
                 this.props.history.push('/user/center')
                 break;
@@ -109,6 +112,9 @@ class Admin extends Component {
                     </Menu.Item>
                     <Menu.Item key="base-consult" icon={<MenuUnfoldOutlined/>}>
                         预约类型
+                    </Menu.Item>
+                    <Menu.Item key="base-agreement" icon={<MenuUnfoldOutlined/>}>
+                        用户协议
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu

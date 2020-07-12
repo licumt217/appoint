@@ -28,6 +28,7 @@ import QualificationType from '../views/base/qualificationType'
 import ConsultType from '../views/base/consultType'
 import LevelType from '../views/base/levelType'
 import MannerType from '../views/base/mannerType'
+import Agreement from '../views/base/agreement'
 
 
 
@@ -96,6 +97,7 @@ const routers = [
     {path: '/base/consultType', component: ConsultType},
     {path: '/base/levelType', component: LevelType},
     {path: '/base/mannerType', component: MannerType},
+    {path: '/base/agreement', component: Agreement},
 
 
 
