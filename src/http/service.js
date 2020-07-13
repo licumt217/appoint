@@ -945,6 +945,30 @@ export function updateAgreement(params = {}) {
 
 }
 
+/**
+ * 获取继续教育设置
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getContinueEduSettingByDivisionId(params = {}) {
+
+    return axios.post('continueEduSetting/getByDivisionId', params)
+
+
+}
+
+/**
+ * 更新继续教育设置
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function updateContinueEduSetting(params = {}) {
+
+    return axios.post('continueEduSetting/update', params)
+
+
+}
+
 
 
 

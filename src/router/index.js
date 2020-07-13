@@ -63,6 +63,8 @@ import Measure_List from '../views/measure/list'
 import Measure_Operate from '../views/measure/operate'
 import Measure_Detail from '../views/measure/detail'
 
+import System_Continue_Edu from '../views/system/continueEdu'
+
 
 
 
@@ -129,6 +131,9 @@ const routers = [
     {path: '/measure/list', component: Measure_List},
     {path: '/measure/operate', component: Measure_Operate},
     {path: '/measure/detail', component: Measure_Detail},
+
+
+    {path: '/system/continueEdu', component: System_Continue_Edu},
 
 
 
