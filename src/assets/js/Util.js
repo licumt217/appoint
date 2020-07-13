@@ -133,6 +133,10 @@ class Util {
         })
     }
 
+    static isEmptyObject(obj) {
+        return !obj || (JSON.stringify(obj) === "{}");
+    }
+
     /**
      * 数组转对象
      * @param array

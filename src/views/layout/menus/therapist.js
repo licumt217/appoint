@@ -43,6 +43,10 @@ class TherapistMenu extends Component {
             case 'therapist-fax':
                 this.props.history.push('/therapist/list')
                 break;
+            case 'therapist-continueEdu':
+                this.props.history.push('/therapist/continueEdu')
+                break;
+
 
             case 'setting-center':
                 this.props.history.push('/user/center')
@@ -97,6 +101,10 @@ class TherapistMenu extends Component {
                     <Menu.Item key="setting-appointset"
                                icon={<MenuUnfoldOutlined/>}>
                         预约设置
+                    </Menu.Item>
+                    <Menu.Item key="therapist-continueEdu"
+                               icon={<MenuUnfoldOutlined/>}>
+                        继续教育
                     </Menu.Item>
                     <Menu.Item key="setting-feeset"
                                icon={<MenuUnfoldOutlined/>}>

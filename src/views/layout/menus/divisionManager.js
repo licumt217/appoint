@@ -46,9 +46,7 @@ class DivisionManagerMenu extends Component {
                 this.props.history.push('/complain/therapistList')
                 break;
 
-            case 'system-continueEdu':
-                this.props.history.push('/system/continueEdu')
-                break;
+
         }
 
 
@@ -82,16 +80,7 @@ class DivisionManagerMenu extends Component {
                 <Menu.Item key="measure-list" icon={<MenuUnfoldOutlined/>}>
                     预检表管理
                 </Menu.Item>
-                <SubMenu
-                    icon={<MenuUnfoldOutlined/>}
-                    key="system"
-                    title={<span>系统设置</span>}
-                >
-                    <Menu.Item key="system-continueEdu"
-                               icon={<MenuUnfoldOutlined/>}>
-                        继续教育
-                    </Menu.Item>
-                </SubMenu>
+
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}
                     key="setting"

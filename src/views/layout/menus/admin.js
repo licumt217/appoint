@@ -61,6 +61,9 @@ class Admin extends Component {
             case 'setting-passModify':
                 this.props.history.push('/user/modifypass')
                 break;
+            case 'system-continueEdu':
+                this.props.history.push('/system/continueEdu')
+                break;
         }
 
 
@@ -115,6 +118,16 @@ class Admin extends Component {
                     </Menu.Item>
                     <Menu.Item key="base-agreement" icon={<MenuUnfoldOutlined/>}>
                         用户协议
+                    </Menu.Item>
+                </SubMenu>
+                <SubMenu
+                    icon={<MenuUnfoldOutlined/>}
+                    key="system"
+                    title={<span>系统设置</span>}
+                >
+                    <Menu.Item key="system-continueEdu"
+                               icon={<MenuUnfoldOutlined/>}>
+                        继续教育
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu

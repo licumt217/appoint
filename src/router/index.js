@@ -50,6 +50,8 @@ import Therapist_PeriodSet from '../views/therapist/periodSet'
 import Therapist_Occupy from '../views/therapist/occupy'
 import Therapist_complaint from '../views/therapist/complaint'
 import Therapist_OrderList from '../views/therapist/orderList'
+import Therapist_ContinueEdu from '../views/therapist/continueEdu/list'
+import Therapist_Therapist_ContinueEdu_Operate from '../views/therapist/continueEdu/operate'
 
 import Room_List from '../views/room/list'
 import Room_Operate from '../views/room/operate'
@@ -120,6 +122,9 @@ const routers = [
     {path: '/therapist/occupy', component: Therapist_Occupy},
     {path: '/therapist/complaint', component: Therapist_complaint},
     {path: '/therapist/orderList', component: Therapist_OrderList},
+    {path: '/therapist/continueEdu', component: Therapist_ContinueEdu},
+    {path: '/therapist/continueEdu', component: Therapist_ContinueEdu},
+    {path: '/therapist/continueEdu/operate', component: Therapist_Therapist_ContinueEdu_Operate},
 
     {path: '/room/list', component: Room_List},
     {path: '/room/operate', component: Room_Operate},

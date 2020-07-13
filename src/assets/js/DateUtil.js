@@ -23,7 +23,6 @@ let DateUtil = {
         }
 
 
-
         let day = date.getDate()
 
         if (day < 10) {
@@ -49,14 +48,26 @@ let DateUtil = {
     isBefore(date1, date2) {
         return date1.getTime() < date2.getTime()
     },
+
+    /**
+     * 给定日期是否在两个日期之间
+     * @param date
+     * @param date1
+     * @param date2
+     * @returns {boolean|boolean}
+     */
+    isBetween(date, date1, date2) {
+        return date.getTime() > date1.getTime() && date.getTime() < date2.getTime()
+    },
+
     /**
      * 获取给定日期是周几
      * @param date
      * @returns {number}
      */
-    getWeekOfDate(date){
-        if(typeof date==='string'){
-            date=new Date(date);
+    getWeekOfDate(date) {
+        if (typeof date === 'string') {
+            date = new Date(date);
         }
         return date.getDay();
     }

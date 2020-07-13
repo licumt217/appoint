@@ -950,9 +950,21 @@ export function updateAgreement(params = {}) {
  * @param params
  * @returns {Promise<AxiosResponse<T>>}
  */
-export function getContinueEduSettingByDivisionId(params = {}) {
+export function getContinueEduSetting(params = {}) {
 
-    return axios.post('continueEduSetting/getByDivisionId', params)
+    return axios.post('continueEduSetting/get', params)
+
+
+}
+
+/**
+ * 超管初始化配置
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function initContinueEduSetting(params = {}) {
+
+    return axios.post('continueEduSetting/init', params)
 
 
 }
@@ -965,6 +977,55 @@ export function getContinueEduSettingByDivisionId(params = {}) {
 export function updateContinueEduSetting(params = {}) {
 
     return axios.post('continueEduSetting/update', params)
+
+
+}
+
+
+/**
+ * 获取用户继续教育列表
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getContinueEduList(params = {}) {
+
+    return axios.post('continueEdu/list', params)
+
+
+}
+
+/**
+ * 根据咨询师ID和年份获取继续教育详情
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getContinueEduByUserIdAndYear(params = {}) {
+
+    return axios.post('continueEdu/getByUserIdAndYear', params)
+
+
+}
+
+/**
+ * 上传继续教育附件信息
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function uploadContinueEduFile(params = {}) {
+
+    return axios.post('continueEdu/upload', params)
+
+
+}
+
+/**
+ * 咨询师新增继续教育
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function addContinueEdu(params = {}) {
+
+    return axios.post('continueEdu/add', params)
 
 
 }
