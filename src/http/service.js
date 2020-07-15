@@ -1043,6 +1043,19 @@ export function updateContinueEdu(params = {}) {
 }
 
 /**
+ * 获取继续教育分页列表
+ * 分部管理员和咨询师查看
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getContinueEduPageList(params = {}) {
+
+    return axios.post('continueEdu/queryList', params)
+
+
+}
+
+/**
  * 获取某咨询师某年度的继续教育条目
  * @param params
  * @returns {Promise<AxiosResponse<T>>}

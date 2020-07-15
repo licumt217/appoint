@@ -52,6 +52,7 @@ import Therapist_complaint from '../views/therapist/complaint'
 import Therapist_OrderList from '../views/therapist/orderList'
 import Therapist_ContinueEdu from '../views/therapist/continueEdu/list'
 import Therapist_Therapist_ContinueEdu_Operate from '../views/therapist/continueEdu/operate'
+import Therapist_Therapist_ContinueEdu_QueryList from '../views/therapist/continueEdu/queryList'
 
 import Room_List from '../views/room/list'
 import Room_Operate from '../views/room/operate'
@@ -125,6 +126,7 @@ const routers = [
     {path: '/therapist/continueEdu', component: Therapist_ContinueEdu},
     {path: '/therapist/continueEdu', component: Therapist_ContinueEdu},
     {path: '/therapist/continueEdu/operate', component: Therapist_Therapist_ContinueEdu_Operate},
+    {path: '/therapist/continueEdu/queryList', component: Therapist_Therapist_ContinueEdu_QueryList},
 
     {path: '/room/list', component: Room_List},
     {path: '/room/operate', component: Room_Operate},

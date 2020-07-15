@@ -33,6 +33,10 @@ class CaseManagerMenu extends Component {
                 this.props.history.push('/complain/therapistList')
                 break;
 
+            case 'continueEdu-queryList':
+                this.props.history.push('/therapist/continueEdu/queryList')
+                break;
+
             case 'setting-center':
                 this.props.history.push('/user/center')
                 break;
@@ -72,6 +76,10 @@ class CaseManagerMenu extends Component {
                         咨询师投诉
                     </Menu.Item>
                 </SubMenu>
+
+                <Menu.Item key="continueEdu-queryList" icon={<MenuUnfoldOutlined/>}>
+                    继续教育
+                </Menu.Item>
 
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}

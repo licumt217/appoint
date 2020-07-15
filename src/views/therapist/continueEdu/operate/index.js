@@ -12,10 +12,11 @@ class Index extends Component {
         super(props);
 
         this.isEdit = this.props.location.state && this.props.location.state.opType === 'edit'
+        this.isQuery = this.props.location.state && this.props.location.state.opType === 'query'
 
 
         this.state = {
-            formItem: this.isEdit ? this.props.location.state.formItem : {},
+            formItem: (this.isEdit || this.isQuery) ? this.props.location.state.formItem : {},
             files: [{
                 uid: '1',
                 name: 'xxx.png',
@@ -24,7 +25,7 @@ class Index extends Component {
     }
 
     componentDidMount() {
-       if(this.isEdit){
+       if(this.isEdit || this.isQuery){
            this.continue_edu_id=this.props.location.state.continue_edu_id
            getContinueEduItemList({
                continue_edu_id:this.continue_edu_id
@@ -208,7 +209,7 @@ class Index extends Component {
                                                         message: '培训名称不能为空!',
                                                     },
                                                 ]}>
-                                                    <Input maxLength={200} placeholder={'请输入培训名称'}></Input>
+                                                    <Input disabled={this.isQuery} maxLength={200} placeholder={'请输入培训名称'}></Input>
                                                 </Form.Item>
                                             </Col>
 
@@ -224,7 +225,7 @@ class Index extends Component {
                                                         message: '课时不能为空!',
                                                     },
                                                 ]}>
-                                                    <Input maxLength={200} placeholder={'请输入课时'}></Input>
+                                                    <Input disabled={this.isQuery}  maxLength={200} placeholder={'请输入课时'}></Input>
                                                 </Form.Item>
                                             </Col>
 
@@ -240,7 +241,7 @@ class Index extends Component {
                                                         message: '培训师不能为空!',
                                                     },
                                                 ]}>
-                                                    <Input maxLength={200} placeholder={'请输入培训师'}></Input>
+                                                    <Input disabled={this.isQuery}  maxLength={200} placeholder={'请输入培训师'}></Input>
                                                 </Form.Item>
                                             </Col>
 
@@ -256,7 +257,7 @@ class Index extends Component {
                                                         message: '主办单位不能为空!',
                                                     },
                                                 ]}>
-                                                    <Input maxLength={200} placeholder={'请输入主办单位'}></Input>
+                                                    <Input disabled={this.isQuery}  maxLength={200} placeholder={'请输入主办单位'}></Input>
                                                 </Form.Item>
                                             </Col>
 
@@ -269,32 +270,42 @@ class Index extends Component {
                                                     fieldKey={[field.fieldKey, 'is_authorized']}
                                                     name={[field.name, 'is_authorized']}
                                                 >
-                                                    <Switch
+                                                    <Switch  disabled={this.isQuery}
                                                     />
                                                 </Form.Item>
                                             </Col>
 
-                                            <Col span={3} offset={1}>
-                                                <DeleteFilled style={{fontSize: '1.2em', marginTop: '0.4em'}}
-                                                              onClick={() => {
-                                                                  remove(field.name);
-                                                              }}
-                                                />
-                                            </Col>
+                                            {
+                                                !this.isQuery?
+                                                    <Col span={3} offset={1}>
+                                                        <DeleteFilled style={{fontSize: '1.2em', marginTop: '0.4em'}}
+                                                                      onClick={() => {
+                                                                          remove(field.name);
+                                                                      }}
+                                                        />
+                                                    </Col>
+                                                    :
+                                                    null
+                                            }
                                         </Row>
                                     ))}
 
-                                    <Form.Item>
-                                        <Button
-                                            type="dashed"
-                                            onClick={() => {
-                                                add();
-                                            }}
-                                            block
-                                        >
-                                            <PlusOutlined/> 新增选项
-                                        </Button>
-                                    </Form.Item>
+                                    {
+                                        !this.isQuery?
+                                            <Form.Item>
+                                                <Button
+                                                    type="dashed"
+                                                    onClick={() => {
+                                                        add();
+                                                    }}
+                                                    block
+                                                >
+                                                    <PlusOutlined/> 新增选项
+                                                </Button>
+                                            </Form.Item>
+                                            :
+                                            null
+                                    }
                                 </div>
                             );
                         }}
@@ -306,9 +317,14 @@ class Index extends Component {
                         <Button type="default" onClick={this.back}>
                             返回
                         </Button>
-                        <Button type="primary" onClick={this.commit}>
-                            保存
-                        </Button>
+                        {
+                            !this.isQuery?
+                                <Button type="primary" onClick={this.commit}>
+                                    保存
+                                </Button>
+                                :
+                                null
+                        }
                     </Space>
                 </div>
             </div>

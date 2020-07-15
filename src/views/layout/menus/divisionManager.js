@@ -28,6 +28,11 @@ class DivisionManagerMenu extends Component {
             case 'preCheck-list':
                 this.props.history.push('/preCheck/list')
                 break;
+            case 'continueEdu-queryList':
+                this.props.history.push('/therapist/continueEdu/queryList')
+                break;
+
+
 
             case 'setting-center':
                 this.props.history.push('/user/center')
@@ -79,6 +84,9 @@ class DivisionManagerMenu extends Component {
                 </Menu.Item>
                 <Menu.Item key="measure-list" icon={<MenuUnfoldOutlined/>}>
                     预检表管理
+                </Menu.Item>
+                <Menu.Item key="continueEdu-queryList" icon={<MenuUnfoldOutlined/>}>
+                    继续教育
                 </Menu.Item>
 
                 <SubMenu
