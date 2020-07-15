@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, Col, Divider, Pagination, Row, Space, Table} from "antd";
 import Util from "../../../../assets/js/Util";
 import DateUtil from "../../../../assets/js/DateUtil";
+import CONTINUE_EDU_STATE from "../../../../assets/js/constants/CONTINUE_EDU_STATE";
 import {getContinueEduList,getContinueEduSetting,getContinueEduByUserIdAndYear} from "../../../../http/service";
 
 
@@ -13,6 +14,7 @@ class Index extends Component {
         this.state = {
             data: [],
 
+            canEdit:false,
             canAdd:false,//是否能新增继续教育信息：1、已开启上年度的填写继续教育开关，且当前日期在区间内；2、自己还未添加上年度的继续教育情况
 
         }
@@ -31,10 +33,12 @@ class Index extends Component {
             }else{
 
                 let now=new Date();
-                if(data.continue_edu_state===1 && DateUtil.isBetween(now,new Date(data.start_date),new Date(data.end_date))){
+                if(data.continue_edu_state===CONTINUE_EDU_STATE.ON && DateUtil.isBetween(now,new Date(data.start_date),new Date(data.end_date))){
 
+                    this.setState({
+                        canEdit:true
+                    })
                     getContinueEduByUserIdAndYear({
-                        year:now.getFullYear()
                     }).then(data=>{
                         if(Util.isEmptyObject(data)){
                             this.setState({
@@ -73,7 +77,18 @@ class Index extends Component {
 
         this.props.history.push({
             pathname:'/therapist/continueEdu/operate',
-            opType:'edit'
+        })
+    }
+
+    edit=(row)=>{
+
+        this.props.history.push({
+            pathname:'/therapist/continueEdu/operate',
+            state:{
+                opType:'edit',
+                continue_edu_id:row.continue_edu_id
+            }
+
         })
     }
 
@@ -100,8 +115,12 @@ class Index extends Component {
                 title: '操作',
                 dataIndex: 'action',
                 render: (text, row) => (
-                    <Button size={"small"} type={"primary"} danger
-                            onClick={this.delete.bind(this, row.blacklist_id)}>移除黑名单</Button>
+                    (this.state.canEdit && ((new Date().getFullYear()-1)===Number(row.year)))?
+                        <Button size={"small"} type={"primary"}
+                                onClick={this.edit.bind(this, row)}>修改</Button>
+                    :
+                        null
+
 
                 ),
             },
@@ -126,7 +145,7 @@ class Index extends Component {
                 <Divider/>
                 <Row justify={'center'}>
                     <Col span={24}>
-                        <Table dataSource={this.state.data.data} columns={columns} rowKey="user_id" pagination={false}/>
+                        <Table dataSource={this.state.data} columns={columns} rowKey="user_id" pagination={false}/>
                     </Col>
                 </Row>
             </div>

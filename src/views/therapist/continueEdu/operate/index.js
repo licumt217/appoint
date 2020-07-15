@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
-import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Radio, Upload} from "antd";
-import {addDivision, updateDivision,uploadContinueEduFile,addContinueEdu} from "../../../../http/service";
-import FUNCTION_LEVEL from "../../../../assets/js/constants/FUNCTION_LEVEL";
-import RECEIVE_SIDE from "../../../../assets/js/constants/RECEIVE_SIDE";
-import {UploadOutlined} from "@ant-design/icons";
+import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Radio, Upload, Switch} from "antd";
+import {updateContinueEdu, getContinueEduItemList, uploadContinueEduFile, addContinueEdu} from "../../../../http/service";
+import {DeleteFilled, PlusOutlined} from "@ant-design/icons";
 import Util from "../../../../assets/js/Util";
-
-const {Option} = Select;
 
 class Index extends Component {
 
-    formRef=React.createRef()
+    formRef = React.createRef()
+
     constructor(props) {
         super(props);
 
@@ -19,7 +16,7 @@ class Index extends Component {
 
         this.state = {
             formItem: this.isEdit ? this.props.location.state.formItem : {},
-            files:[{
+            files: [{
                 uid: '1',
                 name: 'xxx.png',
             }]
@@ -27,10 +24,18 @@ class Index extends Component {
     }
 
     componentDidMount() {
-        this.formRef.current.setFieldsValue({
-            name:'2222',
-            // files:this.state.files
-        })
+       if(this.isEdit){
+           this.continue_edu_id=this.props.location.state.continue_edu_id
+           getContinueEduItemList({
+               continue_edu_id:this.continue_edu_id
+           }).then(data=>{
+               this.formRef.current.setFieldsValue({
+                   data
+               })
+           }).catch(error => {
+               Util.error(error)
+           })
+       }
     }
 
 
@@ -63,11 +68,11 @@ class Index extends Component {
 
         uploadContinueEduFile(formData).then(data => {
 
-            let files=this.state.files;
+            let files = this.state.files;
 
             files.push({
                 name: data.url,
-                uid:data.url
+                uid: data.url
             })
 
             this.setState({
@@ -83,18 +88,18 @@ class Index extends Component {
 
     operate = (values) => {
 
-        if(this.state.files.length===0){
+        if (this.state.files.length === 0) {
             Util.info('请上传文件！')
             return;
         }
 
-        if(this.isEdit){
+        if (this.isEdit) {
 
-        }else{
+        } else {
             addContinueEdu({
-                name:values.name,
-                attachment:JSON.stringify(this.state.files)
-            }).then(data=>{
+                name: values.name,
+                attachment: JSON.stringify(this.state.files)
+            }).then(data => {
 
                 Util.success('操作成功')
                 this.back()
@@ -106,19 +111,63 @@ class Index extends Component {
 
     }
 
-    onRemove=(file)=>{
-        let uid=file.uid;
+    onRemove = (file) => {
+        let uid = file.uid;
 
-        let files=this.state.files;
-        let index=files.findIndex(item=>{
-            return item.uid===uid;
+        let files = this.state.files;
+        let index = files.findIndex(item => {
+            return item.uid === uid;
         })
 
-        files.splice(index,1);
+        files.splice(index, 1);
 
         this.setState({
             files
         })
+
+    }
+
+    commit = () => {
+        this.formRef.current.submit();
+    }
+
+    save = (values) => {
+
+        let data=values.data;
+        if(data && data.length>0){
+            data.forEach(item=>{
+                item.is_authorized=item.is_authorized?1:0;
+            })
+
+            if(this.isEdit){
+
+                updateContinueEdu({
+                    data,
+                    continue_edu_id:this.continue_edu_id
+                }).then(data => {
+
+                    Util.success('操作成功')
+                    this.back()
+                }).catch(error => {
+                    Util.error(error)
+                })
+            }else{
+                addContinueEdu({
+                    data
+                }).then(data => {
+
+                    Util.success('操作成功')
+                    this.back()
+                }).catch(error => {
+                    Util.error(error)
+                })
+            }
+
+
+
+        }else{
+            Util.info(`请至少添加一条继续教育记录`)
+        }
 
     }
 
@@ -133,60 +182,135 @@ class Index extends Component {
                     </Col>
                 </Row>
                 <Divider/>
-                <Row>
-                    <Col offset={4} span={12}>
 
-                        <Form
-                            ref={this.formRef}
-                            name="basic"
-                            labelCol={{span: 6}}
-                            initialValues={this.state.formItem}
-                            onFinish={this.operate}
-                        >
-                            <Form.Item
-                                label="名称"
-                                name="name"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: '名称不能为空!',
-                                    },
-                                ]}
-                            >
-                                <Input placeholder={'请输入名称'}/>
-                            </Form.Item>
+                <Form
+                    ref={this.formRef}
+                    onFinish={this.save}
+                >
+                    <Form.List name="data">
+                        {(fields, {add, remove}) => {
+                            return (
+                                <div>
 
-                            <Form.Item
-                                label='上传附件'
-                                name="files"
-                            >
-                                <Upload
-                                    onRemove={this.onRemove}
-                                    fileList={this.state.files}
-                                    beforeUpload={this.beforeUpload}
-                                >
-                                    <Button>
-                                        <UploadOutlined/> 请选择要上传的文件
-                                    </Button>
-                                </Upload>
-                            </Form.Item>
+                                    {fields.map((field, index) => (
+                                        <Row key={index}
+                                             style={{border: '1px dashed gray', padding: '2em', marginBottom: '1em'}}>
 
+                                            <Col span="20">
+                                                <Form.Item
+                                                    labelCol={{span: 5}}
+                                                    label={"培训名称"}
+                                                    {...field}
+                                                    fieldKey={[field.fieldKey, 'train_name']}
+                                                    name={[field.name, 'train_name']} rules={[
+                                                    {
+                                                        required: true,
+                                                        message: '培训名称不能为空!',
+                                                    },
+                                                ]}>
+                                                    <Input maxLength={200} placeholder={'请输入培训名称'}></Input>
+                                                </Form.Item>
+                                            </Col>
 
-                            <Form.Item wrapperCol={{offset: 10, span: 14}}>
+                                            <Col span="20">
+                                                <Form.Item
+                                                    labelCol={{span: 5}}
+                                                    label={"课时"}
+                                                    {...field}
+                                                    fieldKey={[field.fieldKey, 'hours']}
+                                                    name={[field.name, 'hours']} rules={[
+                                                    {
+                                                        required: true,
+                                                        message: '课时不能为空!',
+                                                    },
+                                                ]}>
+                                                    <Input maxLength={200} placeholder={'请输入课时'}></Input>
+                                                </Form.Item>
+                                            </Col>
 
+                                            <Col span="20">
+                                                <Form.Item
+                                                    labelCol={{span: 5}}
+                                                    label={"培训师"}
+                                                    {...field}
+                                                    fieldKey={[field.fieldKey, 'train_teacher']}
+                                                    name={[field.name, 'train_teacher']} rules={[
+                                                    {
+                                                        required: true,
+                                                        message: '培训师不能为空!',
+                                                    },
+                                                ]}>
+                                                    <Input maxLength={200} placeholder={'请输入培训师'}></Input>
+                                                </Form.Item>
+                                            </Col>
 
-                                <Space>
-                                    <Button type="default" onClick={this.back}>
-                                        返回
-                                    </Button>
-                                    <Button type="primary" htmlType="submit">
-                                        确定
-                                    </Button>
-                                </Space>
-                            </Form.Item>
-                        </Form>
-                    </Col>
-                </Row>
+                                            <Col span="20">
+                                                <Form.Item
+                                                    labelCol={{span: 5}}
+                                                    label={"主办单位"}
+                                                    {...field}
+                                                    fieldKey={[field.fieldKey, 'organizer']}
+                                                    name={[field.name, 'organizer']} rules={[
+                                                    {
+                                                        required: true,
+                                                        message: '主办单位不能为空!',
+                                                    },
+                                                ]}>
+                                                    <Input maxLength={200} placeholder={'请输入主办单位'}></Input>
+                                                </Form.Item>
+                                            </Col>
+
+                                            <Col span="20">
+                                                <Form.Item
+                                                    labelCol={{span: 5}}
+                                                    valuePropName={'checked'}
+                                                    label={"是否注册系统认证的继续教育项目"}
+                                                    {...field}
+                                                    fieldKey={[field.fieldKey, 'is_authorized']}
+                                                    name={[field.name, 'is_authorized']}
+                                                >
+                                                    <Switch
+                                                    />
+                                                </Form.Item>
+                                            </Col>
+
+                                            <Col span={3} offset={1}>
+                                                <DeleteFilled style={{fontSize: '1.2em', marginTop: '0.4em'}}
+                                                              onClick={() => {
+                                                                  remove(field.name);
+                                                              }}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    ))}
+
+                                    <Form.Item>
+                                        <Button
+                                            type="dashed"
+                                            onClick={() => {
+                                                add();
+                                            }}
+                                            block
+                                        >
+                                            <PlusOutlined/> 新增选项
+                                        </Button>
+                                    </Form.Item>
+                                </div>
+                            );
+                        }}
+                    </Form.List>
+                </Form>
+
+                <div style={{textAlign:'center'}}>
+                    <Space>
+                        <Button type="default" onClick={this.back}>
+                            返回
+                        </Button>
+                        <Button type="primary" onClick={this.commit}>
+                            保存
+                        </Button>
+                    </Space>
+                </div>
             </div>
         );
     }

@@ -1030,6 +1030,30 @@ export function addContinueEdu(params = {}) {
 
 }
 
+/**
+ * 咨询师修改继续教育
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function updateContinueEdu(params = {}) {
+
+    return axios.post('continueEdu/update', params)
+
+
+}
+
+/**
+ * 获取某咨询师某年度的继续教育条目
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getContinueEduItemList(params = {}) {
+
+    return axios.post('continueEduItem/list', params)
+
+
+}
+
 
 
 
