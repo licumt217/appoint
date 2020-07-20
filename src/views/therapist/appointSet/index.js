@@ -13,6 +13,7 @@ import Util from "../../../assets/js/Util";
 import store from "../../../store";
 import './index.less'
 import {pczOptions} from "../../../assets/js/pcz";
+import TAX_BY_OFFICE from "../../../assets/js/constants/TAX_BY_OFFICE";
 
 const {Option} = Select;
 
@@ -137,8 +138,8 @@ class Index extends Component {
                         <Form
                             ref={this.formRef}
                             layout="horizontal"
-                            labelCol={{span: 4}}
-                            wrapperCol={{span: 20}}
+                            labelCol={{span: 6}}
+                            wrapperCol={{span: 18}}
                             onFinish={this.operate}
                         >
 
@@ -198,6 +199,13 @@ class Index extends Component {
 
                             <Form.Item name="area" label="咨询区域" rules={[{required: true, message: '紧急咨询不能为空!'}]}>
                                 <Cascader options={pczOptions} onChange={onChange} placeholder="请选择区域" />
+                            </Form.Item>
+
+                            <Form.Item name="emergency" label="工作室代为报税" rules={[{required: true, message: '工作室代为报税不能为空!'}]}>
+                                <Select placeholder="请选择报税方式">
+                                    <Option key={TAX_BY_OFFICE.YES} value={TAX_BY_OFFICE.YES}>是</Option>
+                                    <Option key={TAX_BY_OFFICE.NO} value={TAX_BY_OFFICE.NO}>否</Option>
+                                </Select>
                             </Form.Item>
 
 
