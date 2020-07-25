@@ -147,6 +147,7 @@ class Index extends Component {
                         }}>关闭</Button>
                     ]}
                 >
+                    <p style={{color:'red'}}>注意：待关联的咨询师需要已配置预约基础信息（收费设置等），才能在此处被关联</p>
                     <Table dataSource={this.state.data.data} columns={allColumns} rowKey='user_id'
                            pagination={false}/>
                     {
