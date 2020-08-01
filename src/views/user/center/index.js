@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card} from "antd";
+import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card, Cascader} from "antd";
 import {updateUser, getUserById} from "../../../http/service";
 import Util from "../../../assets/js/Util";
 import moment from 'moment'
 import './index.less'
+import {pczOptions} from "../../../assets/js/pcz";
+import store from "../../../store";
+import Role from "../../../assets/js/Role";
 const {Option} = Select;
 
 class Index extends Component {
@@ -28,6 +31,10 @@ class Index extends Component {
         getUserById().then((data) => {
 
             data.birthday=moment(data.birthday)
+            if(data.province){
+                data.area=[data.province,data.city]
+            }
+
 
             this.formRef.current.setFieldsValue(data)
 
@@ -168,7 +175,18 @@ class Index extends Component {
                             >
                                 <DatePicker/>
                             </Form.Item>
-
+                            {
+                                store.getState().role===Role.therapist && <Form.Item label="区域"
+                                                                                     name="area"
+                                                                                     rules={[
+                                                                                         {
+                                                                                             required: true,
+                                                                                             message: '区域不能为空!',
+                                                                                         },
+                                                                                     ]}>
+                                    <Cascader options={pczOptions} placeholder="请选择区域" />
+                                </Form.Item>
+                            }
 
                             <Form.Item wrapperCol={{offset: 8, span: 16}}>
 

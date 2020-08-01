@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card} from "antd";
+import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card,Cascader} from "antd";
 import {register} from "../../../http/service";
 import Util from "../../../assets/js/Util";
+import {pczOptions} from "../../../assets/js/pcz";
 import moment from 'moment'
 import './index.less'
 
@@ -24,6 +25,8 @@ class Index extends Component {
         this.props.history.push('/user/login')
     }
     operate = (form) => {
+
+
 
         form.birthday = moment(form.birthday).format('yyyy-MM-DD');
 
@@ -61,6 +64,9 @@ class Index extends Component {
 
     render() {
 
+        function onChange(value) {
+            console.log(value);
+        }
 
         return (
             <div>
@@ -164,6 +170,16 @@ class Index extends Component {
                                     ]}
                                 >
                                     <DatePicker/>
+                                </Form.Item>
+                                <Form.Item label="区域"
+                                           name="area"
+                                           rules={[
+                                               {
+                                                   required: true,
+                                                   message: '区域不能为空!',
+                                               },
+                                           ]}>
+                                    <Cascader options={pczOptions} onChange={onChange} placeholder="请选择区域" />
                                 </Form.Item>
 
 
