@@ -47,7 +47,7 @@ class Index extends Component {
         if(this.state.data){
             obj.cv_id=this.state.data.cv_id;
             updateCv(obj).then((data) => {
-                Util.success("操作成功2")
+                Util.success("操作成功")
 
                 this.getCvByTherapistId()
 
