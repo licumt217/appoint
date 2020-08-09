@@ -111,7 +111,7 @@ class Index extends Component {
 
                 <Row>
                     <Col span={22}>
-                        <h3>用户投诉咨询师列表</h3>
+                        <h3>继续教育信息列表</h3>
                     </Col>
                 </Row>
                 <Divider/>

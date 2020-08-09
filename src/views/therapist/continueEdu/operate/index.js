@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Radio, Upload, Switch} from "antd";
 import {updateContinueEdu, getContinueEduItemList, uploadContinueEduFile, addContinueEdu} from "../../../../http/service";
-import {DeleteFilled, PlusOutlined} from "@ant-design/icons";
+import {DeleteFilled, PlusOutlined,UploadOutlined} from "@ant-design/icons";
 import Util from "../../../../assets/js/Util";
 
 class Index extends Component {
@@ -17,10 +17,9 @@ class Index extends Component {
 
         this.state = {
             formItem: (this.isEdit || this.isQuery) ? this.props.location.state.formItem : {},
-            files: [{
-                uid: '1',
-                name: 'xxx.png',
-            }]
+            files: [],
+            fileList: [],
+            uploading: false,
         }
     }
 
@@ -30,6 +29,12 @@ class Index extends Component {
            getContinueEduItemList({
                continue_edu_id:this.continue_edu_id
            }).then(data=>{
+               data.forEach(item=>{
+                   debugger
+                   if(item.files){
+                       item.files=JSON.parse(item.files)
+                   }
+               })
                this.formRef.current.setFieldsValue({
                    data
                })
@@ -44,21 +49,11 @@ class Index extends Component {
         this.props.history.goBack()
     }
 
-    beforeUpload = (file) => {
+    beforeUpload = (index,file) => {
         let size = file / 1000 / 1000;//M
-
-        let suffix = file.name.split('.')
-
-        suffix = suffix[suffix.length - 1]
 
         if (size > 10) {
             Util.warning("文件大小不能超过10M!")
-            this.file = null;
-            return false;
-        }
-
-        if (Util.suffixArrayOfPicture.indexOf(suffix) === -1) {
-            Util.warning(`只能上传${this.suffixArrayOfPicture}格式的文件!`)
             this.file = null;
             return false;
         }
@@ -69,63 +64,29 @@ class Index extends Component {
 
         uploadContinueEduFile(formData).then(data => {
 
-            let files = this.state.files;
+            let formData=this.formRef.current.getFieldsValue();
 
-            files.push({
-                name: data.url,
-                uid: data.url
+            let files=formData.data[index].files;
+
+            files.fileList[files.fileList.length-1]={
+                uid:data.url,
+                name:files.fileList[files.fileList.length-1].name
+            };
+
+            files=files.fileList;
+
+            formData.data[index].files=files;
+
+            this.formRef.current.setFieldsValue({
+                data:formData.data
             })
 
-            this.setState({
-                files
-            })
 
         }).catch(error => {
             Util.error(error)
         })
 
         return false;
-    }
-
-    operate = (values) => {
-
-        if (this.state.files.length === 0) {
-            Util.info('请上传文件！')
-            return;
-        }
-
-        if (this.isEdit) {
-
-        } else {
-            addContinueEdu({
-                name: values.name,
-                attachment: JSON.stringify(this.state.files)
-            }).then(data => {
-
-                Util.success('操作成功')
-                this.back()
-            }).catch(error => {
-                Util.error(error)
-            })
-
-        }
-
-    }
-
-    onRemove = (file) => {
-        let uid = file.uid;
-
-        let files = this.state.files;
-        let index = files.findIndex(item => {
-            return item.uid === uid;
-        })
-
-        files.splice(index, 1);
-
-        this.setState({
-            files
-        })
-
     }
 
     commit = () => {
@@ -172,8 +133,20 @@ class Index extends Component {
 
     }
 
-    render() {
+    handleChange = (index,info) => {
+        if(info.file.status==='removed'){
+            let formData=this.formRef.current.getFieldsValue();
 
+            formData.data[index].files=info.fileList;
+
+            this.formRef.current.setFieldsValue({
+                data:formData.data
+            })
+        }
+
+    };
+
+    render() {
 
         return (
             <div>
@@ -272,6 +245,40 @@ class Index extends Component {
                                                 >
                                                     <Switch  disabled={this.isQuery}
                                                     />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span="20">
+                                                <Form.Item
+                                                    labelCol={{span: 5}}
+                                                    valuePropName={'checked'}
+                                                    label={"证书上传"}
+                                                    {...field}
+                                                    fieldKey={[field.fieldKey, 'files']}
+                                                    name={[field.name, 'files']}
+                                                >
+                                                    {
+                                                        !this.isQuery?
+                                                            <Upload  beforeUpload={this.beforeUpload.bind(this,index)} fileList={this.formRef.current.getFieldsValue().data[index] && this.formRef.current.getFieldsValue().data[index].files} onChange={this.handleChange.bind(this,index)}>
+                                                                <Button >
+                                                                    <UploadOutlined /> Upload
+                                                                </Button>
+                                                            </Upload>
+                                                            :
+                                                            <ul>
+                                                                {
+                                                                    this.formRef.current.getFieldsValue().data[index]?
+                                                                        this.formRef.current.getFieldsValue().data[index].files.map(item=>{
+                                                                            return (
+                                                                                <p>
+                                                                                    <a href={Util.backendUrl+item.uid}>{item.name}</a>
+                                                                                </p>
+                                                                            )
+                                                                        })
+                                                                        :null
+                                                                }
+                                                            </ul>
+                                                    }
+
                                                 </Form.Item>
                                             </Col>
 

@@ -1068,6 +1068,56 @@ export function getContinueEduItemList(params = {}) {
 }
 
 
+/**
+ * 获取咨询师简历
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function getCvByTherapistId(params = {}) {
+
+    return axios.post('cv/getByTherapistId', params)
+
+
+}
+
+/**
+ * 新增咨询师简历
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function addCv(params = {}) {
+
+    return axios.post('cv/add', params)
+
+
+}
+
+/**
+ * 删除咨询师简历
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function deleteCv(params = {}) {
+
+    return axios.post('cv/delete', params)
+
+
+}
+
+/**
+ * 修改咨询师简历
+ * @param params
+ * @returns {Promise<AxiosResponse<T>>}
+ */
+export function updateCv(params = {}) {
+
+    return axios.post('cv/update', params)
+
+
+}
+
+
+
 
 
 

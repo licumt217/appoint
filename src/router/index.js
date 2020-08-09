@@ -31,8 +31,6 @@ import MannerType from '../views/base/mannerType'
 import Agreement from '../views/base/agreement'
 
 
-
-
 import CaseManager_List from '../views/caseManager/list'
 import CaseManager_Operate from '../views/caseManager/operate'
 
@@ -53,6 +51,7 @@ import Therapist_OrderList from '../views/therapist/orderList'
 import Therapist_ContinueEdu from '../views/therapist/continueEdu/list'
 import Therapist_Therapist_ContinueEdu_Operate from '../views/therapist/continueEdu/operate'
 import Therapist_Therapist_ContinueEdu_QueryList from '../views/therapist/continueEdu/queryList'
+import Therapist_Therapist_PersonalCv from '../views/therapist/personalCv'
 
 import Room_List from '../views/room/list'
 import Room_Operate from '../views/room/operate'
@@ -67,13 +66,6 @@ import Measure_Operate from '../views/measure/operate'
 import Measure_Detail from '../views/measure/detail'
 
 import System_Continue_Edu from '../views/system/continueEdu'
-
-
-
-
-
-
-
 
 
 const routers = [
@@ -105,7 +97,6 @@ const routers = [
     {path: '/base/agreement', component: Agreement},
 
 
-
     {path: '/caseManager/list', component: CaseManager_List},
     {path: '/caseManager/operate', component: CaseManager_Operate},
 
@@ -127,6 +118,7 @@ const routers = [
     {path: '/therapist/continueEdu', component: Therapist_ContinueEdu},
     {path: '/therapist/continueEdu/operate', component: Therapist_Therapist_ContinueEdu_Operate},
     {path: '/therapist/continueEdu/queryList', component: Therapist_Therapist_ContinueEdu_QueryList},
+    {path: '/therapist/personalCv', component: Therapist_Therapist_PersonalCv},
 
     {path: '/room/list', component: Room_List},
     {path: '/room/operate', component: Room_Operate},
@@ -141,9 +133,6 @@ const routers = [
 
 
     {path: '/system/continueEdu', component: System_Continue_Edu},
-
-
-
 
 
 ]

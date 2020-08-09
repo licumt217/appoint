@@ -46,6 +46,9 @@ class TherapistMenu extends Component {
             case 'therapist-continueEdu':
                 this.props.history.push('/therapist/continueEdu')
                 break;
+            case 'therapist-personalCv':
+                this.props.history.push('/therapist/personalCv')
+                break;
 
 
             case 'setting-center':
@@ -117,6 +120,10 @@ class TherapistMenu extends Component {
                     <Menu.Item key="therapist-fax"
                                icon={<MenuUnfoldOutlined/>}>
                         设定报税
+                    </Menu.Item>
+                    <Menu.Item key="therapist-personalCv"
+                               icon={<MenuUnfoldOutlined/>}>
+                        个人简历
                     </Menu.Item>
                     <Menu.Item key="setting-center"
                                icon={<MenuUnfoldOutlined/>}>
