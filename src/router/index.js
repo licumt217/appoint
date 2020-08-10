@@ -68,6 +68,10 @@ import Measure_Detail from '../views/measure/detail'
 import System_Continue_Edu from '../views/system/continueEdu'
 
 
+import Receptionist_List from '../views/receptionist/list'
+import Receptionist_Operate from '../views/receptionist/operate'
+
+
 const routers = [
     {path: '/', component: Home},
     {path: '/user/register', component: Register},
@@ -133,6 +137,8 @@ const routers = [
 
 
     {path: '/system/continueEdu', component: System_Continue_Edu},
+    {path: '/receptionist/list', component: Receptionist_List},
+    {path: '/receptionist/operate', component: Receptionist_Operate},
 
 
 ]

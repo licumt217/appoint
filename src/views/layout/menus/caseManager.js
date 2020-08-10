@@ -22,6 +22,10 @@ class CaseManagerMenu extends Component {
                 this.props.history.push('/station/relateTherapist')
                 break;
 
+            case 'receptionist-list':
+                this.props.history.push('/receptionist/list')
+                break;
+
             case 'therapist-revenue':
                 this.props.history.push('/therapist/revenue')
                 break;
@@ -58,6 +62,9 @@ class CaseManagerMenu extends Component {
                     房间管理
                 </Menu.Item>
 
+                <Menu.Item key="receptionist-list" icon={<MenuUnfoldOutlined/>}>
+                    接待员管理
+                </Menu.Item>
                 <Menu.Item key="station-relateTherapist" icon={<MenuUnfoldOutlined/>}>
                     咨询师管理
                 </Menu.Item>

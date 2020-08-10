@@ -18,6 +18,7 @@ import AdminMenu from './menus/admin'
 import CaseManagerMenu from './menus/caseManager'
 import DivisionManagerMenu from './menus/divisionManager'
 import TherapistMenu from './menus/therapist'
+import ReceptionistMenu from './menus/receptionist'
 
 const {Header, Sider, Content} = Layout;
 
@@ -70,6 +71,9 @@ class The_Layout extends React.Component {
                 break;
             case Role.therapist:
                 Current_Menu = <TherapistMenu {...this.props}/>
+                break;
+            case Role.receptionist:
+                Current_Menu = <ReceptionistMenu {...this.props}/>
                 break;
         }
 

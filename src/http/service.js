@@ -1117,6 +1117,36 @@ export function updateCv(params = {}) {
 }
 
 
+//接待员
+export function getReceptionistList(params = {}) {
+
+    return axios.post('stationReceptionistRelation/list', params)
+
+
+}
+
+export function addReceptionist(params = {}) {
+
+    return axios.post('stationReceptionistRelation/add', params)
+
+
+}
+
+export function deleteReceptionist(params = {}) {
+
+    return axios.post('stationReceptionistRelation/delete', params)
+
+
+}
+
+export function updateReceptionist(params = {}) {
+
+    return axios.post('user/update', params)
+
+
+}
+
+
 
 
 

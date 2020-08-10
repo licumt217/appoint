@@ -7,8 +7,8 @@ let Role = {
     caseManager: 2,       //案例管理员
     therapist: 3,    //咨询师
     client: 4,    //c端用户
+    receptionist: 5,    //接待员
 };
-
 
 
 export default Role
