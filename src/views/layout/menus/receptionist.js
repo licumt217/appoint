@@ -72,64 +72,9 @@ class Admin extends Component {
     render() {
         return (
             <Menu theme="dark" mode="inline" onClick={this.handleClick}>
-                <Menu.Item key="division" icon={<MenuUnfoldOutlined/>}>
-                    分部管理
-                </Menu.Item>
-                <Menu.Item key="ethicsNotice" icon={<MenuUnfoldOutlined/>}>
-                    伦理公告
-                </Menu.Item>
-                <Menu.Item key="blacklist" icon={<MenuUnfoldOutlined/>}>
-                    黑名单管理
-                </Menu.Item>
-                <SubMenu
-                    icon={<MenuUnfoldOutlined/>}
-                    key="complain"
-                    title={<span>投诉管理</span>}
-                >
-                    <Menu.Item key="complain-user" icon={<MenuUnfoldOutlined/>}>
-                        用户投诉
-                    </Menu.Item>
-                    <Menu.Item key="complain-therapist" icon={<MenuUnfoldOutlined/>}>
-                        咨询师投诉
-                    </Menu.Item>
-                </SubMenu>
                 <Menu.Item key="measure-list" icon={<MenuUnfoldOutlined/>}>
                     预检表管理
                 </Menu.Item>
-                <SubMenu
-                    icon={<MenuUnfoldOutlined/>}
-                    key="base"
-                    title={<span>基础信息</span>}
-                >
-                    <Menu.Item key="base-level" icon={<MenuUnfoldOutlined/>}>
-                        咨询师等级
-                    </Menu.Item>
-                    <Menu.Item key="base-manner" icon={<MenuUnfoldOutlined/>}>
-                        咨询方式
-                    </Menu.Item>
-                    <Menu.Item key="base-qualification" icon={<MenuUnfoldOutlined/>}>
-                        资历类型
-                    </Menu.Item>
-                    <Menu.Item key="base-school" icon={<MenuUnfoldOutlined/>}>
-                        咨询师流派
-                    </Menu.Item>
-                    <Menu.Item key="base-consult" icon={<MenuUnfoldOutlined/>}>
-                        预约类型
-                    </Menu.Item>
-                    <Menu.Item key="base-agreement" icon={<MenuUnfoldOutlined/>}>
-                        用户协议
-                    </Menu.Item>
-                </SubMenu>
-                <SubMenu
-                    icon={<MenuUnfoldOutlined/>}
-                    key="system"
-                    title={<span>系统设置</span>}
-                >
-                    <Menu.Item key="system-continueEdu"
-                               icon={<MenuUnfoldOutlined/>}>
-                        继续教育
-                    </Menu.Item>
-                </SubMenu>
                 <SubMenu
                     icon={<MenuUnfoldOutlined/>}
                     key="setting"
