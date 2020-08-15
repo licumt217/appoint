@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card} from "antd";
+import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card, Cascader} from "antd";
 import {addStation,updateStation} from "../../../http/service";
 import Util from "../../../assets/js/Util";
 import moment from 'moment'
 import Role from "../../../assets/js/Role";
 import './index.less'
+import {pczOptions} from "../../../assets/js/pcz";
 const {Option} = Select;
 
 class Index extends Component {
@@ -16,9 +17,22 @@ class Index extends Component {
 
         this.isEdit = this.props.location.state && this.props.location.state.opType === 'edit'
 
+        let obj={
+
+        }
+        if(this.isEdit){
+            let formItem=this.props.location.state.formItem
+            if(formItem.station_province){
+                obj=Object.assign({
+                    area:[formItem.station_province,formItem.station_city]
+                },formItem)
+            }else{
+                obj=this.props.location.state.formItem;
+            }
+        }
 
         this.state = {
-            formItem: this.isEdit?this.props.location.state.formItem:{}
+            formItem: obj
         }
 
     }
@@ -89,8 +103,8 @@ class Index extends Component {
                         <Form
                             ref={this.formRef}
                             layout="horizontal"
-                            labelCol={{span: 4}}
-                            wrapperCol={{span: 20}}
+                            labelCol={{span: 5}}
+                            wrapperCol={{span: 19}}
                             onFinish={this.operate}
                         >
 
@@ -131,6 +145,16 @@ class Index extends Component {
                                 ]}
                             >
                                 <Input key={1} placeholder={'请输入手机号'} maxLength={11}/>
+                            </Form.Item>
+                            <Form.Item label="区域"
+                                       name="area"
+                                       rules={[
+                                           {
+                                               required: true,
+                                               message: '区域不能为空!',
+                                           },
+                                       ]}>
+                                <Cascader options={pczOptions} placeholder="请选择区域" />
                             </Form.Item>
 
 
