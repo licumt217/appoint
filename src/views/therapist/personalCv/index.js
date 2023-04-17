@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card, Cascader} from "antd";
-import {updateCv, addCv,getCvByTherapistId} from "../../../http/service";
+import React, { Component } from 'react';
+import { Button, Col, Row, Form, Input, Select, Space, message, Divider, DatePicker, Card, Cascader } from "antd";
+import { updateCv, addCv, getCvByTherapistId } from "../../../http/service";
 import Util from "../../../assets/js/Util";
 import './index.less'
 import store from "../../../store";
@@ -9,11 +9,11 @@ class Index extends Component {
 
     formRef = React.createRef();
 
-    constructor(props) {
+    constructor (props) {
         super(props);
 
         this.state = {
-            data:null
+            data: null
         }
 
     }
@@ -28,7 +28,7 @@ class Index extends Component {
 
     getCvByTherapistId = () => {
         getCvByTherapistId({
-            therapist_id:store.getState().user_id
+            therapist_id: store.getState().user_id
         }).then((data) => {
 
             this.setState({
@@ -42,10 +42,10 @@ class Index extends Component {
     }
     operate = (form) => {
 
-        let obj=Object.assign({}, form);
+        let obj = Object.assign({}, form);
 
-        if(this.state.data){
-            obj.cv_id=this.state.data.cv_id;
+        if (this.state.data) {
+            obj.cv_id = this.state.data.cv_id;
             updateCv(obj).then((data) => {
                 Util.success("操作成功")
 
@@ -54,7 +54,7 @@ class Index extends Component {
             }).catch(err => {
                 Util.error(err)
             })
-        }else{
+        } else {
             addCv(obj).then((data) => {
                 Util.success("操作成功！")
 
@@ -77,14 +77,14 @@ class Index extends Component {
                         <h3>个人简历</h3>
                     </Col>
                 </Row>
-                <Divider/>
+                <Divider />
                 <Row>
                     <Col span={10} offset={6}>
                         <Form
                             ref={this.formRef}
                             layout="horizontal"
-                            labelCol={{span: 4}}
-                            wrapperCol={{span: 20}}
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 20 }}
                             onFinish={this.operate}
                         >
                             <Form.Item
@@ -97,7 +97,7 @@ class Index extends Component {
                                     },
                                 ]}
                             >
-                                <Input.TextArea rows={4} placeholder={'请输入资质'} maxLength={11}/>
+                                <Input.TextArea rows={4} placeholder={'请输入资质'} maxLength={512} />
                             </Form.Item>
 
                             <Form.Item
@@ -110,7 +110,7 @@ class Index extends Component {
                                     },
                                 ]}
                             >
-                                <Input.TextArea rows={4}  placeholder={'请输入擅长领域'} maxLength={21}/>
+                                <Input.TextArea rows={4} placeholder={'请输入擅长领域'} maxLength={512} />
                             </Form.Item>
 
                             <Form.Item
@@ -123,7 +123,7 @@ class Index extends Component {
                                     },
                                 ]}
                             >
-                                <Input.TextArea rows={4}  placeholder={'请输入临床经验'} maxLength={20}/>
+                                <Input.TextArea rows={4} placeholder={'请输入临床经验'} maxLength={512} />
                             </Form.Item>
 
                             <Form.Item
@@ -136,11 +136,11 @@ class Index extends Component {
                                     },
                                 ]}
                             >
-                                <Input.TextArea rows={4}  placeholder={'请输入受训经历'} maxLength={20}/>
+                                <Input.TextArea rows={4} placeholder={'请输入受训经历'} maxLength={512} />
                             </Form.Item>
 
 
-                            <Form.Item wrapperCol={{offset: 8, span: 16}}>
+                            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                                 <Space>
                                     <Button type="default" onClick={this.back}>
                                         返回
